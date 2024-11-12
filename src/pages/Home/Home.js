@@ -13,6 +13,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
+import DisclaimerModal from '../Component/DisclimerModal/DisclimerModal';
 
 const HomePage = () => {
     const settings = {
@@ -238,6 +239,7 @@ const HomePage = () => {
                         </div>
                     </div>
                 </div>
+                <DisclaimerModal/>
                 <Footer />
             </div>
         </React.Fragment>
