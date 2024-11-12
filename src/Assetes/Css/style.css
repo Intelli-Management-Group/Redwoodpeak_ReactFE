@@ -400,3 +400,16 @@ footer {
     padding-right: 20px;
     padding-left: 20px;
 }
+
+
+/* MODAL */
+.modal-custom-width{
+    min-width: 600px;
+}
+  @media (max-width: 767px) {
+    .modal-custom-width{
+        min-width: auto;
+        margin-top: 100px;
+    }
+  }
+  

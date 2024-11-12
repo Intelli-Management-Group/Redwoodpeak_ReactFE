@@ -42,7 +42,7 @@ const DisclaimerModal = () => {
                 id="disclaimerModal"
             >
                 <div className="modal-dialog">
-                    <div className="modal-content" style={{ background: '#0f0f0f99', borderRadius: 12, minWidth: 600 }}>
+                    <div className="modal-content modal-custom-width" style={{ background: '#0f0f0f99', borderRadius: 12, }}>
                         <div
                             className="modal-body popupContent m-3"
                             style={{
