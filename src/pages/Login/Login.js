@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
+import { useNavigate } from 'react-router-dom';
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from "../Component/Footer/Footer";
 import AuthenticationServices from '../../Services/AuthenticationServices';
 import { ToastContainer, toast } from 'react-toastify';
+import {notifyError, notifySuccess} from "../Component/ToastComponents/ToastComponents";
 
 const Login = () => {
     // State to hold form data
@@ -18,6 +20,8 @@ const Login = () => {
         email: '',
         password: '',
     });
+
+    const navigate = useNavigate();
 
     // Handle input changes
     const handleChange = (e) => {
@@ -55,18 +59,14 @@ const Login = () => {
             const response = await AuthenticationServices.userLogin(formDataCopy);
             console.log(response)
             if (response?.status_code === 200) {
-                // const { token, user } = response;
+                const { token, user } = response;
 
-                // localStorage.setItem("authToken", token);
-                // localStorage.setItem('userData', JSON.stringify(user));
+                localStorage.setItem("userToken", token);
+                localStorage.setItem('userData', JSON.stringify(user));
 
                 // login();
-
-                toast.success("Login successful!", {
-                    position: "top-center",
-                    autoClose: 3000,
-                });
-                // setTimeout(() => navigate("/dashboard"), 1500);
+                notifySuccess(`Login successful!`);
+                setTimeout(() => navigate("/"), 1500);
             } else {
                 toast.error(response?.message || "Invalid email or password", {
                     position: "top-center",
@@ -75,10 +75,7 @@ const Login = () => {
             }
         } catch (error) {
             console.error("Login Error:", error);
-            toast.error("An error occurred during login. Please try again.", {
-                position: "top-center",
-                autoClose: 3000,
-            });
+            notifyError(`An error occurred during login. Please try again.`);
         }
     };
 

@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Component/Footer/Footer";
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
 import Button from "../Component/ButtonComponents/ButtonComponents";
+import AuthenticationServices from "../../Services/AuthenticationServices";
+import {notifyError, notifySuccess} from "../Component/ToastComponents/ToastComponents";
+import {toast} from "react-toastify";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -32,7 +35,7 @@ const Registration = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
@@ -52,8 +55,42 @@ const Registration = () => {
 
     if (Object.keys(newErrors).length === 0) {
       // Simulate form submission
-      alert("Form submitted successfully!");
-      navigate("/login"); // Redirect to login page after successful registration
+
+
+
+      try {
+
+        const registrationData = new FormData();
+
+        registrationData.append("email", formData.email);
+        registrationData.append("password", formData.password);
+        registrationData.append("confirm_password", formData.confirmPassword);
+        registrationData.append("first_name", formData.firstName);
+        registrationData.append("last_name", formData.lastName);
+        registrationData.append("country", formData.country);
+        registrationData.append("contact_no", formData.contact);
+        registrationData.append("company_name", formData.companyName);
+        registrationData.append("position", formData.position);
+
+        const response = await AuthenticationServices.userSignUp(registrationData);
+        console.log(response)
+        if (response?.status_code === 200) {
+          const { token, user } = response;
+
+          localStorage.setItem("userToken", token);
+          localStorage.setItem('userData', JSON.stringify(user));
+
+          notifySuccess(`SignUp successful!`);
+          setTimeout(() => navigate("/"), 1500);
+        } else if(response.message === "User With this Email Already Exist") {
+          setTimeout(() => navigate("/login"), 1500);
+          notifyError(`Email already exist`);
+        } else {
+          notifyError(`Invalid email or password`);
+        }
+      } catch (error) {
+
+      }
     } else {
       setErrors(newErrors); // Set errors for rendering
     }
