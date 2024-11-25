@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from "../Component/Footer/Footer";
+import AuthenticationServices from '../../Services/AuthenticationServices';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
     // State to hold form data
@@ -47,28 +49,36 @@ const Login = () => {
         }
 
         try {
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: formData.email,
-                    password: formData.password,
-                    remember: formData.remember,
-                }),
-            });
+            const formDataCopy = { ...formData }; // Create a copy to avoid mutating the original object
+            delete formDataCopy.remember;
 
-            if (response.ok) {
-                window.location.href = '/dashboard'; // Example redirect
+            const response = await AuthenticationServices.userLogin(formDataCopy);
+            console.log(response)
+            if (response?.status_code === 200) {
+                // const { token, user } = response;
+
+                // localStorage.setItem("authToken", token);
+                // localStorage.setItem('userData', JSON.stringify(user));
+
+                // login();
+
+                toast.success("Login successful!", {
+                    position: "top-center",
+                    autoClose: 3000,
+                });
+                // setTimeout(() => navigate("/dashboard"), 1500);
             } else {
-                const result = await response.json();
-                if (result.errors) {
-                    setErrors(result.errors);
-                }
+                toast.error(response?.message || "Invalid email or password", {
+                    position: "top-center",
+                    autoClose: 3000,
+                });
             }
         } catch (error) {
-            console.error('Login failed:', error);
+            console.error("Login Error:", error);
+            toast.error("An error occurred during login. Please try again.", {
+                position: "top-center",
+                autoClose: 3000,
+            });
         }
     };
 
@@ -80,7 +90,7 @@ const Login = () => {
         <React.Fragment>
             <HeaderComponents />
             <div className="container">
-                <div className="container-custom mb-5 p-2 min-heights" style={{minHeight:'75vh'}}>
+                <div className="container-custom mb-5 p-2 min-heights" style={{ minHeight: '75vh' }}>
                     <div className="mt-4">
                         <div className="mt-5 m-3">
                             <form onSubmit={handleSubmit}>
@@ -150,7 +160,7 @@ const Login = () => {
                                     <Button
                                         text="Register"
                                         onClick={redirectToRegister}
-                                        className="btn btn-secondary ms-3 button-gap"  
+                                        className="btn btn-secondary ms-3 button-gap"
                                         type="submit"
                                     />
                                 </div>
@@ -159,6 +169,8 @@ const Login = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
+
             <Footer />
         </React.Fragment>
     );
