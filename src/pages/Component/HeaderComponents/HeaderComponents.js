@@ -1,19 +1,28 @@
 
 import React from 'react';
-import { Link, useNavigate  } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import Image from '../ImagesComponets/ImagesComponets';
 import Logo from "../../../Assetes/images/logo.png"
 
+
 const HeaderComponents = () => {
+    const isAuthenticated = localStorage.getItem('userToken');
+    console.log(isAuthenticated)
     const navigate = useNavigate();
 
-    const handleAuth  = () =>{
+    const handleAuth = () => {
         navigate('/login');
     }
-     return (
+    const handleLogout = () =>{
+        localStorage.removeItem('userToken');
+        window.location.href = '/';
+
+
+    }
+    return (
         <Navbar expand="lg" className="container px-4 mx-sm-3 mx-md-4 mx-lg-5">
             <Navbar.Brand href="/">
                 <Image
@@ -106,11 +115,14 @@ const HeaderComponents = () => {
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="/contact-us">Contact Us</Link>
-                        </li>                
+                        </li>
                     </ul>
                 </Nav >
-                <Button variant="primary" className="ms-auto w-auto" onClick={handleAuth}>Sign In</Button>
-
+                {isAuthenticated ? (
+                    <Button variant="primary" className="ms-auto w-auto" onClick={handleLogout}>Logout</Button>
+                ) : (
+                    <Button variant="primary" className="ms-auto w-auto" onClick={handleAuth}>Sign In</Button>
+                )}
             </Navbar.Collapse >
         </Navbar >
 
