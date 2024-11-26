@@ -5,84 +5,133 @@ import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import Footer from '../Component/Footer/Footer';
 import pdfIcon from "../../Assetes/images/pdf_icon1.png"
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
-// PDF data for each year
-const publications = {
-  '2023': [
-    'China Outlook Q1 2023',
-    'China Outlook Q2 2023',
-    'Test Summary – July 2023',
-    'Testing Summary – July 2023',
-  ],
-  '2022': [
-    'China Outlook Q4 2022',
-    'China Outlook Q5 2022',
-    'China Outlook Q6 2022',
-    'China Outlook Q7 2022',
-  ],
-  '2021': ['China Outlook Q8 2021'],
-};
+import pagesServices from '../../Services/PagesServicesServices';
+import { notifyError } from '../Component/ToastComponents/ToastComponents';
 
 const Publications = () => {
-  const [visibleYear, setVisibleYear] = useState(null); // Keeps track of the currently visible year
-
+  const [visibleYear, setVisibleYear] = useState(null);
+  const documentType = "publications";
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState([])
   useEffect(() => {
-        console.log('component mounted');
-    }, []);
+    console.log('component mounted');
+    fetchPublication()
+  }, []);
   // Toggle visibility of the year
   const toggleVisibility = (year) => {
-    setVisibleYear(visibleYear === year ? null : year); // Toggle between showing and hiding
+    setVisibleYear(visibleYear === year ? null : year);
   };
+  const fetchPublication = async () => {
+    setIsLoading(true);
+    try {
+      const resp = await pagesServices.getPageList({ documentType });
+      if (resp?.status_code === 200) {
+        console.log(resp);
+        if (resp?.list?.data) {
+          const publications = resp.list.data.reduce((acc, item) => {
+            if (!acc[item.year]) {
+              acc[item.year] = [];
+            }
+            acc[item.year].push(item);
+            return acc;
+          }, {});
+          // console.log(publications);
+          setData(publications || []);
+        } else {
+          console.error("No data found in response.");
+          notifyError("No data found. Please try again.");
+        }
+      } else {
+        // Handle non-200 status codes or unexpected responses
+        console.error("Failed to fetch data: ", resp?.message);
+        notifyError("Please try again.");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      notifyError("An error occurred during fetching data. Please try again.");
+    } finally {
+      setIsLoading(false); // Set loading to false once the request is done
+    }
 
+  };
   return (
     <div>
-        <HeaderComponents/>
-        <MetaTitle pageTitle={'Publications – Redwood Peak Limited'} />
+      <HeaderComponents />
+      <MetaTitle pageTitle={'Publications – Redwood Peak Limited'} />
       <div>
-          <Image
-                    src={PublicationsnBanner}
-                    className="w-100 bannerHeight"
-                    alt="OverView Banner"
-                />
+        <Image
+          src={PublicationsnBanner}
+          className="w-100 bannerHeight"
+          alt="OverView Banner"
+        />
       </div>
       <div className="container">
         <div className="container-custom mt-1 mb-5 p-4">
           <h1 className="header-post-title-class" style={{ top: 0 }}>
             Publications
           </h1>
-          <div>
-            {/* Render each year */}
-            {Object.keys(publications).map((year) => (
-              <div key={year} id={`year-${year}`}>
-                <div
-                  className="year-header pt-1 pb-1"
-                  onClick={() => toggleVisibility(year)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {year}
-                </div>
-
-                {/* Conditionally render the PDFs for the year */}
-                {visibleYear === year && (
-                  <div className="ml-5">
-                    {publications[year].map((title, index) => (
-                      <div key={index} className="pdf-row p-3">
-                        <div className="pdf-title">
-                          <span>                           
-                            <Image
-                                src={pdfIcon}
-                                // className="w-100 bannerHeight"
-                                alt="PDF icon"
-                            />
-                          </span>
-                          {title}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+          {isLoading ? (
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
+              <div className="spinner-border text-primary-color" role="status">
+                <span className="visually-hidden">Loading...</span>
               </div>
-            ))}
-          </div>
+            </div>
+          ) : (
+            <div>
+              {/* Render each year */}
+              {Object.keys(data).map((year) => (
+                <div key={year} id={`year-${year}`}>
+                  <div
+                    className="year-header pt-1 pb-1"
+                    onClick={() => toggleVisibility(year)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {year}
+                  </div>
+
+                  {/* Conditionally render the PDFs for the year */}
+                  {visibleYear === year && (
+                    <div className="ml-5">
+                      {data[year]
+                        .sort((a, b) => {
+                          const dateA = new Date(a.created_at || a.file_name);
+                          const dateB = new Date(b.created_at || b.file_name);
+                          return dateB - dateA;
+                        })
+                        .map((item, index) => {
+                          console.log(item)
+                          return (
+                            <div key={index} className="pdf-row p-3">
+                              <div className="pdf-title">
+                                <span>
+                                  <Image
+                                    src={pdfIcon}
+                                    alt="PDF icon"
+                                  />
+                                </span>
+
+                                <a
+                                  href={item.file_path}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  style={{ textDecoration: 'none', color: 'inherit' }}
+                                >
+                                  {item.file_name.split('.').slice(0, -1).join('.').length > 60
+                                    ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 60) + "..."
+                                    : item.file_name.split('.').slice(0, -1).join('.')}
+                                </a>
+                              </div>
+
+                            </div>
+                          )
+                        })}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
         </div>
       </div>
       <Footer />

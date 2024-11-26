@@ -332,6 +332,12 @@ footer {
     
 }
 /*  */
+/* Spinner */
+.text-primary-color {
+    color: #531515 !important
+}
+
+/* Spinner */
 
 @media (max-width: 500px) {
     /*Modal*/
