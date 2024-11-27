@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../Assetes/Css/style.css'
 import Image from '../Component/ImagesComponets/ImagesComponets';
 import Slide1 from "../../Assetes/images/slider_img1.jpg"
@@ -14,8 +14,20 @@ import 'slick-carousel/slick/slick-theme.css';
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 import DisclaimerModal from '../Component/DisclimerModal/DisclimerModal';
+import pagesServices from '../../Services/PagesServicesServices';
+import { notifyError } from '../Component/ToastComponents/ToastComponents';
 
 const HomePage = () => {
+    const limit = 5;
+    const page = 1;
+    const isAuthenticated = localStorage.getItem('userToken');
+
+    const documentType = "publications";
+    const [isLoading, setIsLoading] = useState(true);
+    const [overViewData, setOverViewData] = useState([])
+    const [showLoginAlert, setShowLoginAlert] = useState(false)
+
+
     const settings = {
         dots: true,            // Enables dots for navigation
         infinite: true,        // Infinite loop of slides
@@ -29,13 +41,68 @@ const HomePage = () => {
 
     useEffect(() => {
         console.log('Home component mounted');
+        getFetchOverView()
     }, []);
+    useEffect(() => {
+        if (showLoginAlert === true) {
+            setTimeout(() => {
+                setShowLoginAlert(false)
+            }, 2500);
+        }
+    }, [showLoginAlert]);
     const handleClick = () => {
         console.log("Learn more clicked!");
     };
+
+    const getFetchOverView = async () => {
+        setIsLoading(true);
+        try {
+            const resp = await pagesServices.getPageList({ limit, page, documentType });
+            if (resp?.status_code === 200) {
+                console.log(resp);
+                if (resp?.list?.data) {
+                    //   const publications = resp.list.data.reduce((acc, item) => {
+                    //     if (!acc[item.year]) {
+                    //       acc[item.year] = [];
+                    //     }
+                    //     acc[item.year].push(item);
+                    //     return acc;
+                    //   }, {});
+                    // console.log(publications);
+                    setOverViewData(resp?.list?.data || []);
+                } else {
+                    console.error("No data found in response.");
+                    notifyError("No data found. Please try again.");
+                }
+            } else {
+                // Handle non-200 status codes or unexpected responses
+                console.error("Failed to fetch data: ", resp?.message);
+                notifyError("Please try again.");
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            notifyError("An error occurred during fetching data. Please try again.");
+        } finally {
+            setIsLoading(false); // Set loading to false once the request is done
+        }
+
+    };
+    function handleOverViewClick(item) {
+        console.log(item); // Logs the clicked item
+        console.log(isAuthenticated); // Logs the authentication status
+    
+        if (isAuthenticated) {
+            // Open the PDF
+            window.open(item.file_path, '_blank');
+        } else {
+            console.log(showLoginAlert); // Should work now
+            setShowLoginAlert(true); // Update the alert state
+        }
+    }
+    
     return (
         <React.Fragment>
-            <div>
+            <div style={{overflow:'hidden'}}>
                 <HeaderComponents />
                 <MetaTitle pageTitle={"Redwood Peak Limited – Hong Kong based asset manager focused on fund & separate account management"} />
 
@@ -94,14 +161,46 @@ const HomePage = () => {
                                 <div className="d-flex flex-column justify-content-between h-100">
                                     <div>
                                         <h2 className="welcome-title-class">Our View</h2>
-                                        <div className="mt-3">
+                                        {/* <div className="mt-3">
+                                            {!isAuthenticated && showLoginAlert && (
+                                                <div style={{ color: 'red', marginBottom: '10px' }}>
+                                                    Please login first to access the files.
+                                                </div>
+                                            )}
                                             <ul className='ps-0' style={{ listStyle: 'none' }}>
-                                                <li className="mt-2">China Outlook Q1 2023</li>
-                                                <li className="mt-2">China Outlook Q4 2022</li>
-                                                <li className="mt-2">China Outlook Q3 2022</li>
-                                                <li className="mt-2">China Outlook Q2 2022</li>
+                                                {overViewData.map((item, index) =>
+                                                (
+                                                    <li className="mt-2" onClick={handleOverViewClick(item)}>
+                                                        {item.file_name.split('.').slice(0, -1).join('.').length > 30
+                                                            ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 30) + "..."
+                                                            : item.file_name.split('.').slice(0, -1).join('.')}
+                                                    </li>
+                                                )
+                                                )}
+                                            </ul>
+                                        </div> */}
+                                        <div className="mt-3">
+                                            <div
+                                                style={{
+                                                    height: '20px', 
+                                                    marginBottom: '10px',
+                                                    color: 'red',
+                                                    visibility: !isAuthenticated && showLoginAlert ? 'visible' : 'hidden',
+                                                }}
+                                            >
+                                                Please login first to access the files.
+                                            </div>
+                                            <ul className='ps-0' style={{ listStyle: 'none' }}>
+                                                {overViewData.map((item, index) => (
+                                                    <li className="mt-2" key={index} onClick={() => handleOverViewClick(item)}>
+                                                        {item.file_name.split('.').slice(0, -1).join('.').length > 30
+                                                            ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 30) + "..."
+                                                            : item.file_name.split('.').slice(0, -1).join('.')}
+                                                    </li>
+                                                ))}
                                             </ul>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -130,7 +229,7 @@ const HomePage = () => {
                                         />
                                         <div className="card-body text-left">
                                             <h5 className="card-title cards-Label primaryColor">Portfolio Management</h5>
-                                            <p className="card-text text-left p-0">
+                                            <p className="card-text text-left p-0" style={{textAlign:'left'}}>
                                                 Cultivating change enthusiasts fuels success, resulting in superior, more efficient, and robust innovations.
                                             </p>
                                             <div>
@@ -154,7 +253,7 @@ const HomePage = () => {
                                         />
                                         <div className="card-body text-left">
                                             <h5 className="card-title cards-Label primaryColor">Financial Planning</h5>
-                                            <p className="card-text text-left p-0">
+                                            <p className="card-text text-left p-0" style={{textAlign:'left'}}>
                                                 Cultivating change enthusiasts fuels success, resulting in superior, more efficient, and robust innovations.
                                             </p>
                                             <div>
@@ -178,7 +277,7 @@ const HomePage = () => {
                                         />
                                         <div className="card-body text-left">
                                             <h5 className="card-title cards-Label primaryColor">Wealth Management</h5>
-                                            <p className="card-text text-left p-0">
+                                            <p className="card-text text-left p-0" style={{textAlign:'left'}}>
                                                 Cultivating change enthusiasts fuels success, resulting in superior, more efficient, and robust innovations.
                                             </p>
                                             <div>
@@ -239,7 +338,7 @@ const HomePage = () => {
                         </div>
                     </div>
                 </div>
-                <DisclaimerModal/>
+                <DisclaimerModal />
                 <Footer />
             </div>
         </React.Fragment>
