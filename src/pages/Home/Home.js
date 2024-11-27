@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import '../../Assetes/Css/style.css'
 import Image from '../Component/ImagesComponets/ImagesComponets';
-import Slide1 from "../../Assetes/images/slider_img1.jpg"
+import Slide1 from "../../Assetes/images/banner_homepage.jpg"
 import service_img1 from "../../Assetes/images/service_img1.jpg"
 import service_img2 from "../../Assetes/images/service_img2.jpg"
 import service_img3 from "../../Assetes/images/service_img3.jpg"
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from '../Component/Footer/Footer';
 
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 import DisclaimerModal from '../Component/DisclimerModal/DisclimerModal';
 import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
+import SimpleImageSlider from "react-simple-image-slider";
+import "../Home/Home.css"
+
+const images = [
+    { url: Slide1 },
+  ];
 
 const HomePage = () => {
     const limit = 5;
@@ -90,7 +94,7 @@ const HomePage = () => {
     function handleOverViewClick(item) {
         console.log(item); // Logs the clicked item
         console.log(isAuthenticated); // Logs the authentication status
-    
+
         if (isAuthenticated) {
             // Open the PDF
             window.open(item.file_path, '_blank');
@@ -99,14 +103,14 @@ const HomePage = () => {
             setShowLoginAlert(true); // Update the alert state
         }
     }
-    
+
     return (
         <React.Fragment>
-            <div style={{overflow:'hidden'}}>
+            <div style={{ overflow: 'hidden' }}>
                 <HeaderComponents />
                 <MetaTitle pageTitle={"Redwood Peak Limited – Hong Kong based asset manager focused on fund & separate account management"} />
 
-                <div className='' style={{ width: '100%', overflow: 'hidden' }}>
+                {/* <div className='' style={{ width: '100%', overflow: 'hidden' }}>
                     <Slider {...settings}>
                         <div style={{ height: '200px', position: 'relative' }}>
                             <img
@@ -120,6 +124,15 @@ const HomePage = () => {
                             />
                         </div>
                     </Slider>
+                </div> */}
+                <div>
+                    <SimpleImageSlider
+                        width={'100%'}
+                        height={400}
+                        images={images}
+                        showBullets={true}
+                        showNavs={true}
+                    />
                 </div>
                 {/* First Section */}
                 <div className="wrapper pt-0">
@@ -182,7 +195,7 @@ const HomePage = () => {
                                         <div className="mt-3">
                                             <div
                                                 style={{
-                                                    height: '20px', 
+                                                    height: '20px',
                                                     marginBottom: '10px',
                                                     color: 'red',
                                                     visibility: !isAuthenticated && showLoginAlert ? 'visible' : 'hidden',
@@ -229,7 +242,7 @@ const HomePage = () => {
                                         />
                                         <div className="card-body text-left">
                                             <h5 className="card-title cards-Label primaryColor">Portfolio Management</h5>
-                                            <p className="card-text text-left p-0" style={{textAlign:'left'}}>
+                                            <p className="card-text text-left p-0" style={{ textAlign: 'left' }}>
                                                 Cultivating change enthusiasts fuels success, resulting in superior, more efficient, and robust innovations.
                                             </p>
                                             <div>
@@ -253,7 +266,7 @@ const HomePage = () => {
                                         />
                                         <div className="card-body text-left">
                                             <h5 className="card-title cards-Label primaryColor">Financial Planning</h5>
-                                            <p className="card-text text-left p-0" style={{textAlign:'left'}}>
+                                            <p className="card-text text-left p-0" style={{ textAlign: 'left' }}>
                                                 Cultivating change enthusiasts fuels success, resulting in superior, more efficient, and robust innovations.
                                             </p>
                                             <div>
@@ -277,7 +290,7 @@ const HomePage = () => {
                                         />
                                         <div className="card-body text-left">
                                             <h5 className="card-title cards-Label primaryColor">Wealth Management</h5>
-                                            <p className="card-text text-left p-0" style={{textAlign:'left'}}>
+                                            <p className="card-text text-left p-0" style={{ textAlign: 'left' }}>
                                                 Cultivating change enthusiasts fuels success, resulting in superior, more efficient, and robust innovations.
                                             </p>
                                             <div>
