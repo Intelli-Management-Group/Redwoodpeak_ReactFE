@@ -10,16 +10,30 @@ import { notifyError } from '../Component/ToastComponents/ToastComponents';
 
 const HedgeFundReports = () => {
   const [visibleYear, setVisibleYear] = useState(null);
+  const [visibleType, setVisibleType] = useState(null);
   const documentType = "hedgeFundReports";
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([])
+  const reportTypes = [
+    "quarterlyPerformanceAnalysis",
+    "quarterlyShareholderLetter",
+    "fundDocumentation",
+    "auditedFinancialStatements"
+  ]
   useEffect(() => {
     fetchedgeFundReports()
   }, []);
   // Toggle visibility of the year
-  const toggleVisibility = (year) => {
+  const toggleYearVisibility = (year) => {
     setVisibleYear(visibleYear === year ? null : year); // Toggle between showing and hiding
   };
+  const toggleTypeVisibility = (type) => {
+    setVisibleType(visibleType === type ? null : type);
+  };
+
+  if (reportTypes.length === 0) {
+    return null; 
+  }
   const fetchedgeFundReports = async () => {
     setIsLoading(true);
     try {
@@ -27,15 +41,33 @@ const HedgeFundReports = () => {
       if (resp?.status_code === 200) {
         console.log(resp);
         if (resp?.list?.data) {
-          const publications = resp.list.data.reduce((acc, item) => {
-            if (!acc[item.year]) {
-              acc[item.year] = [];
+          const segregatedData = resp?.list?.data.reduce((result, item) => {
+            const type = item.hedge_fund_report_type || "monthlyPortfolioSummary";
+
+            if (!result[type]) {
+              result[type] = {};
             }
-            acc[item.year].push(item);
-            return acc;
+
+            if (!result[type][item.year]) {
+              result[type][item.year] = [];
+            }
+
+            result[type][item.year].push(item);
+
+            return result;
           }, {});
+
+
+          console.log("segregatedData", segregatedData)
+          // const publications = resp.list.data.reduce((acc, item) => {
+          //   if (!acc[item.year]) {
+          //     acc[item.year] = [];
+          //   }
+          //   acc[item.year].push(item);
+          //   return acc;
+          // }, {});
           // console.log(publications);
-          setData(publications || []);
+          setData(segregatedData || []);
         } else {
           console.error("No data found in response.");
           notifyError("No data found. Please try again.");
@@ -77,38 +109,45 @@ const HedgeFundReports = () => {
               </div>
             </div>
           ) : (
-            <div>
-              {Object.keys(data).map((year) => (
-                <div key={year} id={`year-${year}`}>
+            <div style={{ display: 'flex', gap: '30px' }}>
+            {/* Left Column: Monthly Portfolio Summary */}
+            <div style={{ flex: 1 }}>
+              <div className="type-header pt-2 pb-1 text-primary-color">
+                Monthly Portfolio Summary
+              </div>
+              {Object.keys(data?.monthlyPortfolioSummary || {}).map((year) => (
+                <div key={year}>
                   <div
-                    className="year-header pt-1 pb-1"
-                    onClick={() => toggleVisibility(year)}
+                    className="year-header pt-1 pb-2"
+                    onClick={() => toggleYearVisibility(year)}
                     style={{ cursor: 'pointer' }}
                   >
                     {year}
                   </div>
-
-                  {/* Conditionally render the PDFs for the year */}
+          
                   {visibleYear === year && (
                     <div className="ml-5">
-                      {data[year]
-                        .sort((a, b) => {
-                          const dateA = new Date(a.created_at || a.file_name);
-                          const dateB = new Date(b.created_at || b.file_name);
-                          return dateB - dateA;
-                        })
-                        .map((item, index) => {
-                          console.log(item)
-                          return (
+                      <div
+                        className="pdf-container"
+                        style={{
+                          display: 'block',
+                          gridTemplateColumns: '1fr 1fr',
+                          gap: '15px',
+                        }}
+                      >
+                        {data.monthlyPortfolioSummary[year]
+                          .sort((a, b) => {
+                            const dateA = new Date(a.created_at || a.file_name);
+                            const dateB = new Date(b.created_at || b.file_name);
+                            return dateB - dateA;
+                          })
+                          .map((item, index) => (
                             <div key={index} className="pdf-row p-3">
                               <div className="pdf-title">
                                 <span>
-                                  <Image
-                                    src={pdfIcon}
-                                    alt="PDF icon"
-                                  />
+                                  <Image src={pdfIcon} alt="PDF icon" />
                                 </span>
-
+          
                                 <a
                                   href={item.file_path}
                                   target="_blank"
@@ -116,19 +155,82 @@ const HedgeFundReports = () => {
                                   style={{ textDecoration: 'none', color: 'inherit' }}
                                 >
                                   {item.file_name.split('.').slice(0, -1).join('.').length > 60
-                                    ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 60) + "..."
+                                    ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 60) + '...'
                                     : item.file_name.split('.').slice(0, -1).join('.')}
                                 </a>
                               </div>
-
                             </div>
-                          )
-                        })}
+                          ))}
+                      </div>
                     </div>
                   )}
                 </div>
               ))}
             </div>
+          
+            {/* Right Column: Report Types */}
+            <div style={{ flex: 1 }}>
+              {reportTypes.map((type) => (
+                <div key={type}>
+                  <div
+                    className="type-header pt-2 pb-2 text-primary-color"
+                    onClick={() => toggleTypeVisibility(type)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {type === "quarterlyPerformanceAnalysis" && "Quarterly Performance Analysis"}
+                    {type === "quarterlyShareholderLetter" && "Quarterly Shareholder Letter"}
+                    {type === "fundDocumentation" && "Fund Documentation"}
+                    {type === "auditedFinancialStatements" && "Audited Financial Statements"}
+                  </div>
+          
+                  {visibleType === type && (
+                    <div className="ml-5">
+                      <div
+                        className="pdf-container"
+                        style={{
+                          display: 'block',
+                          gridTemplateColumns: '1fr 1fr',
+                          gap: '15px',
+                        }}
+                      >
+                        {data[type] &&
+                          Object.keys(data[type]).map((year) =>
+                            data[type][year]
+                              .sort((a, b) => {
+                                const dateA = new Date(a.created_at || a.file_name);
+                                const dateB = new Date(b.created_at || b.file_name);
+                                return dateB - dateA;
+                              })
+                              .map((item, index) => (
+                                <div key={index} className="pdf-row p-3">
+                                  <div className="pdf-title">
+                                    <span>
+                                      <Image src={pdfIcon} alt="PDF icon" />
+                                    </span>
+          
+                                    <a
+                                      href={item.file_path}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      style={{ textDecoration: 'none', color: 'inherit' }}
+                                    >
+                                      {item.file_name.split('.').slice(0, -1).join('.').length > 60
+                                        ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 60) + '...'
+                                        : item.file_name.split('.').slice(0, -1).join('.')}
+                                    </a>
+                                  </div>
+                                </div>
+                              ))
+                          )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          
+
           )}
 
         </div>
