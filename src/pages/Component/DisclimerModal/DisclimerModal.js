@@ -5,15 +5,22 @@ const DisclaimerModal = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
+    useEffect(() => {
+        const hasAcceptedDisclaimer = localStorage.getItem('disclaimerAccepted');
+        if (hasAcceptedDisclaimer) {
+            setIsModalVisible(false);
+        }
+    }, []);
+
     // Disable body scroll when the modal is visible
     useEffect(() => {
         if (isModalVisible) {
-            document.body.style.overflow = 'hidden'; // Disable background scroll
+            document.body.style.overflow = 'hidden';
         } else {
-            document.body.style.overflow = 'auto'; // Enable scroll when modal is closed
+            document.body.style.overflow = 'auto';
         }
         return () => {
-            document.body.style.overflow = 'auto'; // Reset on unmount or when modal is closed
+            document.body.style.overflow = 'auto';
         };
     }, [isModalVisible]);
 
@@ -26,13 +33,13 @@ const DisclaimerModal = () => {
     };
 
     const handleAccept = () => {
+        localStorage.setItem('disclaimerAccepted', 'true');
         setIsModalVisible(false);
-    };
+   };
 
     const handleReject = () => {
         window.close();
     };
-
     return (
         isModalVisible && (
             <div
