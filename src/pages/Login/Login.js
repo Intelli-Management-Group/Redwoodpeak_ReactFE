@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from "../Component/Footer/Footer";
 import AuthenticationServices from '../../Services/AuthenticationServices';
-import { ToastContainer, toast } from 'react-toastify';
 import {notifyError, notifySuccess} from "../Component/ToastComponents/ToastComponents";
+import { ToastContainer } from 'react-toastify';
 
 const Login = () => {
     // State to hold form data
@@ -60,18 +60,20 @@ const Login = () => {
             console.log(response)
             if (response?.status_code === 200) {
                 const { token, user } = response;
+                if(user?.status === "approve") {
+                    localStorage.setItem("userToken", token);
+                    localStorage.setItem('userData', JSON.stringify(user));
 
-                localStorage.setItem("userToken", token);
-                localStorage.setItem('userData', JSON.stringify(user));
+                    // login();
+                    notifySuccess(`Login successful!`);
+                    setTimeout(() => navigate("/"), 1500);
+                }else{
+                    notifyError(`${user?.email} has not been approved by the admin. Please contact the administrator or wait for approval.`);
 
-                // login();
-                notifySuccess(`Login successful!`);
-                setTimeout(() => navigate("/"), 1500);
+                }
             } else {
-                toast.error(response?.message || "Invalid email or password", {
-                    position: "top-center",
-                    autoClose: 3000,
-                });
+            
+                notifyError(response?.message)
             }
         } catch (error) {
             console.error("Login Error:", error);
@@ -166,7 +168,7 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            <ToastContainer />
+            <ToastContainer/>
 
             <Footer />
         </React.Fragment>
