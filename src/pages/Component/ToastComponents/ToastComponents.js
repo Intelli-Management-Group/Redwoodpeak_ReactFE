@@ -25,6 +25,17 @@ const notifyError = (message) => {
     progress: undefined,
   });
 };
+const notifyWarning = (message) => {
+  toast.warning(message, {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+};
 
 const Toast = () => {
   return (
@@ -42,4 +53,4 @@ const Toast = () => {
   );
 };
 
-export { Toast, notifySuccess, notifyError };
+export { Toast, notifySuccess, notifyError,notifyWarning };
