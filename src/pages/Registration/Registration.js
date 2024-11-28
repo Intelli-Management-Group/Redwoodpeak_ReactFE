@@ -4,14 +4,14 @@ import Footer from "../Component/Footer/Footer";
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
 import Button from "../Component/ButtonComponents/ButtonComponents";
 import AuthenticationServices from "../../Services/AuthenticationServices";
-import {notifyError, notifySuccess} from "../Component/ToastComponents/ToastComponents";
-import {toast} from "react-toastify";
-
+import {notifyError, notifySuccess, notifyWarning} from "../Component/ToastComponents/ToastComponents";
+import { ToastContainer } from 'react-toastify';
 const Registration = () => {
   const navigate = useNavigate();
 
   // Form state and error state
   const [formData, setFormData] = useState({
+    id:"",
     firstName: "",
     lastName: "",
     email: "",
@@ -21,6 +21,7 @@ const Registration = () => {
     companyName: "",
     contact: "",
     position: "",
+    role:"user"
   });
 
   const [errors, setErrors] = useState({});
@@ -61,7 +62,7 @@ const Registration = () => {
       try {
 
         const registrationData = new FormData();
-
+        registrationData.append("id","");
         registrationData.append("email", formData.email);
         registrationData.append("password", formData.password);
         registrationData.append("confirm_password", formData.confirmPassword);
@@ -71,17 +72,23 @@ const Registration = () => {
         registrationData.append("contact_no", formData.contact);
         registrationData.append("company_name", formData.companyName);
         registrationData.append("position", formData.position);
+        registrationData.append("role", formData.role);
+        registrationData.append("status", "pending");
 
         const response = await AuthenticationServices.userSignUp(registrationData);
         console.log(response)
         if (response?.status_code === 200) {
           const { token, user } = response;
+          if(user?.status === "pending") {
+            notifyWarning(`${user?.email} has not been approved by the admin. Please contact the administrator or wait for approval.`);
+          }else{
 
           localStorage.setItem("userToken", token);
           localStorage.setItem('userData', JSON.stringify(user));
 
           notifySuccess(`SignUp successful!`);
-          setTimeout(() => navigate("/"), 1500);
+          setTimeout(() => navigate("/"), 2500);
+          }
         } else if(response.message === "User With this Email Already Exist") {
           setTimeout(() => navigate("/login"), 1500);
           notifyError(`Email already exist`);
@@ -321,6 +328,7 @@ const Registration = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
       <Footer />
     </React.Fragment>
   );
