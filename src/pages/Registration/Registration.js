@@ -4,16 +4,17 @@ import Footer from "../Component/Footer/Footer";
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
 import Button from "../Component/ButtonComponents/ButtonComponents";
 import AuthenticationServices from "../../Services/AuthenticationServices";
-import {notifyError, notifySuccess, notifyWarning} from "../Component/ToastComponents/ToastComponents";
+import { notifyError, notifySuccess, notifyWarning } from "../Component/ToastComponents/ToastComponents";
 import { ToastContainer } from 'react-toastify';
 const Registration = () => {
   const navigate = useNavigate();
 
   // Form state and error state
   const [formData, setFormData] = useState({
-    id:"",
+    id: "",
     firstName: "",
     lastName: "",
+    userName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -21,7 +22,7 @@ const Registration = () => {
     companyName: "",
     contact: "",
     position: "",
-    role:"user"
+    role: "user"
   });
 
   const [errors, setErrors] = useState({});
@@ -43,6 +44,8 @@ const Registration = () => {
     // Client-side validation
     if (!formData.firstName) newErrors.firstName = "First name is required.";
     if (!formData.lastName) newErrors.lastName = "Last name is required.";
+    if (!formData.userName) newErrors.userName = "User name is required.";
+
     if (!formData.email) newErrors.email = "Email is required.";
     if (!formData.password) newErrors.password = "Password is required.";
     if (formData.password !== formData.confirmPassword) {
@@ -62,12 +65,13 @@ const Registration = () => {
       try {
 
         const registrationData = new FormData();
-        registrationData.append("id","");
+        registrationData.append("id", "");
         registrationData.append("email", formData.email);
         registrationData.append("password", formData.password);
         registrationData.append("confirm_password", formData.confirmPassword);
         registrationData.append("first_name", formData.firstName);
         registrationData.append("last_name", formData.lastName);
+        registrationData.append("username", formData.userName);
         registrationData.append("country", formData.country);
         registrationData.append("contact_no", formData.contact);
         registrationData.append("company_name", formData.companyName);
@@ -79,17 +83,17 @@ const Registration = () => {
         console.log(response)
         if (response?.status_code === 200) {
           const { token, user } = response;
-          if(user?.status === "pending") {
+          if (user?.status === "pending") {
             notifyWarning(`${user?.email} has not been approved by the admin. Please contact the administrator or wait for approval.`);
-          }else{
+          } else {
 
-          localStorage.setItem("userToken", token);
-          localStorage.setItem('userData', JSON.stringify(user));
+            localStorage.setItem("userToken", token);
+            localStorage.setItem('userData', JSON.stringify(user));
 
-          notifySuccess(`SignUp successful!`);
-          setTimeout(() => navigate("/"), 2500);
+            notifySuccess(`SignUp successful!`);
+            setTimeout(() => navigate("/"), 2500);
           }
-        } else if(response.message === "User With this Email Already Exist") {
+        } else if (response.message === "User With this Email Already Exist") {
           setTimeout(() => navigate("/login"), 1500);
           notifyError(`Email already exist`);
         } else {
@@ -166,6 +170,41 @@ const Registration = () => {
                   )}
                 </div>
               </div>
+              {/* userName & Email  */}
+              <div className="row mt-4">
+                <div className="col-md-6">
+                  <label htmlFor="userName">User Name</label>
+                  <input
+                    id="userName"
+                    type="text"
+                    className={`form-control ${errors.userName ? "is-invalid" : ""}`}
+                    name="userName"
+                    value={formData.userName}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.userName && (
+                    <div className="invalid-feedback">{errors.userName}</div>
+                  )}
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    id="email"
+                    type="email"
+                    className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.email && (
+                    <div className="invalid-feedback">{errors.email}</div>
+                  )}
+                </div>
+
+
+              </div>
 
               {/* Password & Confirm Password */}
               <div className="row mt-4">
@@ -202,21 +241,21 @@ const Registration = () => {
                 </div>
               </div>
 
-              {/* Email & Country */}
+              {/* contact & Country */}
               <div className="row mt-4">
                 <div className="col-md-6">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="contact">Contact</label>
                   <input
-                    id="email"
-                    type="email"
-                    className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                    name="email"
-                    value={formData.email}
+                    id="contact"
+                    type="text"
+                    className={`form-control ${errors.contact ? "is-invalid" : ""}`}
+                    name="contact"
+                    value={formData.contact}
                     onChange={handleChange}
                     required
                   />
-                  {errors.email && (
-                    <div className="invalid-feedback">{errors.email}</div>
+                  {errors.contact && (
+                    <div className="invalid-feedback">{errors.contact}</div>
                   )}
                 </div>
 
@@ -240,7 +279,7 @@ const Registration = () => {
                 </div>
               </div>
 
-              {/* Company Name & Contact */}
+              {/* Company Name & Position */}
               <div className="row mt-4">
                 <div className="col-md-6">
                   <label htmlFor="companyName">Company Name</label>
@@ -257,26 +296,6 @@ const Registration = () => {
                     <div className="invalid-feedback">{errors.companyName}</div>
                   )}
                 </div>
-
-                <div className="col-md-6">
-                  <label htmlFor="contact">Contact</label>
-                  <input
-                    id="contact"
-                    type="text"
-                    className={`form-control ${errors.contact ? "is-invalid" : ""}`}
-                    name="contact"
-                    value={formData.contact}
-                    onChange={handleChange}
-                    required
-                  />
-                  {errors.contact && (
-                    <div className="invalid-feedback">{errors.contact}</div>
-                  )}
-                </div>
-              </div>
-
-              {/* Position */}
-              <div className="row mt-4">
                 <div className="col-md-6">
                   <label htmlFor="position">Position</label>
                   <input
@@ -292,6 +311,13 @@ const Registration = () => {
                     <div className="invalid-feedback">{errors.position}</div>
                   )}
                 </div>
+
+
+              </div>
+
+              {/* Position */}
+              <div className="row mt-4">
+              
               </div>
 
               {/* Footer information */}
