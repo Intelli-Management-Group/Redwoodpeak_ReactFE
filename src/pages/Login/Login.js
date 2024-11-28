@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from "../Component/Footer/Footer";
 import AuthenticationServices from '../../Services/AuthenticationServices';
-import {notifyError, notifySuccess} from "../Component/ToastComponents/ToastComponents";
+import {notifyError, notifySuccess, notifyWarning} from "../Component/ToastComponents/ToastComponents";
 import { ToastContainer } from 'react-toastify';
 
 const Login = () => {
@@ -68,11 +68,9 @@ const Login = () => {
                     notifySuccess(`Login successful!`);
                     setTimeout(() => navigate("/"), 1500);
                 }else{
-                    notifyError(`${user?.email} has not been approved by the admin. Please contact the administrator or wait for approval.`);
-
+                    notifyWarning(`${user?.email} has not been approved by the admin. Please contact the administrator or wait for approval.`);
                 }
             } else {
-            
                 notifyError(response?.message)
             }
         } catch (error) {
