@@ -16,12 +16,15 @@ import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
 import SimpleImageSlider from "react-simple-image-slider";
 import "../Home/Home.css"
+import { useNavigate } from 'react-router-dom';
 
 const images = [
     { url: Slide1 },
-  ];
+];
 
 const HomePage = () => {
+    const navigate = useNavigate();
+
     const limit = 5;
     const page = 1;
     const isAuthenticated = localStorage.getItem('userToken');
@@ -30,6 +33,13 @@ const HomePage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [overViewData, setOverViewData] = useState([])
     const [showLoginAlert, setShowLoginAlert] = useState(false)
+    const [showNewsAlert, setShowNewsAlert] = useState(false)
+    const [showVisitAlert, setShowVisitAlert] = useState(false)
+
+
+    const [visitData, setVisitData] = useState([])
+    const [newsData, setNewsData] = useState([])
+
 
 
     const settings = {
@@ -46,18 +56,75 @@ const HomePage = () => {
     useEffect(() => {
         console.log('Home component mounted');
         getFetchOverView()
+        getFetchNewsVisit()
+
     }, []);
     useEffect(() => {
         if (showLoginAlert === true) {
             setTimeout(() => {
                 setShowLoginAlert(false)
             }, 2500);
+        } else if (showNewsAlert === true) {
+            setTimeout(() => {
+                setShowNewsAlert(false)
+            }, 2500);
+        } else if (showVisitAlert === true) {
+            setTimeout(() => {
+                setShowVisitAlert(false)
+            }, 2500);
         }
-    }, [showLoginAlert]);
+    }, [showLoginAlert, showNewsAlert, showVisitAlert]);
     const handleClick = () => {
         console.log("Learn more clicked!");
     };
 
+    const getFetchNewsVisit = async () => {
+        setIsLoading(true);
+        try {
+            const resp = await pagesServices.getPostList({ limit, page, documentType });
+            if (resp?.status_code === 200) {
+                console.log(resp);
+                if (resp?.list?.data) {
+                    function categorizePosts(posts) {
+                        // Step 1: Group by category
+                        const categorized = posts.reduce((acc, post) => {
+                            if (!acc[post.category]) {
+                                acc[post.category] = [];
+                            }
+                            acc[post.category].push(post);
+                            return acc;
+                        }, {});
+
+                        // Step 2: Select only the first 5 posts from each category
+                        for (const category in categorized) {
+                            categorized[category] = categorized[category].slice(0, 5); // Limit to 5 records
+                        }
+
+                        return categorized;
+                    }
+
+                    const result = categorizePosts(resp?.list?.data);
+                    setVisitData(result?.visit)
+                    setNewsData(result?.news)
+
+
+                } else {
+                    console.error("No data found in response.");
+                    notifyError("No data found. Please try again.");
+                }
+            } else {
+                // Handle non-200 status codes or unexpected responses
+                console.error("Failed to fetch data: ", resp?.message);
+                notifyError("Please try again.");
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            notifyError("An error occurred during fetching data. Please try again.");
+        } finally {
+            setIsLoading(false); // Set loading to false once the request is done
+        }
+
+    };
     const getFetchOverView = async () => {
         setIsLoading(true);
         try {
@@ -103,7 +170,23 @@ const HomePage = () => {
             setShowLoginAlert(true); // Update the alert state
         }
     }
-
+    function handlePostClick(item) {
+        if (isAuthenticated) {
+            if (item === "news") {
+                navigate('/news');
+            } else {
+                navigate('/visits');
+            }
+        } else {
+            if (item === "news") {
+                setShowNewsAlert(true)
+            } else {
+                setShowVisitAlert(true)
+            }
+        }
+    }
+    console.log(visitData);
+    console.log(newsData);
     return (
         <React.Fragment>
             <div style={{ overflow: 'hidden' }}>
@@ -205,7 +288,7 @@ const HomePage = () => {
                                             </div>
                                             <ul className='ps-0' style={{ listStyle: 'none' }}>
                                                 {overViewData.map((item, index) => (
-                                                    <li className="mt-2" key={index} onClick={() => handleOverViewClick(item)}>
+                                                    <li className="mt-2 pointer" key={index} onClick={() => handleOverViewClick(item)}>
                                                         {item.file_name.split('.').slice(0, -1).join('.').length > 30
                                                             ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 30) + "..."
                                                             : item.file_name.split('.').slice(0, -1).join('.')}
@@ -314,11 +397,25 @@ const HomePage = () => {
                             <div className="col-md-4">
                                 <h2 className="welcome-title-class">Latest News</h2>
                                 <div className="mt-3">
+                                    <div
+                                        style={{
+                                            height: '20px',
+                                            marginBottom: '10px',
+                                            color: 'red',
+                                            visibility: !isAuthenticated && showNewsAlert ? 'visible' : 'hidden',
+                                        }}
+                                    >
+                                        Please login first to access the files.
+                                    </div>
                                     <ul className='ps-0'>
-                                        <li className="mt-2">Sunshine Action for elderly people</li>
-                                        <li className="mt-2">Sunshine Action for hundred of homeless people</li>
-                                        <li className="mt-2">Redwood Peak Volunteers with Sunshine Action to Distribute Food to the Homeless</li>
-                                        <li className="mt-2">Wal-Mart Stores Inc.</li>
+                                        {newsData.map((news, index) => {
+                                            console.log(news)
+                                            return (
+                                                <li className="mt-2 pointer" key={index} onClick={() => handlePostClick("news")}>
+                                                    {news?.title}
+                                                </li>
+                                            )
+                                        })}
                                     </ul>
                                 </div>
                             </div>
@@ -326,11 +423,24 @@ const HomePage = () => {
                             <div className="col-md-4">
                                 <h2 className="welcome-title-class">Our Visits</h2>
                                 <div className="mt-3">
+                                <div
+                                        style={{
+                                            height: '20px',
+                                            marginBottom: '10px',
+                                            color: 'red',
+                                            visibility: !isAuthenticated && showVisitAlert ? 'visible' : 'hidden',
+                                        }}
+                                    >
+                                        Please login first to access the files.
+                                    </div>
                                     <ul className='ps-0'>
-                                        <li className="mt-2">Visiting Electric Vehicle Dealers in Shenzhen</li>
-                                        <li className="mt-2">Visit to Vanke and Evergrande Guangzhou</li>
-                                        <li className="mt-2">Wal-Mart Stores Inc.</li>
-                                        <li className="mt-2">Mastercard Inc.</li>
+                                        {visitData.map((visit, index) => {
+                                             console.log(visit)
+                                             return (
+                                            <li className="mt-2 pointer" key={index} onClick={() => handlePostClick("visit")}>
+                                                {visit?.title}
+                                            </li>
+                                        )})}
                                     </ul>
                                 </div>
                             </div>

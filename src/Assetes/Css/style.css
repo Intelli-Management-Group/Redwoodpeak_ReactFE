@@ -419,3 +419,6 @@ footer {
     }
   }
   
+  .pointer {
+    cursor: pointer;
+}
