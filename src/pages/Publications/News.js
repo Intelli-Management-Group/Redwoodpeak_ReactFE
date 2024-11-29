@@ -7,30 +7,95 @@ import News1 from "../../Assetes/images/news1.png";
 import News2 from "../../Assetes/images/news2.png";
 import News3 from "../../Assetes/images/news3.jpeg";
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
+import pagesServices from '../../Services/PagesServicesServices';
+import { notifyError } from '../Component/ToastComponents/ToastComponents';
 
 const News = () => {
-  // Define content for each news article in a map
-  const contentMap = {
-    '2023-1': '<h2>Sunshine Action for Elderly People</h2><p>This program focuses on providing assistance and companionship to elderly individuals in our community.</p>',
-    '2023-2': '<h2>Sunshine Action for the Homeless</h2><p>This initiative aims to provide meals and shelter to hundreds of homeless individuals.</p>',
-    '2022-1': '<h2>Redwood Peak Volunteers</h2><p>This organization collaborates with Sunshine Action to distribute food to the homeless, ensuring no one goes hungry.</p>',
-  };
+
 
   // State to track which content is currently displayed
-  const [selectedContent, setSelectedContent] = useState(contentMap['2023-1']); // Default content is for '2023-1'
+  const [newsData, setNewsData] = useState([])
+  const type = "news";
+  const perPageRecords = 500;
+
+
+  const [selectedContent, setSelectedContent] = useState('');
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const updateContent = (postId) => {
+    setLoading(true);
+
+    const selectedPost = Object.values(newsData)
+      .flat()
+      .find((post) => post.id === postId);
+
+    if (selectedPost) {
+      var decodedString = decodeURIComponent(selectedPost.content);
+      setSelectedContent(decodedString);
+      setSelectedPost(selectedPost);
+    }
+
+    setLoading(false);
+  };
 
   useEffect(() => {
-        console.log('component mounted');
-    }, []);
-  // Function to update content based on selected key
-  const updateContent = (key) => {
-    setSelectedContent(contentMap[key] || '<p>No content available.</p>');
+    console.log('component mounted');
+    fetchNewsData()
+  }, []);
+  const fetchNewsData = async () => {
+    // setIsLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("category", type);
+
+      const resp = await pagesServices.getPostList({
+        page: 1,
+        perPageRecords,
+        body: formData,
+      });
+      if (resp?.status_code === 200) {
+        console.log(resp);
+        if (resp?.list?.data) {
+          // setNewsData(resp?.list?.data)
+          const groupByYear = (data) => {
+            return data.reduce((acc, post) => {
+              if (!acc[post.year]) {
+                acc[post.year] = [];
+              }
+              acc[post.year].push(post);
+              return acc;
+            }, {});
+          };
+          const groupedData = groupByYear(resp?.list?.data);
+          console.log(groupedData)
+          setNewsData(groupedData)
+
+
+        } else {
+          console.error("No data found in response.");
+          notifyError("No data found. Please try again.");
+        }
+      } else {
+        // Handle non-200 status codes or unexpected responses
+        console.error("Failed to fetch data: ", resp?.message);
+        notifyError("Please try again.");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      notifyError("An error occurred during fetching data. Please try again.");
+    } finally {
+      // setIsLoading(false); // Set loading to false once the request is done
+    }
+
   };
+
+
 
   return (
     <div>
-        <HeaderComponents/>
-        <MetaTitle pageTitle={'News – Redwood Peak Limited'} />
+      <HeaderComponents />
+      <MetaTitle pageTitle={'News – Redwood Peak Limited'} />
       <div>
         <Image
           src={NewsBanner}
@@ -44,102 +109,96 @@ const News = () => {
           <h1 className="header-post-title-class" style={{ top: 0 }}>
             News
           </h1>
-
           <div className="row">
+            {/* Left Column for Thumbnails */}
             <div className="col-md-3">
-              <div>
-                {/* Year 2023 */}
-                <div id="year-2023" className="mt-3 mb-4">
-                  <div
-                    className="year-header"
-                    onClick={() => updateContent('2023-1')}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    2023
-                  </div>
-                  <div className="mt-4">
+              {Object.keys(newsData).map((year) => (
+                <div key={year}>
+                  {/* Year Header */}
+                  <div id={`year-${year}`} className="mt-3 mb-4">
                     <div
-                      className="pdf-row mb-3"
-                      onClick={() => updateContent('2023-1')}
+                      className="year-header"
+                      onClick={() => updateContent(newsData[year][0].id)}  
+                      style={{ cursor: 'pointer' }}
                     >
-                      <div className="pdf-title row">
-                        <div className="col-md-3">
-                        
-                          <Image
-                            src={News1}
-                            alt="News1"
-                            style={{ width: '50px' }}
-                            />
-                        </div>
-                        <div className="col-md-9">
-                          Sunshine Action for elderly people
-                        </div>
-                      </div>
+                      {year}
                     </div>
-                    <div
-                      className="pdf-row mb-3"
-                      onClick={() => updateContent('2023-2')}
-                    >
-                      <div className="pdf-title row">
-                        <div className="col-md-3">
-                           <Image
-                           src={News2}
-                           alt="News1"
-                           style={{ width: '50px' }}
-                           />
+                    <div className="mt-4">
+                      {/* List of posts for the current year */}
+                      {newsData[year].slice(0, 5).map((post, index) => (
+                        <div
+                          key={post.id}
+                          className="pdf-row mb-3"
+                          onClick={() => updateContent(post.id)}  
+                        >
+                          <div className="pdf-title row">
+                            {/* Post Thumbnail */}
+                            <div className="col-md-3">
+                              <Image
+                                src={post.thumbnail.path} 
+                                alt={post.title}
+                                width={50}
+                                height={50}
+                                className="img-thumbnail"
+                              />
+                            </div>
+                            {/* Post Title */}
+                            <div className="col-md-9">
+                              {post.title}
+                            </div>
+                          </div>
                         </div>
-                        <div className="col-md-9">
-                          Sunshine Action for hundreds of homeless people
-                        </div>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-
-                {/* Year 2022 */}
-                <div id="year-2022" className="mt-3 mb-3">
-                  <div
-                    className="year-header"
-                    onClick={() => updateContent('2022-1')}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    2022
-                  </div>
-                  <div className="mt-4">
-                    <div
-                      className="pdf-row mb-3"
-                      onClick={() => updateContent('2022-1')}
-                    >
-                      <div className="pdf-title row">
-                        <div className="col-md-3">
-                        <Image
-                           src={News3}
-                           alt="News 3"
-                           style={{ width: '50px' }}
-                           />
-                        </div>
-                        <div className="col-md-9">
-                          Redwood Peak Volunteers with Sunshine Action to Distribute Food to the Homeless
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
+
+
 
             <div className="col-md-9">
               <div className="mt-5">
-                <div
-                  id="contentDisplay"
-                  dangerouslySetInnerHTML={{ __html: selectedContent }}
-                />
+                {loading ? (
+                  <div>Loading content...</div>  // Display loading text or spinner
+                ) : (
+                  <div>
+                    <div
+                      id="contentDisplay"
+                      dangerouslySetInnerHTML={{ __html: selectedContent }}
+                    />
+                    {/* Displaying media with captions */}
+                    {selectedPost?.media?.map((mediaItem) => (
+                      <div key={mediaItem.id} className="media-item mb-4">
+                        {/* Image or Video */}
+                        <div className="media-content">
+                          <img
+                            src={mediaItem.path}
+                            alt={mediaItem.caption || 'Media'}
+                            className="img-fluid w-100"  // Making it responsive and full width
+                          />
+                        </div>
+                        {/* Media Caption */}
+                        {mediaItem.caption && (
+                          <div className="media-caption text-center mt-2">
+                            <p>{mediaItem.caption}</p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
+
+
+
           </div>
+
+
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

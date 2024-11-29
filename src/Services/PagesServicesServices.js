@@ -11,8 +11,8 @@ const pagesServices = {
       return requests.post(`/page/list?page=${pageNumber}&pageSize=${datalimit}&type=${documentType}`,);
     }
   },
-  getPostList:async({limit,page,}) =>{
-        return requests.post(`/post/list?page=${1}&pageSize=${500}`,);
+  getPostList:async({limit,page,body}) =>{
+        return requests.post(`/post/list?page=${1}&pageSize=${500}`,body);
   }
   
 
