@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../../Assetes/Css/style.css'
 import Image from '../Component/ImagesComponets/ImagesComponets';
 import Slide1 from "../../Assetes/images/banner_homepage.jpg"
+import Slide2 from "../../Assetes/images/banner_homepage.jpg"
 import service_img1 from "../../Assetes/images/service_img1.jpg"
 import service_img2 from "../../Assetes/images/service_img2.jpg"
 import service_img3 from "../../Assetes/images/service_img3.jpg"
@@ -20,6 +21,7 @@ import { useNavigate } from 'react-router-dom';
 
 const images = [
     { url: Slide1 },
+    { url: Slide2 },
 ];
 
 const HomePage = () => {
@@ -257,24 +259,6 @@ const HomePage = () => {
                                 <div className="d-flex flex-column justify-content-between h-100">
                                     <div>
                                         <h2 className="welcome-title-class">Our View</h2>
-                                        {/* <div className="mt-3">
-                                            {!isAuthenticated && showLoginAlert && (
-                                                <div style={{ color: 'red', marginBottom: '10px' }}>
-                                                    Please login first to access the files.
-                                                </div>
-                                            )}
-                                            <ul className='ps-0' style={{ listStyle: 'none' }}>
-                                                {overViewData.map((item, index) =>
-                                                (
-                                                    <li className="mt-2" onClick={handleOverViewClick(item)}>
-                                                        {item.file_name.split('.').slice(0, -1).join('.').length > 30
-                                                            ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 30) + "..."
-                                                            : item.file_name.split('.').slice(0, -1).join('.')}
-                                                    </li>
-                                                )
-                                                )}
-                                            </ul>
-                                        </div> */}
                                         <div className="mt-3">
                                             <div
                                                 style={{
@@ -300,6 +284,7 @@ const HomePage = () => {
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
 
@@ -308,8 +293,8 @@ const HomePage = () => {
                         <h2 className="pt-2">Discover our expertise by learning what we offer</h2>
                     </div>
 
-                    <div className="w-75 m-auto">
-                        <p>Sub heading TBC</p>
+                    <div className="text-center">
+                        <p className='pt-2'>Sub heading TBC</p>
                     </div>
 
                     {/* Services Section */}
