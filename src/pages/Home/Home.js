@@ -36,7 +36,7 @@ const HomePage = () => {
     const [overViewData, setOverViewData] = useState([])
     const [showLoginAlert, setShowLoginAlert] = useState(false)
     const [showNewsAlert, setShowNewsAlert] = useState(false)
-    const [showVisitAlert, setShowVisitAlert] = useState(true)
+    const [showVisitAlert, setShowVisitAlert] = useState(false)
 
 
     const [visitData, setVisitData] = useState([])
