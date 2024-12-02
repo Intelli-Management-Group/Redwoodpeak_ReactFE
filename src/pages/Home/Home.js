@@ -36,7 +36,7 @@ const HomePage = () => {
     const [overViewData, setOverViewData] = useState([])
     const [showLoginAlert, setShowLoginAlert] = useState(false)
     const [showNewsAlert, setShowNewsAlert] = useState(false)
-    const [showVisitAlert, setShowVisitAlert] = useState(false)
+    const [showVisitAlert, setShowVisitAlert] = useState(true)
 
 
     const [visitData, setVisitData] = useState([])
@@ -255,28 +255,39 @@ const HomePage = () => {
 
                         {/* Third Column */}
                         <div className="col-md-6 col-lg-4 pr-0 pl-0 p-0">
+                            <div className="d-flex text-center " style={{ position: 'relative', }}>
+                                {!isAuthenticated && showLoginAlert && (
+                                    <div style={{
+                                        width: 160,
+                                        position: 'absolute',
+                                        top: 16,
+                                        left: '50%',
+                                        transform: 'translate(-50%, -50%)',
+                                        zIndex: 1,
+                                        textAlign: 'center',
+                                        backgroundColor: '#555',
+                                        padding: '5px',
+                                        color: '#fff'
+                                    }}>
+                                        Please login
+                                    </div>
+                                )}
+                            </div>
+
                             <div className="card p-5 h-100" style={{ backgroundColor: '#fff' }}>
                                 <div className="d-flex flex-column justify-content-between h-100">
                                     <div>
                                         <h2 className="welcome-title-class">Our View</h2>
-                                        <div className="mt-3">
-                                            <div
-                                                style={{
-                                                    height: '20px',
-                                                    marginBottom: '10px',
-                                                    color: 'red',
-                                                    visibility: !isAuthenticated && showLoginAlert ? 'visible' : 'hidden',
-                                                }}
-                                            >
-                                                Please login first to access the files.
-                                            </div>
+                                        <div className="mt-2 pt-1">
                                             <ul className='ps-0' style={{ listStyle: 'none' }}>
                                                 {overViewData.map((item, index) => (
-                                                    <li className="mt-2 pointer" key={index} onClick={() => handleOverViewClick(item)}>
+                                                    // <li className="mt-2 pointer" key={index} onClick={() => handleOverViewClick(item)}>
+                                                    <p className='p-0 text-left pointer' key={index} onClick={() => handleOverViewClick(item)} style={{ textAlign: 'left' }}>
                                                         {item.file_name.split('.').slice(0, -1).join('.').length > 30
                                                             ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 30) + "..."
                                                             : item.file_name.split('.').slice(0, -1).join('.')}
-                                                    </li>
+                                                    </p>
+                                                    // </li>
                                                 ))}
                                             </ul>
                                         </div>
@@ -284,7 +295,9 @@ const HomePage = () => {
                                     </div>
                                 </div>
                             </div>
-                            
+
+
+
                         </div>
                     </div>
 
@@ -380,25 +393,32 @@ const HomePage = () => {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-4">
+                            <div className="d-flex text-left" style={{ position: 'relative', textAlign: 'left' }}>
+                                    {!isAuthenticated && showNewsAlert && (
+                                        <div style={{
+                                            width: 160,
+                                            position: 'absolute',
+                                            top: 15,
+                                            left: '0', // Left align the div
+                                            zIndex: 1,
+                                            textAlign: 'center',
+                                            backgroundColor: '#555',
+                                            padding: '5px',
+                                            color: '#fff'
+                                        }}>
+                                            Please login
+                                        </div>
+                                    )}
+                                </div>
                                 <h2 className="welcome-title-class">Latest News</h2>
-                                <div className="mt-3">
-                                    <div
-                                        style={{
-                                            height: '20px',
-                                            marginBottom: '10px',
-                                            color: 'red',
-                                            visibility: !isAuthenticated && showNewsAlert ? 'visible' : 'hidden',
-                                        }}
-                                    >
-                                        Please login first to access the files.
-                                    </div>
+                                <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
                                         {newsData.map((news, index) => {
                                             console.log(news)
                                             return (
-                                                <li className="mt-2 pointer" key={index} onClick={() => handlePostClick("news")}>
+                                                <p className='p-0 text-left pointer' key={index} onClick={() => handlePostClick("news")}>
                                                     {news?.title}
-                                                </li>
+                                                </p>
                                             )
                                         })}
                                     </ul>
@@ -406,26 +426,34 @@ const HomePage = () => {
                             </div>
 
                             <div className="col-md-4">
+                                <div className="d-flex text-left" style={{ position: 'relative', textAlign: 'left' }}>
+                                    {!isAuthenticated && showVisitAlert && (
+                                        <div style={{
+                                            width: 160,
+                                            position: 'absolute',
+                                            top: 15,
+                                            left: '0', // Left align the div
+                                            zIndex: 1,
+                                            textAlign: 'center',
+                                            backgroundColor: '#555',
+                                            padding: '5px',
+                                            color: '#fff'
+                                        }}>
+                                            Please login
+                                        </div>
+                                    )}
+                                </div>
                                 <h2 className="welcome-title-class">Our Visits</h2>
-                                <div className="mt-3">
-                                <div
-                                        style={{
-                                            height: '20px',
-                                            marginBottom: '10px',
-                                            color: 'red',
-                                            visibility: !isAuthenticated && showVisitAlert ? 'visible' : 'hidden',
-                                        }}
-                                    >
-                                        Please login first to access the files.
-                                    </div>
+                                <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
                                         {visitData.map((visit, index) => {
-                                             console.log(visit)
-                                             return (
-                                            <li className="mt-2 pointer" key={index} onClick={() => handlePostClick("visit")}>
-                                                {visit?.title}
-                                            </li>
-                                        )})}
+                                            return (
+
+                                                <p className='p-0 text-left pointer' key={index} onClick={() => handlePostClick("visit")}>
+                                                    {visit?.title}
+                                                </p>
+                                            )
+                                        })}
                                     </ul>
                                 </div>
                             </div>
@@ -434,12 +462,12 @@ const HomePage = () => {
                                 <h2 className="welcome-title-class">Contact Us</h2>
                                 <div className="mt-3">
                                     <ul className='ps-0'>
-                                        <li className="mt-2">
+                                        <p className="mt-2">
                                             18/Floor, China Hong Kong Tower, 8-12 Hennessy Road, Wan Chai, Hong Kong.
-                                        </li>
-                                        <li className="mt-2">Telephone: (852) 2878 3100</li>
-                                        <li className="mt-2">Facsimile: (852) 2509 9233</li>
-                                        <li className="mt-2">Email: IR@redwoodpeak.com</li>
+                                        </p>
+                                        <p className="mt-2">Telephone: (852) 2878 3100</p>
+                                        <p className="mt-2">Facsimile: (852) 2509 9233</p>
+                                        <p className="mt-2">Email: IR@redwoodpeak.com</p>
                                     </ul>
                                 </div>
                             </div>
