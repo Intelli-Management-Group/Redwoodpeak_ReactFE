@@ -2,12 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Open Sans:wght@400;500;700&display=swap');
 
 @font-face {
-   
+
     /*---------- Open Sans ----------*/
     font-family: 'Open Sans';
     src: url('../fonts/openSans.woff2') format('woff2');
-  }
-  
+}
+
 body {
     /* background-color: #380000; */
     color: #666666;
@@ -18,13 +18,15 @@ body {
     overflow-x: hidden;
     width: 100%;
 }
-  
-.primaryColor{
+
+.primaryColor {
     color: #511515 !important;
 }
-p{
-        font-family: 'Open Sans', sans-serif;    
+
+p {
+    font-family: 'Open Sans', sans-serif;
 }
+
 p {
     line-height: 24px !important;
     margin-bottom: 15px !important;
@@ -33,14 +35,17 @@ p {
 .container {
     max-width: 1280px !important;
 }
-ul{
+
+ul {
     list-style-position: inside;
     padding-left: 0;
-    list-style:none;
+    list-style: none;
 }
-.navbar li.active a{
-    color:#511515 !important;
+
+.navbar li.active a {
+    color: #511515 !important;
 }
+
 .navbar-light .navbar-nav .nav-link {
     color: #333;
 }
@@ -122,18 +127,44 @@ li>a {
 
 .dropdown-item:focus,
 .dropdown-item:hover,
-.dropdown-item.active, 
+.dropdown-item.active,
 .dropdown-item:active {
     color: #511515 !important;
-    background-color:transparent !important;
+    background-color: transparent !important;
 }
+.nav-item.dropdown .nav-link.active-dropdown {
+    color: #511515 !important;
+}
+.active-dropdown {
+    color: #511515 !important;
+}
+.nav-item.dropdown.dropdown-open .nav-link {
+    color: #511515 !important;
+}
+
+.active-dropdown {
+    color: #511515 !important;
+}
+
+.nav-link:hover {
+    color: #511515 !important;
+    background-color: transparent;
+}
+
+.nav-link.active {
+    color: #511515 !important;
+}
+
+
 /*Modal*/
 .modal-dialog {
     max-width: 50%;
 }
+
 .modal-dialog-centered {
     min-height: calc(100% - 3rem);
 }
+
 /* Form Styles */
 .form-row {
     display: flex;
@@ -172,7 +203,8 @@ li>a {
     height: 45vh;
     object-fit: cover;
 }
-.customnBannerHeight{
+
+.customnBannerHeight {
     height: 45vh;
     object-fit: fill;
     width: 100%;
@@ -306,6 +338,7 @@ footer {
     text-decoration: none;
     line-height: 1.1em;
 }
+
 .cards-Label {
     color: #967842;
     font-size: 24px;
@@ -316,7 +349,7 @@ footer {
     line-height: 34px;
 }
 
-.d-none{
+.d-none {
     display: block;
 
 }
@@ -324,13 +357,15 @@ footer {
 /* Publications  */
 .year-header {
     margin-top: 20px;
-    color:#823535;
+    color: #823535;
 }
+
 .pdf-row {
     padding: 8px;
     margin-bottom: 8px;
-    
+
 }
+
 /*  */
 /* Spinner */
 .text-primary-color {
@@ -340,6 +375,7 @@ footer {
 /* Spinner */
 
 @media (max-width: 500px) {
+
     /*Modal*/
     .modal-dialog {
         max-width: 100%;
@@ -352,17 +388,21 @@ footer {
     .cards-titles {
         font-size: 12px;
     }
+
     .cards-headings {
         font-size: 22px;
         line-height: 1.3em;
     }
+
     .d-none {
         display: none !important;
     }
-    .cards-Label{
+
+    .cards-Label {
         font-size: 21px !important;
         line-height: 1.2em;
     }
+
     .card-body {
         flex: 1 !important;
         display: flex !important;
@@ -370,11 +410,13 @@ footer {
         justify-content: center !important;
         padding: 1rem !important;
     }
+
     .customnBannerHeight {
         height: 25vh !important;
 
     }
-    .header-post-title-class{
+
+    .header-post-title-class {
         display: none;
     }
 }
@@ -384,24 +426,29 @@ footer {
     .cards-titles {
         font-size: 12px;
     }
+
     .cards-headings {
         font-size: 29px;
         line-height: 1.3em;
     }
+
     .cards-Label {
         font-size: 22px;
         line-height: 1.2em;
     }
-    .d-none{
+
+    .d-none {
         display: block !important;
 
     }
 }
+
 @media (min-width: 1025px) and (max-width: 2560px) {
     .d-none {
         display: block !important;
     }
 }
+
 .navbar-expand-lg .navbar-nav .nav-link {
     padding-right: 20px;
     padding-left: 20px;
@@ -409,16 +456,17 @@ footer {
 
 
 /* MODAL */
-.modal-custom-width{
+.modal-custom-width {
     min-width: 600px;
 }
-  @media (max-width: 767px) {
-    .modal-custom-width{
+
+@media (max-width: 767px) {
+    .modal-custom-width {
         min-width: auto;
         margin-top: 100px;
     }
-  }
-  
-  .pointer {
+}
+
+.pointer {
     cursor: pointer;
 }

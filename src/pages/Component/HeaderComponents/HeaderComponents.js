@@ -1,6 +1,6 @@
 
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 
 import { Navbar, Nav, Button } from 'react-bootstrap';
@@ -9,19 +9,23 @@ import Logo from "../../../Assetes/images/logo.png"
 
 
 const HeaderComponents = () => {
+    const location = useLocation();
     const isAuthenticated = localStorage.getItem('userToken');
-    console.log(isAuthenticated)
     const navigate = useNavigate();
+    const [openDropdown, setOpenDropdown] = useState(null);
 
+
+    const handleDropdownToggle = (dropdownName) => {
+        setOpenDropdown((prev) => (prev === dropdownName ? null : dropdownName));
+    };
     const handleAuth = () => {
         navigate('/login');
     }
-    const handleLogout = () =>{
+    const handleLogout = () => {
         localStorage.removeItem('userToken');
         window.location.href = '/';
-
-
     }
+    console.log(openDropdown, location)
     return (
         <Navbar expand="lg" className="container px-4 mx-sm-3 mx-md-4 mx-lg-5">
             <Navbar.Brand href="/">
@@ -33,59 +37,86 @@ const HeaderComponents = () => {
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarSupportedContent" />
             <Navbar.Collapse id="navbarSupportedContent">
-                <Nav className=" d-flex justify-content-between ps-md-5" >
-                    <ul className="navbar-nav mr-auto ">
-                        <li className="nav-item active">
-                            <Link className="nav-link" to="/">Home</Link>
-                        </li>
-                        <li className="nav-item dropdown">
+                <Nav className="d-flex justify-content-between ps-md-5">
+                    <ul className="navbar-nav mr-auto">
+                        {/* Home Link */}
+                        <li className="nav-item">
                             <Link
-                                className="nav-link dropdown-toggle"
+                                className={`nav-link ${location?.pathname === "/" ? "active-dropdown" : ""}`}
+                                to="/"
+                            >
+                                Home
+                            </Link>
+                        </li>
+
+                        {/* About Us Dropdown */}
+                        <li
+                            className={`nav-item dropdown ${openDropdown === "about" ? "dropdown-open" : ""}`}
+                            onMouseEnter={() => handleDropdownToggle("about")}
+                            onMouseLeave={() => handleDropdownToggle(null)}
+                        >
+                            <Link
+                                className={`nav-link ${openDropdown === "about" || location?.pathname === "/our-mission" || location?.pathname === "/overview" || location?.pathname === "/senior-team" ? "active-dropdown" : ""}`}
                                 to="#"
                                 id="navbarDropdown"
                                 role="button"
-                                data-toggle="dropdown"
                                 aria-haspopup="true"
-                                aria-expanded="false"
+                                aria-expanded={openDropdown === "about"}
                             >
-                                Abouts Us
+                                About Us
                             </Link>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <Link className="dropdown-item" to="/our-mission">Over Mission</Link>
+                                <Link className="dropdown-item" to="/our-mission">Our Mission</Link>
                                 <Link className="dropdown-item" to="/overview">Overview</Link>
                                 <Link className="dropdown-item" to="/senior-team">Senior Team</Link>
                             </div>
                         </li>
-                        <li className="nav-item dropdown">
+
+                        {/* Investment Management Dropdown */}
+                        <li
+                            className={`nav-item dropdown ${openDropdown === "investment" ? "dropdown-open" : ""}`}
+                            onMouseEnter={() => handleDropdownToggle("investment")}
+                            onMouseLeave={() => handleDropdownToggle(null)}
+                        >
                             <Link
-                                className="nav-link dropdown-toggle"
+                                className={`nav-link ${openDropdown === "investment" || location?.pathname === "/hedge-fund" || location?.pathname === "/managed-account" ? "active-dropdown" : ""}`}
                                 to="#"
                                 id="navbarDropdown"
                                 role="button"
-                                data-toggle="dropdown"
                                 aria-haspopup="true"
-                                aria-expanded="false"
+                                aria-expanded={openDropdown === "investment"}
                             >
                                 Investment Management
                             </Link>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <Link className="dropdown-item" to="/hedge-fund">Hedge Fund</Link>
                                 <Link className="dropdown-item" to="/managed-account">Managed Account</Link>
-                                {/* <div className="dropdown-divider"></div> */}
                             </div>
                         </li>
+
+                        {/* Our Approach Link */}
                         <li className="nav-item">
-                            <Link className="nav-link" to="/our-approach">Our Approach</Link>
-                        </li>
-                        <li className="nav-item dropdown">
                             <Link
-                                className="nav-link dropdown-toggle"
+                                className={`nav-link ${location?.pathname === "/our-approach" ? "active-dropdown" : ""}`}
+                                to="/our-approach"
+                            >
+                                Our Approach
+                            </Link>
+                        </li>
+
+                        {/* Publication & Updates Dropdown */}
+                        <li
+                            className={`nav-item dropdown ${openDropdown === "publication" ? "dropdown-open" : ""}`}
+                            onMouseEnter={() => handleDropdownToggle("publication")}
+                            onMouseLeave={() => handleDropdownToggle(null)}
+                        >
+                            <Link
+                                className={`nav-link ${openDropdown === "publication" || location?.pathname === "/publications" || location?.pathname === "/news" || location?.pathname === "/visits" ? "active-dropdown" : ""}`}
                                 to="#"
                                 id="navbarDropdown"
                                 role="button"
-                                data-toggle="dropdown"
                                 aria-haspopup="true"
-                                aria-expanded="false"
+                                aria-expanded={openDropdown === "publication"}
                             >
                                 Publication & Updates
                             </Link>
@@ -93,18 +124,22 @@ const HeaderComponents = () => {
                                 <Link className="dropdown-item" to="/publications">Publications</Link>
                                 <Link className="dropdown-item" to="/news">News</Link>
                                 <Link className="dropdown-item" to="/visits">Visits</Link>
-                                {/* <div className="dropdown-divider"></div> */}
                             </div>
                         </li>
-                        <li className="nav-item dropdown">
+
+                        {/* Investor Resources Dropdown */}
+                        <li
+                            className={`nav-item dropdown ${openDropdown === "investor" ? "dropdown-open" : ""}`}
+                            onMouseEnter={() => handleDropdownToggle("investor")}
+                            onMouseLeave={() => handleDropdownToggle(null)}
+                        >
                             <Link
-                                className="nav-link dropdown-toggle"
+                                className={`nav-link ${openDropdown === "investor" || location?.pathname === "/hedge-fund-reports" || location?.pathname === "/managed-account-reports" ? "active-dropdown" : ""}`}
                                 to="#"
                                 id="navbarDropdown"
                                 role="button"
-                                data-toggle="dropdown"
                                 aria-haspopup="true"
-                                aria-expanded="false"
+                                aria-expanded={openDropdown === "investor"}
                             >
                                 Investor Resources
                             </Link>
@@ -113,11 +148,18 @@ const HeaderComponents = () => {
                                 <Link className="dropdown-item" to="/managed-account-reports">Managed Account Reports</Link>
                             </div>
                         </li>
+
+                        {/* Contact Us Link */}
                         <li className="nav-item">
-                            <Link className="nav-link" to="/contact-us">Contact Us</Link>
+                            <Link
+                                className={`nav-link ${location?.pathname === "/contact-us" ? "active-dropdown" : ""}`}
+                                to="/contact-us"
+                            >
+                                Contact Us
+                            </Link>
                         </li>
                     </ul>
-                </Nav >
+                </Nav>
                 {isAuthenticated ? (
                     <Button variant="primary" className="ms-auto w-auto" onClick={handleLogout}>Logout</Button>
                 ) : (
