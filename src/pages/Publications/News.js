@@ -23,6 +23,15 @@ const News = () => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (newsData && Object.keys(newsData).length > 0) {
+      const latestYear = Math.max(...Object.keys(newsData).map((year) => parseInt(year, 10))); // Get the latest year
+      const firstPost = newsData[latestYear]?.[0]; // Get the first post of the latest year
+      if (firstPost) {
+        updateContent(firstPost.id); // Set the first post's content by default
+      }
+    }
+  }, [newsData]);
   const updateContent = (postId) => {
     setLoading(true);
 
@@ -106,61 +115,59 @@ const News = () => {
 
       <div className="container">
         <div className="container-custom mt-1 mb-5 p-4">
-          <h1 className="header-post-title-class" style={{ top: 0 }}>
+          <h1 className="header-post-title-class" >
             News
           </h1>
           <div className="row">
             {/* Left Column for Thumbnails */}
             <div className="col-md-3">
-              {Object.keys(newsData).map((year) => (
-                <div key={year}>
-                  {/* Year Header */}
-                  <div id={`year-${year}`} className="mt-3 mb-4">
-                    <div
-                      className="year-header"
-                      onClick={() => updateContent(newsData[year][0].id)}  
-                      style={{ cursor: 'pointer' }}
-                    >
-                      {year}
-                    </div>
-                    <div className="mt-4">
-                      {/* List of posts for the current year */}
-                      {newsData[year].slice(0, 5).map((post, index) => (
-                        <div
-                          key={post.id}
-                          className="pdf-row mb-3"
-                          onClick={() => updateContent(post.id)}  
-                        >
-                          <div className="pdf-title row">
-                            {/* Post Thumbnail */}
-                            <div className="col-md-3">
-                              <Image
-                                src={post.thumbnail.path} 
-                                alt={post.title}
-                                width={50}
-                                height={50}
-                                className="img-thumbnail"
-                              />
-                            </div>
-                            {/* Post Title */}
-                            <div className="col-md-9">
-                              {post.title}
+              {Object.keys(newsData)
+                .sort((a, b) => parseInt(b) - parseInt(a)) // Sort years in descending order
+                .map((year) => (
+                  <div key={year}>
+                    {/* Year Header */}
+                    <div id={`year-${year}`} className="mt-3 mb-4">
+                      <div
+                        className="year-header"
+                        onClick={() => updateContent(newsData[year][0].id)} // Load the first post of the year on header click
+                        style={{ cursor: 'pointer' }}
+                      >
+                        {year}
+                      </div>
+                      <div className="mt-4">
+                        {newsData[year].slice(0, 5).map((post) => (
+                          <div
+                            key={post.id}
+                            className="pdf-row mb-3"
+                            onClick={() => updateContent(post.id)} // Load content on thumbnail click
+                          >
+                            <div className="pdf-title row">
+                              {/* Post Thumbnail */}
+                              <div className="col-md-3">
+                                <Image
+                                  src={post.thumbnail.path}
+                                  alt={post.title}
+                                  width={50}
+                                  height={50}
+                                  className="img-thumbnail"
+                                />
+                              </div>
+                              {/* Post Title */}
+                              <div className="col-md-9">{post.title}</div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
-
 
 
             <div className="col-md-9">
               <div className="mt-5">
                 {loading ? (
-                  <div>Loading content...</div>  // Display loading text or spinner
+                  <div>Loading content...</div> // Display loading text or spinner
                 ) : (
                   <div>
                     <div
@@ -175,7 +182,8 @@ const News = () => {
                           <img
                             src={mediaItem.path}
                             alt={mediaItem.caption || 'Media'}
-                            className="img-fluid w-100"  // Making it responsive and full width
+                            className="img-fluid w-100" // Making it responsive and full width
+                            loading="lazy"
                           />
                         </div>
                         {/* Media Caption */}
@@ -190,9 +198,6 @@ const News = () => {
                 )}
               </div>
             </div>
-
-
-
           </div>
 
 
