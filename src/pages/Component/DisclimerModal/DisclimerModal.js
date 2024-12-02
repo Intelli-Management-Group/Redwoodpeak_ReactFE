@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const DisclaimerModal = () => {
-    const [isModalVisible, setIsModalVisible] = useState(true);
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
@@ -9,6 +9,8 @@ const DisclaimerModal = () => {
         const hasAcceptedDisclaimer = localStorage.getItem('disclaimerAccepted');
         if (hasAcceptedDisclaimer) {
             setIsModalVisible(false);
+        }else{
+            setIsModalVisible(true);
         }
     }, []);
 
