@@ -18,43 +18,45 @@ const ManagedAccountReports = () => {
 
     useEffect(() => {
         fetcManagedAccountReports()
-      }, []);
+    }, []);
     const toggleVisibility = (year) => {
         setVisibleYear(visibleYear === year ? null : year);
     };
     const fetcManagedAccountReports = async () => {
         setIsLoading(true);
         try {
-          const resp = await pagesServices.getPageList({ documentType });
-          if (resp?.status_code === 200) {
-            console.log(resp);
-            if (resp?.list?.data) {
-              const publications = resp.list.data.reduce((acc, item) => {
-                if (!acc[item.year]) {
-                  acc[item.year] = [];
+            const resp = await pagesServices.getPageList({ documentType });
+            if (resp?.status_code === 200) {
+                console.log(resp);
+                if (resp?.list?.data) {
+                    const publications = resp.list.data.reduce((acc, item) => {
+                        if (!acc[item.year]) {
+                            acc[item.year] = [];
+                        }
+                        acc[item.year].push(item);
+                        return acc;
+                    }, {});
+                    // console.log(publications);
+                    setData(publications || []);
+                    const latestYear = Math.max(...Object.keys(publications).map((year) => parseInt(year)));
+                    setVisibleYear(latestYear)
+                } else {
+                    console.error("No data found in response.");
+                    notifyError("No data found. Please try again.");
                 }
-                acc[item.year].push(item);
-                return acc;
-              }, {});
-              // console.log(publications);
-              setData(publications || []);
             } else {
-              console.error("No data found in response.");
-              notifyError("No data found. Please try again.");
+                // Handle non-200 status codes or unexpected responses
+                console.error("Failed to fetch data: ", resp?.message);
+                notifyError("Please try again.");
             }
-          } else {
-            // Handle non-200 status codes or unexpected responses
-            console.error("Failed to fetch data: ", resp?.message);
-            notifyError("Please try again.");
-          }
         } catch (error) {
-          console.error("Error fetching data:", error);
-          notifyError("An error occurred during fetching data. Please try again.");
+            console.error("Error fetching data:", error);
+            notifyError("An error occurred during fetching data. Please try again.");
         } finally {
-          setIsLoading(false); // Set loading to false once the request is done
+            setIsLoading(false); // Set loading to false once the request is done
         }
-    
-      };
+
+    };
 
     return (
         <div>
@@ -69,7 +71,7 @@ const ManagedAccountReports = () => {
             </div>
             <div className="container">
                 <div className="container-custom mt-1 mb-5 p-4">
-                    <h1 className="header-post-title-class" style={{ top: 0 }}>
+                    <h1 className="header-post-title-class" >
                         Managed Account Reports
                     </h1>
                     {isLoading ? (
@@ -80,35 +82,32 @@ const ManagedAccountReports = () => {
                         </div>
                     ) : (
                         <div>
-                            {Object.keys(data).map((year) => (
-                                <div key={year} id={`year-${year}`}>
-                                    <div
-                                        className="year-header pt-1 pb-1"
-                                        onClick={() => toggleVisibility(year)}
-                                        style={{ cursor: 'pointer' }}
-                                    >
-                                        {year}
-                                    </div>
+                            {Object.keys(data)
+                                .sort((a, b) => parseInt(b) - parseInt(a)) // Sort years in descending order
+                                .map((year) => (
+                                    <div key={year} id={`year-${year}`}>
+                                        <div
+                                            className="year-header pt-1 pb-1"
+                                            onClick={() => toggleVisibility(parseInt(year, 10))}
+                                            style={{ cursor: 'pointer' }}
+                                        >
+                                            {year}
+                                        </div>
 
-                                    {/* Conditionally render the PDFs for the year */}
-                                    {visibleYear === year && (
-                                        <div className="ml-5">
-                                            {data[year]
-                                                .sort((a, b) => {
-                                                    const dateA = new Date(a.created_at || a.file_name);
-                                                    const dateB = new Date(b.created_at || b.file_name);
-                                                    return dateB - dateA;
-                                                })
-                                                .map((item, index) => {
-                                                    console.log(item)
-                                                    return (
+                                        {/* Conditionally render the PDFs for the year */}
+                                        {visibleYear === parseInt(year, 10) && (
+                                            <div className="ml-5">
+                                                {data[year]
+                                                    .sort((a, b) => {
+                                                        const dateA = new Date(a.created_at || a.file_name);
+                                                        const dateB = new Date(b.created_at || b.file_name);
+                                                        return dateB - dateA; // Descending order of dates
+                                                    })
+                                                    .map((item, index) => (
                                                         <div key={index} className="pdf-row p-3">
                                                             <div className="pdf-title">
                                                                 <span>
-                                                                    <Image
-                                                                        src={pdfIcon}
-                                                                        alt="PDF icon"
-                                                                    />
+                                                                    <Image src={pdfIcon} alt="PDF icon" />
                                                                 </span>
 
                                                                 <a
@@ -122,14 +121,12 @@ const ManagedAccountReports = () => {
                                                                         : item.file_name.split('.').slice(0, -1).join('.')}
                                                                 </a>
                                                             </div>
-
                                                         </div>
-                                                    )
-                                                })}
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                                                    ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
                         </div>
                     )}
                 </div>

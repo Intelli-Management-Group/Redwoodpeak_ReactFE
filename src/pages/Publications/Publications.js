@@ -14,13 +14,16 @@ const Publications = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([])
   useEffect(() => {
-    console.log('component mounted');
+    // console.log('component mounted');
     fetchPublication()
   }, []);
   // Toggle visibility of the year
+ 
   const toggleVisibility = (year) => {
-    setVisibleYear(visibleYear === year ? null : year);
+    // Toggle visibility of the selected year
+    setVisibleYear((prevYear) => (prevYear === year ? null : year));
   };
+  
   const fetchPublication = async () => {
     setIsLoading(true);
     try {
@@ -35,8 +38,9 @@ const Publications = () => {
             acc[item.year].push(item);
             return acc;
           }, {});
-          // console.log(publications);
           setData(publications || []);
+          const latestYear = Math.max(...Object.keys(publications).map((year) => parseInt(year)));
+          setVisibleYear(latestYear)
         } else {
           console.error("No data found in response.");
           notifyError("No data found. Please try again.");
@@ -54,6 +58,7 @@ const Publications = () => {
     }
 
   };
+  console.log(visibleYear)
   return (
     <div>
       <HeaderComponents />
@@ -67,9 +72,12 @@ const Publications = () => {
       </div>
       <div className="container">
         <div className="container-custom mt-1 mb-5 p-4">
-          <h1 className="header-post-title-class" style={{ top: 0 }}>
+          <h1 className="header-post-title-class" >
             Publications
           </h1>
+          {/* <h1 className="header-post-title-class" style={{ top: 0 }}>
+            Publications
+          </h1> */}
           {isLoading ? (
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
               <div className="spinner-border text-primary-color" role="status">
@@ -79,7 +87,7 @@ const Publications = () => {
           ) : (
             <div>
               {/* Render each year */}
-              {Object.keys(data).map((year) => (
+              {/* {Object.keys(data).map((year) => (
                 <div key={year} id={`year-${year}`}>
                   <div
                     className="year-header pt-1 pb-1"
@@ -89,7 +97,6 @@ const Publications = () => {
                     {year}
                   </div>
 
-                  {/* Conditionally render the PDFs for the year */}
                   {visibleYear === year && (
                     <div className="ml-5">
                       {data[year]
@@ -128,7 +135,53 @@ const Publications = () => {
                     </div>
                   )}
                 </div>
-              ))}
+              ))} */}
+              {Object.keys(data)
+                .sort((a, b) => parseInt(b) - parseInt(a)) // Sort years in descending order
+                .map((year) => (
+                  <div key={year} id={`year-${year}`}>
+                    <div
+                      className="year-header pt-1 pb-1"
+                      onClick={() => toggleVisibility(parseInt(year, 10))}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {year}
+                    </div>
+
+                    {/* Conditionally render the PDFs for the year */}
+                    {visibleYear === parseInt(year, 10) && (
+                      <div className="ml-5">
+                        {data[year]
+                          .sort((a, b) => {
+                            const dateA = new Date(a.created_at || a.file_name);
+                            const dateB = new Date(b.created_at || b.file_name);
+                            return dateB - dateA; // Descending order of dates
+                          })
+                          .map((item, index) => (
+                            <div key={index} className="pdf-row p-3">
+                              <div className="pdf-title">
+                                <span>
+                                  <Image src={pdfIcon} alt="PDF icon" />
+                                </span>
+
+                                <a
+                                  href={item.file_path}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  style={{ textDecoration: 'none', color: 'inherit' }}
+                                >
+                                  {item.file_name.split('.').slice(0, -1).join('.').length > 60
+                                    ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 60) + "..."
+                                    : item.file_name.split('.').slice(0, -1).join('.')}
+                                </a>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+
             </div>
           )}
 
