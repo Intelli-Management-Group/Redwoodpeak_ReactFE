@@ -18,6 +18,10 @@ import ManagedAccountReports from './pages/InvestorAndResources/ManagedAccountRe
 import Login from './pages/Login/Login';
 import Registration from './pages/Registration/Registration';
 import AuthProtectedRoute from './pages/Component/AuthProtectorComponents/AuthProtectorComponents';
+import Profile from "./pages/Profile/Profile";
+import ChangePassword from "./pages/Component/ChangePassword/ChangePassword";
+import ProfileEdit from "./pages/Profile/ProfileEdit";
+import ProfileView from "./pages/Profile/ProfileView";
 
 function App() {
   return (
@@ -38,7 +42,13 @@ function App() {
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Registration/>}/>
-        </Routes>
+        <Route path='/Profile' element={<Profile/>}/>
+        <Route path='/ChangePassword' element={<ChangePassword/>}/>
+        <Route path='/ProfileEdit' element={<ProfileEdit/>}/>
+        <Route path='/ProfileView' element={<ProfileView/>}/>
+
+
+      </Routes>
     </BrowserRouter>
   );
 }
