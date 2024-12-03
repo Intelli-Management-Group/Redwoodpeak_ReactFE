@@ -10,6 +10,5 @@ const AuthenticationServices = {
       addUser: async(body) => {
         return requests.post("/admin/signup", body);
       },
-
 }
 export default AuthenticationServices;
