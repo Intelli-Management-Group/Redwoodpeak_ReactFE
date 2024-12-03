@@ -165,11 +165,14 @@ const News = () => {
 
 
             <div className="col-md-9">
-              <div className="mt-5">
+              <div className="mt-2">
                 {loading ? (
                   <div>Loading content...</div> // Display loading text or spinner
                 ) : (
                   <div>
+                    <div className='pb-2'>
+                        <h2 className='text-primary-color'>{selectedPost?.title}</h2>
+                    </div>
                     <div
                       id="contentDisplay"
                       dangerouslySetInnerHTML={{ __html: selectedContent }}
