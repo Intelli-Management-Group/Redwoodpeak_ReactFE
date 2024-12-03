@@ -19,6 +19,45 @@ import SimpleImageSlider from "react-simple-image-slider";
 import "../Home/Home.css"
 import { useNavigate } from 'react-router-dom';
 
+const outLookData =[{
+    "id": 74,
+    "name": "Redwood-Peak-Outlook-Q1-2023.pdf",
+    "category": "application",
+    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-58c1f5987c817f17b55d4153c1aacfa0.pdf",
+    "size_in_kb": "97231",
+    "extension": "pdf",
+    "is_enabled": 1,
+    "created_by": 1
+},
+{
+    "id": 76,
+    "name": "Redwood-Peak-China-Outlook-Q2-2022.pdf",
+    "category": "application",
+    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-88525464c0045b0c268c2d5b57c14e8a.pdf",
+    "size_in_kb": "100605",
+    "extension": "pdf",
+    "is_enabled": 1,
+    "created_by": 1
+},{
+    "id": 75,
+    "name": "Redwood-Peak-China-Outlook-Q3-2022.pdf",
+    "category": "application",
+    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-bcd983adacdd50c49a534c3e5d9d8bd6.pdf",
+    "size_in_kb": "110505",
+    "extension": "pdf",
+    "is_enabled": 1,
+    "created_by": 1
+},{
+    "id": 73,
+    "name": "Redwood-Peak-Outlook-Q4-2022.pdf",
+    "category": "application",
+    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-bcf4ef7fe25972e784570cc4c53bd873.pdf",
+    "size_in_kb": "120676",
+    "extension": "pdf",
+    "is_enabled": 1,
+    "created_by": 1
+}]
+
 const images = [
     { url: Slide1 },
     { url: Slide2 },
@@ -166,7 +205,7 @@ const HomePage = () => {
 
         if (isAuthenticated) {
             // Open the PDF
-            window.open(item.file_path, '_blank');
+            window.open(item.path, '_blank');
         } else {
             console.log(showLoginAlert); // Should work now
             setShowLoginAlert(true); // Update the alert state
@@ -280,14 +319,12 @@ const HomePage = () => {
                                         <h2 className="welcome-title-class">Our View</h2>
                                         <div className="mt-2 pt-1">
                                             <ul className='ps-0' style={{ listStyle: 'none' }}>
-                                                {overViewData.map((item, index) => (
-                                                    // <li className="mt-2 pointer" key={index} onClick={() => handleOverViewClick(item)}>
+                                                {outLookData.map((item, index) =>(
                                                     <p className='p-0 text-left pointer' key={index} onClick={() => handleOverViewClick(item)} style={{ textAlign: 'left' }}>
-                                                        {item.file_name.split('.').slice(0, -1).join('.').length > 30
-                                                            ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 30) + "..."
-                                                            : item.file_name.split('.').slice(0, -1).join('.')}
+                                                        {item.name?.split('.')?.slice(0, -1)?.join('.').length > 50
+                                                            ? item.name?.split('.')?.slice(0, -1)?.join('.')?.substring(0, 50) + "..."
+                                                            : item.name?.split('.')?.slice(0, -1)?.join('.')}
                                                     </p>
-                                                    // </li>
                                                 ))}
                                             </ul>
                                         </div>
