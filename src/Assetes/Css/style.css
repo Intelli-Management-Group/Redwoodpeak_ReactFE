@@ -226,7 +226,7 @@ li>a {
 }
 
 .card-bg-img {
-    background: url('https://demo2.eightheme.com/zenith/wp-content/uploads/sites/24/2023/10/professional-designs-done-on-time-and-on-budget-2023-05-13-01-51-27-utc.jpg') center center no-repeat;
+    background: url('../images/banner1.jpg') center center no-repeat;
     background-size: cover;
     display: flex;
     align-items: center;
