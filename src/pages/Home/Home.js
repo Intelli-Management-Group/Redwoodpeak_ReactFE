@@ -259,7 +259,7 @@ const HomePage = () => {
                     />
                 </div>
                 {/* First Section */}
-                <div className="wrapper pt-0">
+                <div className="wrapper pt-0 mb-5">
                     <div className="row pt-0 no-gutters d-flex align-items-stretch">
                         {/* First Column */}
                         <div className="col-md-12 col-lg-4 pr-0 pl-0 p-0">
