@@ -34,6 +34,7 @@ const News = () => {
   }, [newsData]);
   const updateContent = (postId) => {
     setLoading(true);
+    window.scrollTo(0, 150);
 
     const selectedPost = Object.values(newsData)
       .flat()
@@ -113,7 +114,7 @@ const News = () => {
         />
       </div>
 
-      <div className="container">
+      <div className="container mb-5">
         <div className="container-custom mt-1 mb-5 p-4">
           <h1 className="header-post-title-class" >
             News
@@ -135,7 +136,7 @@ const News = () => {
                         {year}
                       </div>
                       <div className="mt-4">
-                        {newsData[year].slice(0, 5).map((post) => (
+                        {newsData[year].map((post) => (
                           <div
                             key={post.id}
                             className="pdf-row mb-3"
@@ -149,11 +150,11 @@ const News = () => {
                                   alt={post.title}
                                   width={50}
                                   height={50}
-                                  className="img-thumbnail"
+                                  className="img-thumbnail pointer"
                                 />
                               </div>
                               {/* Post Title */}
-                              <div className="col-md-9">{post.title}</div>
+                              <div className="col-md-9 pointer">{post.title}</div>
                             </div>
                           </div>
                         ))}
@@ -171,7 +172,7 @@ const News = () => {
                 ) : (
                   <div>
                     <div className='pb-2'>
-                        <h2 className='text-primary-color'>{selectedPost?.title}</h2>
+                      <h2 className='text-primary-color'>{selectedPost?.title}</h2>
                     </div>
                     <div
                       id="contentDisplay"
@@ -181,13 +182,15 @@ const News = () => {
                     {selectedPost?.media?.map((mediaItem) => (
                       <div key={mediaItem.id} className="media-item mb-4">
                         {/* Image or Video */}
-                        <div className="media-content">
-                          <img
-                            src={mediaItem.path}
-                            alt={mediaItem.caption || 'Media'}
-                            className="img-fluid w-100" // Making it responsive and full width
-                            loading="lazy"
-                          />
+                        <div className="media-content text-center">
+                          <a href={mediaItem.path} target="_blank" rel="noopener noreferrer">
+                            <img
+                              src={mediaItem.path}
+                              alt={mediaItem.caption || 'Media'}
+                              className="img-fluid w-auto pointer" // Making it responsive and full width
+                              loading="lazy"
+                            />
+                          </a>
                         </div>
                         {/* Media Caption */}
                         {mediaItem.caption && (
