@@ -18,8 +18,9 @@ import { notifyError } from '../Component/ToastComponents/ToastComponents';
 import SimpleImageSlider from "react-simple-image-slider";
 import "../Home/Home.css"
 import { useNavigate } from 'react-router-dom';
+import { Modal } from 'react-bootstrap';
 
-const outLookData =[{
+const outLookData = [{
     "id": 74,
     "name": "Redwood-Peak-Outlook-Q1-2023.pdf",
     "category": "application",
@@ -38,7 +39,7 @@ const outLookData =[{
     "extension": "pdf",
     "is_enabled": 1,
     "created_by": 1
-},{
+}, {
     "id": 75,
     "name": "Redwood-Peak-China-Outlook-Q3-2022.pdf",
     "category": "application",
@@ -47,7 +48,7 @@ const outLookData =[{
     "extension": "pdf",
     "is_enabled": 1,
     "created_by": 1
-},{
+}, {
     "id": 73,
     "name": "Redwood-Peak-Outlook-Q4-2022.pdf",
     "category": "application",
@@ -74,47 +75,16 @@ const HomePage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [overViewData, setOverViewData] = useState([])
     const [showLoginAlert, setShowLoginAlert] = useState(false)
-    const [showNewsAlert, setShowNewsAlert] = useState(false)
-    const [showVisitAlert, setShowVisitAlert] = useState(false)
-
-
     const [visitData, setVisitData] = useState([])
     const [newsData, setNewsData] = useState([])
 
 
-
-    const settings = {
-        dots: true,            // Enables dots for navigation
-        infinite: true,        // Infinite loop of slides
-        speed: 500,            // Speed of slide transition
-        slidesToShow: 1,       // Number of slides to show at once
-        slidesToScroll: 1,     // Number of slides to scroll at once
-        autoplay: true,        // Enable autoplay
-        autoplaySpeed: 3000,   // Slide change interval
-        adaptiveHeight: true,  // Automatically adjusts the slider height based on content
-    };
-
     useEffect(() => {
-        console.log('Home component mounted');
         getFetchOverView()
         getFetchNewsVisit()
 
     }, []);
-    useEffect(() => {
-        if (showLoginAlert === true) {
-            setTimeout(() => {
-                setShowLoginAlert(false)
-            }, 2500);
-        } else if (showNewsAlert === true) {
-            setTimeout(() => {
-                setShowNewsAlert(false)
-            }, 2500);
-        } else if (showVisitAlert === true) {
-            setTimeout(() => {
-                setShowVisitAlert(false)
-            }, 2500);
-        }
-    }, [showLoginAlert, showNewsAlert, showVisitAlert]);
+  
     const handleClick = () => {
         console.log("Learn more clicked!");
     };
@@ -173,14 +143,6 @@ const HomePage = () => {
             if (resp?.status_code === 200) {
                 console.log(resp);
                 if (resp?.list?.data) {
-                    //   const publications = resp.list.data.reduce((acc, item) => {
-                    //     if (!acc[item.year]) {
-                    //       acc[item.year] = [];
-                    //     }
-                    //     acc[item.year].push(item);
-                    //     return acc;
-                    //   }, {});
-                    // console.log(publications);
                     setOverViewData(resp?.list?.data || []);
                 } else {
                     console.error("No data found in response.");
@@ -219,15 +181,20 @@ const HomePage = () => {
                 navigate('/visits');
             }
         } else {
-            if (item === "news") {
-                setShowNewsAlert(true)
-            } else {
-                setShowVisitAlert(true)
-            }
+            setShowLoginAlert(true)
         }
     }
-    console.log(visitData);
-    console.log(newsData);
+
+    const handleLogin = () => {
+        navigate('/login');
+
+    };
+    const handleRegister = () => {
+        navigate('/register');
+    };
+
+    const handleClose = () => setShowLoginAlert(false);
+
     return (
         <React.Fragment>
             <div style={{ overflow: 'hidden' }}>
@@ -294,32 +261,13 @@ const HomePage = () => {
 
                         {/* Third Column */}
                         <div className="col-md-6 col-lg-4 pr-0 pl-0 p-0">
-                            <div className="d-flex text-center " style={{ position: 'relative', }}>
-                                {!isAuthenticated && showLoginAlert && (
-                                    <div style={{
-                                        width: 160,
-                                        position: 'absolute',
-                                        top: 16,
-                                        left: '50%',
-                                        transform: 'translate(-50%, -50%)',
-                                        zIndex: 1,
-                                        textAlign: 'center',
-                                        backgroundColor: '#555',
-                                        padding: '5px',
-                                        color: '#fff'
-                                    }}>
-                                        Please login
-                                    </div>
-                                )}
-                            </div>
-
                             <div className="card p-5 h-100" style={{ backgroundColor: '#fff' }}>
                                 <div className="d-flex flex-column justify-content-between h-100">
                                     <div>
                                         <h2 className="welcome-title-class">Our View</h2>
                                         <div className="mt-2 pt-1">
                                             <ul className='ps-0' style={{ listStyle: 'none' }}>
-                                                {outLookData.map((item, index) =>(
+                                                {outLookData.map((item, index) => (
                                                     <p className='p-0 text-left pointer' key={index} onClick={() => handleOverViewClick(item)} style={{ textAlign: 'left' }}>
                                                         {item.name?.split('.')?.slice(0, -1)?.join('.').length > 50
                                                             ? item.name?.split('.')?.slice(0, -1)?.join('.')?.substring(0, 50) + "..."
@@ -429,24 +377,7 @@ const HomePage = () => {
                     {/* Latest News, Visits, and Contact Us Section */}
                     <div className="container">
                         <div className="row">
-                            <div className="col-md-4">
-                            <div className="d-flex text-left" style={{ position: 'relative', textAlign: 'left' }}>
-                                    {!isAuthenticated && showNewsAlert && (
-                                        <div style={{
-                                            width: 160,
-                                            position: 'absolute',
-                                            top: 15,
-                                            left: '0', // Left align the div
-                                            zIndex: 1,
-                                            textAlign: 'center',
-                                            backgroundColor: '#555',
-                                            padding: '5px',
-                                            color: '#fff'
-                                        }}>
-                                            Please login
-                                        </div>
-                                    )}
-                                </div>
+                            <div className="col-md-4">                             
                                 <h2 className="welcome-title-class">Latest News</h2>
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
@@ -462,24 +393,7 @@ const HomePage = () => {
                                 </div>
                             </div>
 
-                            <div className="col-md-4">
-                                <div className="d-flex text-left" style={{ position: 'relative', textAlign: 'left' }}>
-                                    {!isAuthenticated && showVisitAlert && (
-                                        <div style={{
-                                            width: 160,
-                                            position: 'absolute',
-                                            top: 15,
-                                            left: '0', // Left align the div
-                                            zIndex: 1,
-                                            textAlign: 'center',
-                                            backgroundColor: '#555',
-                                            padding: '5px',
-                                            color: '#fff'
-                                        }}>
-                                            Please login
-                                        </div>
-                                    )}
-                                </div>
+                            <div className="col-md-4">                      
                                 <h2 className="welcome-title-class">Our Visits</h2>
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
@@ -513,6 +427,40 @@ const HomePage = () => {
                 </div>
                 <DisclaimerModal />
                 <Footer />
+                {!isAuthenticated && showLoginAlert && (
+                    <Modal
+                        show={showLoginAlert}
+                        onHide={handleClose}
+
+                        centered // Ensures the modal is vertically centered
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title>Login alert!</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div className=''>
+                                <p>You need to log in to access this document. Please log in or register to continue.</p>
+                            </div>
+                         
+                        </Modal.Body>
+                        <Modal.Footer>
+                        <div className="d-flex justify-content-center">
+                                <Button
+                                    text="Login"
+                                    onClick={handleLogin}
+                                    className="btn-primary mx-2"
+                                    style={{}}
+                                />
+                                 <Button
+                                    text="Register"
+                                    onClick={handleRegister}
+                                    className="btn btn-secondary mx-2"
+                                    style={{}}
+                                />
+                            </div>
+                        </Modal.Footer>
+                    </Modal>
+                )}
             </div>
         </React.Fragment>
     );
