@@ -32,6 +32,7 @@ const Visits = () => {
 
   const updateContent = (postId) => {
     setLoading(true);
+    window.scrollTo(0, 150);
 
     const selectedPost = Object.values(newsData)
       .flat()
@@ -109,7 +110,7 @@ const Visits = () => {
         />
       </div>
 
-      <div className="container">
+      <div className="container mb-5">
         <div className="container-custom mt-1 mb-5 p-4">
           <h1 className="header-post-title-class" >
             Visits
@@ -133,7 +134,7 @@ const Visits = () => {
                       </div>
                       <div className="mt-4">
                         {/* List of posts for the current year */}
-                        {newsData[year].slice(0, 5).map((post, index) => (
+                        {newsData[year].map((post, index) => (
                           <div
                             key={post.id}
                             className="pdf-row mb-3"
@@ -182,14 +183,15 @@ const Visits = () => {
                     {selectedPost?.media?.map((mediaItem) => (
                       <div key={mediaItem.id} className="media-item mb-4">
                         {/* Image or Video */}
-                        <div className="media-content">
-                          <img
-                            src={mediaItem.path}
-                            alt={mediaItem.caption || 'Media'}
-                            className="img-fluid w-100" 
-                            loading="lazy"
-
-                          />
+                        <div className="media-content text-center">
+                          <a href={mediaItem.path} target="_blank" rel="noopener noreferrer">
+                            <img
+                              src={mediaItem.path}
+                              alt={mediaItem.caption || 'Media'}
+                              className="img-fluid w-auto pointer" // Making it responsive and full width
+                              loading="lazy"
+                            />
+                          </a>
                         </div>
                         {/* Media Caption */}
                         {mediaItem.caption && (
