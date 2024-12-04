@@ -22,7 +22,7 @@ import { Modal } from 'react-bootstrap';
 
 const outLookData = [{
     "id": 74,
-    "name": "Redwood-Peak-Outlook-Q1-2023.pdf",
+    "name": "China Outlook Q1 2023.pdf",
     "category": "application",
     "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-58c1f5987c817f17b55d4153c1aacfa0.pdf",
     "size_in_kb": "97231",
@@ -31,17 +31,18 @@ const outLookData = [{
     "created_by": 1
 },
 {
-    "id": 76,
-    "name": "Redwood-Peak-China-Outlook-Q2-2022.pdf",
+    "id": 73,
+    "name": "China Outlook Q4 2022.pdf",
     "category": "application",
-    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-88525464c0045b0c268c2d5b57c14e8a.pdf",
-    "size_in_kb": "100605",
+    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-bcf4ef7fe25972e784570cc4c53bd873.pdf",
+    "size_in_kb": "120676",
     "extension": "pdf",
     "is_enabled": 1,
     "created_by": 1
-}, {
+},
+ {
     "id": 75,
-    "name": "Redwood-Peak-China-Outlook-Q3-2022.pdf",
+    "name": "China Outlook Q3 2022.pdf",
     "category": "application",
     "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-bcd983adacdd50c49a534c3e5d9d8bd6.pdf",
     "size_in_kb": "110505",
@@ -49,11 +50,11 @@ const outLookData = [{
     "is_enabled": 1,
     "created_by": 1
 }, {
-    "id": 73,
-    "name": "Redwood-Peak-Outlook-Q4-2022.pdf",
+    "id": 76,
+    "name": "China Outlook Q2 2022.pdf",
     "category": "application",
-    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-bcf4ef7fe25972e784570cc4c53bd873.pdf",
-    "size_in_kb": "120676",
+    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-88525464c0045b0c268c2d5b57c14e8a.pdf",
+    "size_in_kb": "100605",
     "extension": "pdf",
     "is_enabled": 1,
     "created_by": 1
