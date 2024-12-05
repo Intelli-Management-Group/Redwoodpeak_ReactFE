@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ContactUsBanner from "../../Assetes/images/contact-slider.jpg"
-import Maps from "../../Assetes/images/maps.jfif"
+import Maps from "../../Assetes/images/map.png"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
 import Footer from "../Component/Footer/Footer";
@@ -74,7 +74,7 @@ const ContactUs = () => {
                 />
 
             </div>
-            <div className="container">
+            <div className="container mb-5">
                 <div className="container-custom mt-1 mb-5 p-lg-4">
                     <h1 className="header-post-title-class">Contact Us</h1>
                     <div className="mt-3 row m-4">

@@ -22,7 +22,7 @@ const SeniorTeam = () => {
       </div>
 
       {/* Main Content */}
-      <div className="container">
+      <div className="container mb-5">
         <div className="container-custom mt-1 mb-5 p-4">
           <h1 className="header-post-title-class">Senior Team</h1>
           <div className="mt-3">
