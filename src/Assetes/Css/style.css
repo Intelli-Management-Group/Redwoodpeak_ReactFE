@@ -111,7 +111,7 @@ li>a {
 .btn:active,
 .btn:focus:active {
     color: #fff !important;
-    border-color: #fff !important;
+    border-color: #511515 !important;
     background-color: #511515 !important;
     outline: none !important;
     box-shadow: none !important;
