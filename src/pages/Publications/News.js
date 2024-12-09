@@ -72,7 +72,7 @@ const News = () => {
 
   const updateContent = (postId) => {
     setLoading(true);
-    window.scrollTo(0, 150);
+    window.scrollTo(0, 370);
 
     const selectedPost = Object.values(newsData)
       .flat()

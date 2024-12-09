@@ -40,7 +40,7 @@ const Visits = () => {
 
   const updateContent = (postId) => {
     setLoading(true);
-    window.scrollTo(0, 150);
+    window.scrollTo(0, 370);
 
     const selectedPost = Object.values(newsData)
       .flat()
@@ -124,7 +124,7 @@ const Visits = () => {
                         {newsData[year].map((post) => (
                           <div
                             key={post.id}
-                            className="pdf-row mb-3"
+                            className="pdf-row mb-3 pointer"
                             onClick={() => updateContent(post.id)}
                           >
                             <div className="pdf-title row">
@@ -135,7 +135,7 @@ const Visits = () => {
                                   alt={post.title}
                                   width={50}
                                   height={50}
-                                  className="img-thumbnail"
+                                  className="img-thumbnail pointer"
                                 />
                               </div>
                               {/* Post Title */}
