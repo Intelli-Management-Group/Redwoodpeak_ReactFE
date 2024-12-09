@@ -301,10 +301,15 @@ li>a {
 
 .header-post-title-class {
     /* padding-left: 25px; */
+    position: relative;
+    font-size: 44px;
+    line-height: 52px;
+    font-weight: 700;
+    margin-bottom: 4px;
     padding-right: 25px;
     color: #823535;
     font-weight: lighter;
-    font-size: 22px;
+    /* font-size: 22px; */
     margin-left: 35px;
     font-weight: bold;
 
