@@ -23,6 +23,9 @@ const ProfilePage = () => {
             formdata.append("first_name", formData?.first_name);
             formdata.append("last_name", formData?.last_name);
             formdata.append("email", formData?.email);
+            formdata.append("contact", formData?.contact);
+            formdata.append("country", formData?.country);
+            formdata.append("companyName", formData?.companyName);;
             if (!formData?.id) {
             formdata.append("password", formData?.password);
             formdata.append("confirm_password", formData?.confirmPassword);
@@ -38,7 +41,7 @@ const ProfilePage = () => {
             console.log("res", response)
             if (response?.status_code === 200) {
               notifySuccess(formData?.id ? "User Updated SuccessFully!" : "User Created SuccessFully");
-              localStorage.setItem('userData', JSON.stringify(user));
+                localStorage.setItem('userData', JSON.stringify(response.user));
 
             //   setTimeout(() => {
             //     navigate(`/usersManagement?status=all`);

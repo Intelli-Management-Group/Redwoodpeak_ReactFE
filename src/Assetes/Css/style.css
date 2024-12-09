@@ -470,3 +470,36 @@ footer {
 .pointer {
     cursor: pointer;
 }
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    position: absolute;
+    right: 0;
+    background-color: #ffffff;
+    min-width: 130px;
+    z-index: 1;
+    display: block;
+    border:1px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 5px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}

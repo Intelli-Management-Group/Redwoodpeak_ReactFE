@@ -16,7 +16,10 @@ const ProfileEdit = ({ user, onSave, onCancel }) => {
         password: "",
         confirmPassword: "",
         sendEmail: false,
-        status: ''
+        status: "",
+        contact:"",
+        country:"",
+        companyName:""
     });
     // Pre-fill form fields when userData changes
 
@@ -29,6 +32,9 @@ const ProfileEdit = ({ user, onSave, onCancel }) => {
                 username: user.username || "",
                 email: user.email || "",
                 name: user.name || "",
+                contact_no: user.contact || "",
+                country: user.country || "",
+                companyName: user.companyName || "",
                 role: user.role || "",
                 status: user.status || "approve",
                 password: "",
@@ -166,6 +172,39 @@ const ProfileEdit = ({ user, onSave, onCancel }) => {
                                         onChange={handleChange}
                                         required
                                         disabled={true}
+                                    />
+                                </Form.Group>
+
+                                <Form.Group controlId="country" className="mb-3">
+                                    <Form.Label>Country</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="country"
+                                        value={formData.country}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </Form.Group>
+
+                                <Form.Group controlId="contact_no" className="mb-3">
+                                    <Form.Label>Contact</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="contact_no"
+                                        value={formData.contact}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </Form.Group>
+
+                                <Form.Group controlId="companyName" className="mb-3">
+                                    <Form.Label>Company Name</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="companyName"
+                                        value={formData.companyName}
+                                        onChange={handleChange}
+                                        required
                                     />
                                 </Form.Group>
 
