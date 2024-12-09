@@ -9,7 +9,7 @@ import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
 
 const Publications = () => {
-  const [visibleYear, setVisibleYear] = useState(null);
+  const [visibleYears, setVisibleYears] = useState([]);
   const documentType = "publications";
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([])
@@ -17,13 +17,21 @@ const Publications = () => {
     // console.log('component mounted');
     fetchPublication()
   }, []);
-  // Toggle visibility of the year
- 
+  useEffect(() => {
+    const firstYear = Object.keys(data)
+      .sort((a, b) => parseInt(b) - parseInt(a))[0];
+    setVisibleYears([parseInt(firstYear)]);
+  }, [data]);
+
   const toggleVisibility = (year) => {
-    // Toggle visibility of the selected year
-    setVisibleYear((prevYear) => (prevYear === year ? null : year));
+    setVisibleYears((prevYears) => {
+      if (prevYears.includes(year)) {
+        return prevYears.filter((item) => item !== year);
+      } else {
+        return [...prevYears, year];
+      }
+    });
   };
-  
   const fetchPublication = async () => {
     setIsLoading(true);
     try {
@@ -39,8 +47,8 @@ const Publications = () => {
             return acc;
           }, {});
           setData(publications || []);
-          const latestYear = Math.max(...Object.keys(publications).map((year) => parseInt(year)));
-          setVisibleYear(latestYear)
+          // const latestYear = Math.max(...Object.keys(publications).map((year) => parseInt(year)));
+          // setVisibleYears(latestYear)
         } else {
           console.error("No data found in response.");
           notifyError("No data found. Please try again.");
@@ -58,7 +66,7 @@ const Publications = () => {
     }
 
   };
-  console.log(visibleYear)
+
   return (
     <div>
       <HeaderComponents />
@@ -148,9 +156,9 @@ const Publications = () => {
                       {year}
                     </div>
 
-                    {/* Conditionally render the PDFs for the year */}
-                    {visibleYear === parseInt(year, 10) && (
-                      <div className="ml-5">
+                    {/* Conditionally render the PDFs for the year with transition effect */}
+                    {visibleYears.includes(parseInt(year, 10)) && (
+                      <div className="pdf-content ml-5">
                         {data[year]
                           .sort((a, b) => {
                             const dateA = new Date(a.created_at || a.file_name);
@@ -181,7 +189,6 @@ const Publications = () => {
                     )}
                   </div>
                 ))}
-
             </div>
           )}
 
