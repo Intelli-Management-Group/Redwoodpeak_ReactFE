@@ -288,19 +288,19 @@ const HomePage = () => {
                     </div>
 
                     {/* Heading */}
-                    <div className="text-center mt-5 ml-5 mr-5">
-                        <h2 className="pt-2">Discover our expertise by learning what we offer</h2>
-                    </div>
+                    <div className="text-center mt-5 ml-5 mr-5 mb-5 ">
+                        <h2 className="">Discover our expertise by learning what we offer</h2>
+                   
 
                     <div className="text-center">
-                        <p className='pt-2'>Sub heading TBC</p>
+                        <p className='pt-2 pb-0'>Sub heading TBC</p>
                     </div>
-
+                    </div>
                     {/* Services Section */}
-                    <div className="mt-5 container ">
-                        <div className="mt-3 mb-5">
-                            <div className="row row-padding">
-                                <div className="col-md-4 mt-4">
+                    <div className="container mt-0">
+                        <div className="mb-5">
+                            <div className="row">
+                                <div className="col-md-4 ">
                                     <div className="card card-shadow">
                                         <Image
                                             src={service_img1}
@@ -324,7 +324,7 @@ const HomePage = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-md-4 mt-4">
+                                <div className="col-md-4 ">
                                     <div className="card card-shadow">
                                         <Image
                                             src={service_img2}
@@ -348,7 +348,7 @@ const HomePage = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-md-4 mt-4">
+                                <div className="col-md-4 ">
                                     <div className="card card-shadow">
                                         <Image
                                             src={service_img3}
