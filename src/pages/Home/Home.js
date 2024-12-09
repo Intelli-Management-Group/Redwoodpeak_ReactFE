@@ -296,7 +296,7 @@ const HomePage = () => {
                     </div>
                     {/* Services Section */}
                     <div className="container mt-0">
-                        <div className="mb-5">
+                        <div className="">
                             <div className="row">
                                 <div className="col-md-4 ">
                                     <div className="card card-shadow">
@@ -374,7 +374,7 @@ const HomePage = () => {
                     </div>
 
                     {/* Latest News, Visits, and Contact Us Section */}
-                    <div className="container">
+                    <div className="container mt-5 mb-5">
                         <div className="row">
                             <div className="col-md-4">
                                 <h2 className="welcome-title-class">Latest News</h2>
