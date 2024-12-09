@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from "../Component/Footer/Footer";
 import AuthenticationServices from '../../Services/AuthenticationServices';
@@ -8,6 +8,7 @@ import {notifyError, notifySuccess, notifyWarning} from "../Component/ToastCompo
 import { ToastContainer } from 'react-toastify';
 
 const Login = () => {
+    const location = useLocation();
     const[loading, setLoading] = useState(false)
     // State to hold form data
     const [formData, setFormData] = useState({
@@ -68,7 +69,10 @@ const Login = () => {
                     localStorage.setItem('userData', JSON.stringify(user));
 
                     notifySuccess(`Login successful!`);
-                    setTimeout(() => navigate("/"), 1500);  // Redirect to the homepage after 1.5 seconds
+                    setTimeout(() => {
+                        const from = location.state?.from?.pathname || "/"; // Default to home if no previous page exists.
+                        navigate(from);       
+                    }, 1500);
 
                 } else {
                     notifyWarning(`${user?.email} has not been approved by the admin. Please contact the administrator or wait for approval.`);
