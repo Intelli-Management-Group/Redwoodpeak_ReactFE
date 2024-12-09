@@ -4,13 +4,13 @@ const DisclaimerModal = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-    const [isborderActive,setIsborderActive] = useState(false)
+    const [isborderActive, setIsborderActive] = useState(false)
 
     useEffect(() => {
         const hasAcceptedDisclaimer = localStorage.getItem('disclaimerAccepted');
         if (hasAcceptedDisclaimer) {
             setIsModalVisible(false);
-        }else{
+        } else {
             setIsModalVisible(true);
         }
     }, []);
@@ -36,17 +36,18 @@ const DisclaimerModal = () => {
     };
 
     const handleAccept = () => {
-        if(isChecked){
+        if (isChecked) {
             localStorage.setItem('disclaimerAccepted', 'true');
             setIsModalVisible(false);
-        }else{
+        } else {
             setIsborderActive(true)
             const checkboxElement = document.getElementById('agreeCheckbox');
             checkboxElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-   };
+    };
 
     const handleReject = () => {
+        const newWindow = window.open('https://www.google.com', '_self');
         window.close();
     };
     return (
@@ -63,7 +64,7 @@ const DisclaimerModal = () => {
                             className="modal-body popupContent m-3"
                             style={{
                                 maxHeight: '400px',
-                                overflowY: 'auto', 
+                                overflowY: 'auto',
                                 background: '#fff',
                             }}
                         >
@@ -86,7 +87,7 @@ const DisclaimerModal = () => {
                                 <p style={{ color: '#666666' }}>User Declaration:</p>
                                 <div className="form-check">
                                     <input
-                                        className={`form-check-input ${isborderActive ? 'highlight': ''}`}
+                                        className={`form-check-input ${isborderActive ? 'highlight' : ''}`}
                                         type="checkbox"
                                         id="agreeCheckbox"
                                         onChange={handleCheckboxChange}
