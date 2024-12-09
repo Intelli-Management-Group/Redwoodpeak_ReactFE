@@ -4,6 +4,7 @@ const DisclaimerModal = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const [isborderActive,setIsborderActive] = useState(false)
 
     useEffect(() => {
         const hasAcceptedDisclaimer = localStorage.getItem('disclaimerAccepted');
@@ -35,8 +36,14 @@ const DisclaimerModal = () => {
     };
 
     const handleAccept = () => {
-        localStorage.setItem('disclaimerAccepted', 'true');
-        setIsModalVisible(false);
+        if(isChecked){
+            localStorage.setItem('disclaimerAccepted', 'true');
+            setIsModalVisible(false);
+        }else{
+            setIsborderActive(true)
+            const checkboxElement = document.getElementById('agreeCheckbox');
+            checkboxElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
    };
 
     const handleReject = () => {
@@ -79,7 +86,7 @@ const DisclaimerModal = () => {
                                 <p style={{ color: '#666666' }}>User Declaration:</p>
                                 <div className="form-check">
                                     <input
-                                        className="form-check-input"
+                                        className={`form-check-input ${isborderActive ? 'highlight': ''}`}
                                         type="checkbox"
                                         id="agreeCheckbox"
                                         onChange={handleCheckboxChange}
@@ -95,7 +102,7 @@ const DisclaimerModal = () => {
                                 type="button"
                                 className="btn btn-primary border-0 shadow-none"
                                 id="submitDisclaimer"
-                                disabled={isButtonDisabled}
+                                // disabled={isButtonDisabled}
                                 onClick={handleAccept}
                                 style={{ width: 'auto' }}
                             >
