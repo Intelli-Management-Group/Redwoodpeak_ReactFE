@@ -375,7 +375,7 @@ const HomePage = () => {
 
                     {/* Latest News, Visits, and Contact Us Section */}
                     <div className="container mt-5 mb-5">
-                        <div className="row">
+                        <div className="row" style={{marginBottom:100}}>
                             <div className="col-md-4">
                                 <h2 className="welcome-title-class">Latest News</h2>
                                 <div className="mt-3 pt-1">
