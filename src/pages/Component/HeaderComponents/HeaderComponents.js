@@ -29,7 +29,7 @@ const HeaderComponents = () => {
         localStorage.removeItem('userToken');
         window.location.href = '/';
     }
-    console.log(openDropdown, location)
+    // console.log(openDropdown, location)
     return (
         <Navbar expand="lg" className="container px-4 mx-sm-3 mx-md-4 mx-lg-5">
             <Navbar.Brand href="/">

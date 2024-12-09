@@ -381,7 +381,7 @@ const HomePage = () => {
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
                                         {newsData.map((news, index) => {
-                                            console.log(news)
+                                            // console.log(news)
                                             return (
                                                 <p className='p-0 text-left pointer' key={index} onClick={() => handlePostClick("news")}>
                                                     {news?.title}
