@@ -8,6 +8,7 @@ import {notifyError, notifySuccess, notifyWarning} from "../Component/ToastCompo
 import { ToastContainer } from 'react-toastify';
 
 const Login = () => {
+    const[loading, setLoading] = useState(false)
     // State to hold form data
     const [formData, setFormData] = useState({
         email: '',
@@ -35,6 +36,7 @@ const Login = () => {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);  // Set loading to true when the form is submitted.
 
         // Clear previous errors
         setErrors({
@@ -49,33 +51,37 @@ const Login = () => {
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
+            setLoading(false);
             return;
         }
 
         try {
-            const formDataCopy = { ...formData }; // Create a copy to avoid mutating the original object
+            const formDataCopy = { ...formData };
             delete formDataCopy.remember;
 
             const response = await AuthenticationServices.userLogin(formDataCopy);
             console.log(response)
             if (response?.status_code === 200) {
                 const { token, user } = response;
-                if(user?.status === "approve") {
+                if (user?.status === "approve") {
                     localStorage.setItem("userToken", token);
                     localStorage.setItem('userData', JSON.stringify(user));
 
-                    // login();
                     notifySuccess(`Login successful!`);
-                    setTimeout(() => navigate("/"), 1500);
-                }else{
+                    setTimeout(() => navigate("/"), 1500);  // Redirect to the homepage after 1.5 seconds
+
+                } else {
                     notifyWarning(`${user?.email} has not been approved by the admin. Please contact the administrator or wait for approval.`);
                 }
             } else {
-                notifyError(response?.message)
+                notifyError(response?.message || 'Login failed. Please try again.');
             }
+
         } catch (error) {
             console.error("Login Error:", error);
             notifyError(`An error occurred during login. Please try again.`);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -148,9 +154,10 @@ const Login = () => {
                                 {/* Submit Button */}
                                 <div className="form-group row mb-0 mt-2">
                                     <Button
-                                        text="Login"
+                                        text={loading ?  "Loading..." :"Login"}
                                         onClick={handleSubmit}
                                         className="btn btn-primary"
+                                        disabled={loading}
                                         type="submit"
                                     />
 
