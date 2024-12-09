@@ -40,7 +40,7 @@ const outLookData = [{
     "is_enabled": 1,
     "created_by": 1
 },
- {
+{
     "id": 75,
     "name": "China Outlook Q3 2022.pdf",
     "category": "application",
@@ -85,7 +85,7 @@ const HomePage = () => {
         getFetchNewsVisit()
 
     }, []);
-  
+
     const handleClick = () => {
         console.log("Learn more clicked!");
     };
@@ -290,11 +290,9 @@ const HomePage = () => {
                     {/* Heading */}
                     <div className="text-center mt-5 ml-5 mr-5 mb-5 ">
                         <h2 className="">Discover our expertise by learning what we offer</h2>
-                   
-
-                    <div className="text-center">
-                        <p className='pt-2 pb-0'>Sub heading TBC</p>
-                    </div>
+                        <div className="text-center">
+                            <p className='pt-2 pb-0'>Sub heading TBC</p>
+                        </div>
                     </div>
                     {/* Services Section */}
                     <div className="container mt-0">
@@ -378,7 +376,7 @@ const HomePage = () => {
                     {/* Latest News, Visits, and Contact Us Section */}
                     <div className="container">
                         <div className="row">
-                            <div className="col-md-4">                             
+                            <div className="col-md-4">
                                 <h2 className="welcome-title-class">Latest News</h2>
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
@@ -394,7 +392,7 @@ const HomePage = () => {
                                 </div>
                             </div>
 
-                            <div className="col-md-4">                      
+                            <div className="col-md-4">
                                 <h2 className="welcome-title-class">Our Visits</h2>
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
@@ -429,38 +427,86 @@ const HomePage = () => {
                 <DisclaimerModal />
                 <Footer />
                 {!isAuthenticated && showLoginAlert && (
-                    <Modal
-                        show={showLoginAlert}
-                        onHide={handleClose}
-
-                        centered // Ensures the modal is vertically centered
+                    <div
+                        className="modal fade show"
+                        tabIndex="-1"
+                        style={{ display: 'block', zIndex: 1050, marginTop: '5%' }}
+                        id="LoginAlert"
                     >
-                        <Modal.Header closeButton>
-                            <Modal.Title>Login alert!</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <div className=''>
-                                <p>You need to log in to access this document. Please log in or register to continue.</p>
+                        <div className="modal-dialog">
+                            <div
+                                className="modal-content modal-custom-width"
+                                style={{
+                                    background: '#0f0f0f99',
+                                    borderRadius: 12,
+                                }}
+                            >
+                                {/* Top Right Close Button */}
+                                <button
+                                    type="button"
+                                    className="close-btn"
+                                    onClick={handleClose}
+                                    style={{
+                                        position: 'absolute',
+                                        top: '25px',
+                                        right: '25px',
+                                        background: 'transparent',
+                                        border: 'none',
+                                        fontSize: '20px',
+                                        color: '#531515',
+                                        cursor: 'pointer',
+                                        zIndex: 10
+                                    }}
+                                >
+                                    X
+                                </button>
+
+                                <div
+                                    className="modal-body popupContent m-3"
+                                    style={{
+                                        maxHeight: '400px',
+                                        overflowY: 'auto',
+                                        background: '#fff',
+                                    }}
+                                >
+                                    <center className="pt-3 pb-3">
+                                        <span style={{ fontSize: '20px', color: '#700000' }}>
+                                            <strong>Login alert!</strong>
+                                        </span>
+                                    </center>
+                                    <form id="disclaimerForm">
+                                        <p style={{ fontSize: '14px', color: '#666666' }}>
+                                            You need to log in to access this document. Please log in or register to continue.
+                                        </p>
+                                    </form>
+                                </div>
+                                <div
+                                    className="modal-footer"
+                                    style={{ justifyContent: 'flex-start', borderTop: 'none' }}
+                                >
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary border-0 shadow-none"
+                                        id="submitDisclaimer"
+                                        onClick={handleLogin}
+                                        style={{ width: 'auto' }}
+                                    >
+                                        Login
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary border-0 shadow-none ml-2"
+                                        id="rejectDisclaimer"
+                                        onClick={handleRegister}
+                                        style={{ width: 'auto' }}
+                                    >
+                                        Register
+                                    </button>
+                                </div>
                             </div>
-                         
-                        </Modal.Body>
-                        <Modal.Footer>
-                        <div className="d-flex justify-content-center">
-                                <Button
-                                    text="Login"
-                                    onClick={handleLogin}
-                                    className="btn-primary mx-2"
-                                    style={{}}
-                                />
-                                 <Button
-                                    text="Register"
-                                    onClick={handleRegister}
-                                    className="btn btn-secondary mx-2"
-                                    style={{}}
-                                />
-                            </div>
-                        </Modal.Footer>
-                    </Modal>
+                        </div>
+                    </div>
+
                 )}
             </div>
         </React.Fragment>
