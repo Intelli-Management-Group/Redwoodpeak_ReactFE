@@ -26,7 +26,7 @@ const OurMission = () => {
           <h1 className="header-post-title-class">Our Mission</h1>
 
           <div className="mt-3">
-            <h3 className="fancytitle">
+            <h3 className="fancytitle mb-5">
               <em>
                 “Our mission is to achieve investment excellence for our clients through a
               </em>
