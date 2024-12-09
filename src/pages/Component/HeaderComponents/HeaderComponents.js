@@ -18,8 +18,12 @@ const HeaderComponents = () => {
     const handleDropdownToggle = (dropdownName) => {
         setOpenDropdown((prev) => (prev === dropdownName ? null : dropdownName));
     };
-    const handleAuth = () => {
-        navigate('/login');
+    const handleAuth = (actionType) => {
+        if (actionType === "login") {
+            navigate('/login');
+        } else if (actionType === "signIn") {
+            navigate('/register');
+        }
     }
     const handleLogout = () => {
         localStorage.removeItem('userToken');
@@ -163,7 +167,14 @@ const HeaderComponents = () => {
                 {isAuthenticated ? (
                     <Button variant="primary" className="ms-auto w-auto" onClick={handleLogout}>Logout</Button>
                 ) : (
-                    <Button variant="primary" className="ms-auto w-auto" onClick={handleAuth}>Sign In</Button>
+                    <>
+                        <Button variant="primary" className="me-2 ms-3 w-auto" onClick={() => handleAuth("login")}>
+                            Log In
+                        </Button>
+                        <Button variant="primary" className="w-auto" onClick={() => handleAuth("signIn")}>
+                            Sign In
+                        </Button>
+                    </>
                 )}
             </Navbar.Collapse >
         </Navbar >
