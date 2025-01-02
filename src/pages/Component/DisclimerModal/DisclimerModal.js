@@ -60,14 +60,19 @@ const DisclaimerModal = () => {
             >
                 <div className="modal-dialog">
                     <div className="modal-content modal-custom-width" style={{ background: '#0f0f0f99', borderRadius: 12, }}>
-                        <div
-                            className="modal-body popupContent m-3"
+                        <div  className="modal-body popupContent m-3"
+                              style={{
+                                  overflowY: 'auto',
+                                  background: '#fff',
+                              }}
+                        >
+                          <div
                             style={{
                                 maxHeight: '400px',
                                 overflowY: 'auto',
                                 background: '#fff',
                             }}
-                        >
+                          >
                             <center className="pt-3 pb-3">
                                 <span style={{ fontSize: '20px', color: '#700000' }}>
                                     <strong>Website – Disclaimer and Registration</strong>
@@ -97,27 +102,28 @@ const DisclaimerModal = () => {
                                     </label>
                                 </div>
                             </form>
-                        </div>
-                        <div className="modal-footer" style={{ justifyContent: 'flex-start', borderTop: 'none' }}>
-                            <button
-                                type="button"
-                                className="btn btn-primary border-0 shadow-none"
-                                id="submitDisclaimer"
-                                // disabled={isButtonDisabled}
-                                onClick={handleAccept}
-                                style={{ width: 'auto' }}
-                            >
-                                Accept Disclaimer
-                            </button>
-                            <button
-                                type="button"
-                                className="btn btn-primary border-0 shadow-none ml-2"
-                                id="rejectDisclaimer"
-                                onClick={handleReject}
-                                style={{ width: 'auto' }}
-                            >
-                                Reject Disclaimer
-                            </button>
+                          </div>
+                            <div className="modal-footer " style={{ justifyContent: 'flex-start', borderTop: 'none'}}>
+                                <button
+                                    type="button"
+                                    className="btn btn-primary border-0 shadow-none"
+                                    id="submitDisclaimer"
+                                    disabled={isButtonDisabled}
+                                    onClick={handleAccept}
+                                    style={{ width: 'auto' }}
+                                >
+                                    Accept Disclaimer
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-primary border-0 shadow-none ml-2"
+                                    id="rejectDisclaimer"
+                                    onClick={handleReject}
+                                    style={{ width: 'auto' }}
+                                >
+                                    Reject Disclaimer
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
