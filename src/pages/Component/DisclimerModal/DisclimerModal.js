@@ -103,7 +103,7 @@ const DisclaimerModal = () => {
                                 </div>
                             </form>
                           </div>
-                            <div className="modal-footer " style={{ justifyContent: 'flex-start', borderTop: 'none'}}>
+                            <div className="modal-footer pb-0" style={{ justifyContent: 'flex-end', borderTop: 'none'}}>
                                 <button
                                     type="button"
                                     className="btn btn-primary border-0 shadow-none"
