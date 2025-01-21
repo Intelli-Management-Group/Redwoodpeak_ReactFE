@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import Image from '../ImagesComponets/ImagesComponets';
-import Logo from "../../../Assetes/images/logo.png"
+import Logo from "../../../assets/images/logo.png"
 
 
 const HeaderComponents = () => {
@@ -172,7 +172,7 @@ const HeaderComponents = () => {
                             Log In
                         </Button>
                         <Button variant="primary" className="w-auto" onClick={() => handleAuth("signIn")}>
-                            Sign In
+                            Register
                         </Button>
                     </>
                 )}

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Image from '../Component/ImagesComponets/ImagesComponets';
-import PublicationsnBanner from "../../Assetes/images/banner_publications.jpg"
+import PublicationsnBanner from "../../assets/images/banner_publications.jpg"
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import Footer from '../Component/Footer/Footer';
-import pdfIcon from "../../Assetes/images/pdf_icon1.png"
+import pdfIcon from "../../assets/images/pdf_icon1.png"
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';

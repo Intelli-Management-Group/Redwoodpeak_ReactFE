@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import '../../Assetes/Css/style.css'
+import '../../assets/css/style.css'
 import Image from '../Component/ImagesComponets/ImagesComponets';
-import Slide1 from "../../Assetes/images/banner_homepage.jpg"
-import Slide2 from "../../Assetes/images/banner_homepage.jpg"
-import service_img1 from "../../Assetes/images/service_img1.jpg"
-import service_img2 from "../../Assetes/images/service_img2.jpg"
-import service_img3 from "../../Assetes/images/service_img3.jpg"
+import Slide1 from "../../assets/images/banner_homepage.jpg"
+import Slide2 from "../../assets/images/banner_homepage.jpg"
+import service_img1 from "../../assets/images/service_img1.jpg"
+import service_img2 from "../../assets/images/service_img2.jpg"
+import service_img3 from "../../assets/images/service_img3.jpg"
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from '../Component/Footer/Footer';
 
@@ -220,7 +220,7 @@ const HomePage = () => {
                 <div>
                     <SimpleImageSlider
                         width={'100%'}
-                        height={400}
+                        height={500}
                         images={images}
                         showBullets={true}
                         showNavs={true}
@@ -375,7 +375,7 @@ const HomePage = () => {
 
                     {/* Latest News, Visits, and Contact Us Section */}
                     <div className="container mt-5 mb-5">
-                        <div className="row" style={{marginBottom:100}}>
+                        <div className="row" style={{ marginBottom: 100 }}>
                             <div className="col-md-4">
                                 <h2 className="welcome-title-class">Latest News</h2>
                                 <div className="mt-3 pt-1">

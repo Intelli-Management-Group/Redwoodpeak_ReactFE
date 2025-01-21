@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Footer from '../Component/Footer/Footer';
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
-import OurMissionBanner from "../../Assetes/images/about-slider.jpg"
+import OurMissionBanner from "../../assets/images/banner_investment_management.jpg"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import { Link } from "react-router-dom";
 import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
@@ -12,7 +12,7 @@ const HedgeFund = () => {
     return (
         <div id="page">
             <HeaderComponents />
-            <MetaTitle pageTitle={'Hedge Fund'}/>
+            <MetaTitle pageTitle={'Hedge Fund'} />
 
             <div>
                 <Image
@@ -41,8 +41,8 @@ const HedgeFund = () => {
                             <em>
                                 * Please
                                 <Link
-                                   className="ps-2 pe-2"
-                                   to="/contact-us"
+                                    className="ps-2 pe-2"
+                                    to="/contact-us"
                                     style={{
                                         textDecoration: 'none',
                                         padding: '0',

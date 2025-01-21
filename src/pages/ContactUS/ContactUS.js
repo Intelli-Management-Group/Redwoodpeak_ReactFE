@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ContactUsBanner from "../../Assetes/images/contact-slider.jpg"
-import Maps from "../../Assetes/images/map.png"
+import ContactUsBanner from "../../assets/images/contact-slider.jpg"
+import Maps from "../../assets/images/map.png"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
 import Footer from "../Component/Footer/Footer";
@@ -161,7 +161,7 @@ const ContactUs = () => {
                                 <div className="form-group row mb-0 mt-3 ml-0 mr-0 ps-2">
                                     <Button
                                         text="Send"
-                                        onClick={handleSubmit} 
+                                        onClick={handleSubmit}
                                         className="btn-primary"
                                         type="submit"
                                     />

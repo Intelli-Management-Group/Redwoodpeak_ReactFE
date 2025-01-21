@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import Footer from '../Component/Footer/Footer';
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
-import OurMissionBanner from "../../Assetes/images/about-slider.jpg"
+import OurMissionBanner from "../../assets/images/banner_about_us.jpg"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
 const OurMission = () => {
   useEffect(() => {
-        console.log('component mounted');
-    }, []);
+    console.log('component mounted');
+  }, []);
   return (
     <div id="page">
       <HeaderComponents />
-      <MetaTitle pageTitle="Our Mission – Redwood Peak Limited"/>
+      <MetaTitle pageTitle="Our Mission – Redwood Peak Limited" />
       <div>
         <Image
           src={OurMissionBanner}

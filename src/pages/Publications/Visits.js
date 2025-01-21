@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import NewsBanner from "../../Assetes/images/banner_news.png"
+import NewsBanner from "../../assets/images/banner_news.png"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import Footer from '../Component/Footer/Footer';
-import News2 from "../../Assetes/images/news2.png";
-import News3 from "../../Assetes/images/news3.jpeg";
+import News2 from "../../assets/images/news2.png";
+import News3 from "../../assets/images/news3.jpeg";
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
