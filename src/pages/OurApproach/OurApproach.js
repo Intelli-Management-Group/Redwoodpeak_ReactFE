@@ -23,7 +23,7 @@ const OurApproach = () => {
             {/* Main Content */}
             <div className="container mb-5">
                 <div className="container-custom mt-1 mb-5 p-4">
-                    <h1 className="header-post-title-class">Our Approach</h1>
+                    {/*<h1 className="header-post-title-class">Our Approach</h1>*/}
 
                     <div class="mt-3">
                         <p>

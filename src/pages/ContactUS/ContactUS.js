@@ -76,7 +76,7 @@ const ContactUs = () => {
             </div>
             <div className="container mb-5">
                 <div className="container-custom mt-1 mb-5 p-lg-4">
-                    <h1 className="header-post-title-class">Contact Us</h1>
+                    {/*<h1 className="header-post-title-class">Contact Us</h1>*/}
                     <div className="mt-3 row m-4">
                         <div className="col-md-8">
                             <p>
