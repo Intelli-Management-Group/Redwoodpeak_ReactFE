@@ -100,7 +100,7 @@ const HedgeFundReports = () => {
       </div>
       <div className="container mb-5">
         <div className="container-custom mt-1 mb-5 p-4">
-          <h1 className="header-post-title-class">Hedge Fund Reports</h1>
+          {/*<h1 className="header-post-title-class">Hedge Fund Reports</h1>*/}
           {isLoading ? (
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
               <div className="spinner-border text-primary-color" role="status">

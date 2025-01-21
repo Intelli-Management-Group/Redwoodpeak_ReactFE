@@ -100,7 +100,7 @@ const Visits = () => {
 
       <div className="container mb-5">
         <div className="container-custom mt-1 mb-5 p-4">
-          <h1 className="header-post-title-class">Visits</h1>
+          {/*<h1 className="header-post-title-class">Visits</h1>*/}
 
           <div className="row">
             {/* Left Column for Year and Post Thumbnails */}

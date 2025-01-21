@@ -97,7 +97,7 @@ const News = () => {
 
       <div className="container mb-5">
         <div className="container-custom mt-1 mb-5 p-4">
-          <h1 className="header-post-title-class">News</h1>
+          {/*<h1 className="header-post-title-class">News</h1>*/}
           <div className="row">
             {/* Left Column for Thumbnails */}
             <div className="col-md-3">
