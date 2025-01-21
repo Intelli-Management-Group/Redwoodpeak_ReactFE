@@ -8,6 +8,7 @@ import { notifyError, notifySuccess, notifyWarning } from "../Component/ToastCom
 import { ToastContainer } from 'react-toastify';
 import Select from "react-select";
 import countryList from 'react-select-country-list'
+import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
 
 
 const Registration = () => {
@@ -153,6 +154,8 @@ const Registration = () => {
   return (
     <React.Fragment>
       <HeaderComponents />
+      <MetaTitle pageTitle={"Registration"} />
+
       <div className="container ">
         <div className="container-custom mb-5 p-2 min-heights">
           {/* <h1 className="ml-5">Register</h1> */}

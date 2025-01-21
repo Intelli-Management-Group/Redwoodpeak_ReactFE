@@ -1,0 +1,107 @@
+import React, { useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
+import Footer from "../Component/Footer/Footer";
+import Button from '../Component/ButtonComponents/ButtonComponents';
+import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
+
+
+const ForgotPassword = () => {
+    const [email, setEmail] = useState("");
+    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setErrors({}); // Clear existing errors
+
+        // Client-side validation
+        if (!email) {
+            setErrors({ email: "Email is required." });
+            return;
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            setErrors({ email: "Email is not valid." });
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            // Simulate API call
+            const response = await fetch("https://example.com/api/forgot-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                if (data.error) {
+                    setErrors({ email: data.error }); // Handle server-side error
+                } else {
+                    throw new Error("Something went wrong. Please try again.");
+                }
+            } else {
+                // Success: Notify the user
+                console.log("Reset link sent to your email.");
+            }
+        } catch (error) {
+            console.error(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <React.Fragment>
+            <HeaderComponents />
+            <MetaTitle pageTitle={"ForgotPassword"} />
+            <div className="container">
+                <div className="container-custom mb-5 p-2 min-heights" style={{ minHeight: "75vh" }}>
+                    <div className="mt-4">
+                        <div className="mt-5 m-3">
+                            <form onSubmit={handleSubmit}>
+                                {/* Email Input */}
+                                <div className="row mt-4">
+                                    <div className="col-md-12">
+                                        <label htmlFor="email">E-mail</label>
+                                        <input
+                                            id="email"
+                                            type="email"
+                                            className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                                            name="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                        />
+                                        {errors.email && (
+                                            <span className="invalid-feedback" role="alert">
+                                                <strong>{errors.email}</strong>
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Submit Button */}
+                                <div className="form-group row mb-0 mt-4">
+                                    <Button
+                                        text={loading ? "Sending..." : "Send Reset Link"}
+                                        onClick={handleSubmit}
+                                        className="btn btn-primary fitContent"
+                                        disabled={loading}
+                                        type="submit"
+                                    />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ToastContainer />
+            <Footer />
+        </React.Fragment>
+    );
+};
+
+export default ForgotPassword;

@@ -467,7 +467,6 @@ footer {
     }
 }
 
-ht: 0;
 @media (min-width: 1025px) and (max-width: 2560px) {
     .d-none {
         display: block !important;
@@ -494,6 +493,9 @@ ht: 0;
 
 .pointer {
     cursor: pointer;
+}
+.fitContent{
+    width: fit-content !important;
 }
 
 /* Disclimer Border */

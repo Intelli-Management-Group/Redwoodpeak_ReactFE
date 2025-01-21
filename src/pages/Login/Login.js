@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from "../Component/Footer/Footer";
 import AuthenticationServices from '../../Services/AuthenticationServices';
-import {notifyError, notifySuccess, notifyWarning} from "../Component/ToastComponents/ToastComponents";
+import { notifyError, notifySuccess, notifyWarning } from "../Component/ToastComponents/ToastComponents";
 import { ToastContainer } from 'react-toastify';
+import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
+import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 
 const Login = () => {
     const location = useLocation();
-    const[loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
     // State to hold form data
     const [formData, setFormData] = useState({
         email: '',
@@ -71,7 +72,7 @@ const Login = () => {
                     notifySuccess(`Login successful!`);
                     setTimeout(() => {
                         const from = location.state?.from?.pathname || "/"; // Default to home if no previous page exists.
-                        navigate(from);       
+                        navigate(from);
                     }, 1500);
 
                 } else {
@@ -92,10 +93,15 @@ const Login = () => {
     const redirectToRegister = () => {
         window.location.href = '/register';
     };
+    const forgotPassword = () =>{
+        window.location.href = '/forgotPassword';
+    }
 
     return (
         <React.Fragment>
-            <HeaderComponents />
+            <HeaderComponents/>
+            <MetaTitle pageTitle={"Login"} />
+
             <div className="container">
                 <div className="container-custom mb-5 p-2 min-heights" style={{ minHeight: '75vh' }}>
                     <div className="mt-4">
@@ -154,11 +160,16 @@ const Login = () => {
                                         Keep me signed in
                                     </label>
                                 </div>
+                                <div className='mt-3'>
+                                    <label className="form-check-label pointer"  onClick={forgotPassword}>
+                                        Forgot your password?
+                                    </label>
+                                </div>
 
                                 {/* Submit Button */}
                                 <div className="form-group row mb-0 mt-2">
                                     <Button
-                                        text={loading ?  "Loading..." :"Login"}
+                                        text={loading ? "Loading..." : "Login"}
                                         onClick={handleSubmit}
                                         className="btn btn-primary"
                                         disabled={loading}
@@ -177,7 +188,7 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            <ToastContainer/>
+            <ToastContainer />
 
             <Footer />
         </React.Fragment>
