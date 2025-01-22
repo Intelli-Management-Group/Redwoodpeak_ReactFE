@@ -266,7 +266,7 @@ const HomePage = () => {
                             <div className="card p-5 h-100 secondaryBGColor">
                                 <div className="d-flex flex-column justify-content-between h-100">
                                     <div>
-                                        <h2 className="welcome-title-class">Our View</h2>
+                                        <h3 className="welcome-title-class">Our View</h3>
                                         <div className="mt-2 pt-1">
                                             <ul className='ps-0' style={{ listStyle: 'none' }}>
                                                 {outLookData.map((item, index) => (
@@ -300,7 +300,7 @@ const HomePage = () => {
 
                     {/* Heading */}
                     <div className="text-center mt-5 ml-5 mr-5 mb-5 ">
-                        <h2 className="">Discover our expertise by learning what we offer</h2>
+                        <h3 className="">Discover our expertise by learning what we offer</h3>
                         <div className="text-center">
                             <p className='pt-2 pb-0'>Sub heading TBC</p>
                         </div>
@@ -388,12 +388,12 @@ const HomePage = () => {
                     <div className="container mt-5 mb-5">
                         <div className="row" style={{ marginBottom: 100 }}>
                             <div className="col-md-4">
-                                <h2 className="welcome-title-class">Latest News</h2>
+                                <h3 className="welcome-title-class">Latest News</h3>
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
                                         {newsData.map((news, index) => {
                                             return (
-                                                <p className='p-0 ps-3 text-left pointer news-item-name' key={index} onClick={() => handlePostClick("news")}>
+                                                <p className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts' key={index} onClick={() => handlePostClick("news")}>
                                                     <span className='file-item-name'>
                                                         {news?.title}
                                                     </span>
@@ -405,12 +405,12 @@ const HomePage = () => {
                             </div>
 
                             <div className="col-md-4">
-                                <h2 className="welcome-title-class">Our Visits</h2>
+                                <h3 className="welcome-title-class">Our Visits</h3>
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
                                         {visitData.map((visit, index) => {
                                             return (
-                                                <p className='p-0 ps-3 text-left pointer news-item-name' key={index} onClick={() => handlePostClick("visit")}>
+                                                <p className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts' key={index} onClick={() => handlePostClick("visit")}>
                                                     <span className='file-item-name'>
                                                         {visit?.title}
                                                     </span>
@@ -422,10 +422,10 @@ const HomePage = () => {
                             </div>
 
                             <div className="col-md-4">
-                                <h2 className="welcome-title-class">Contact Us</h2>
+                                <h3 className="welcome-title-class">Contact Us</h3>
                                 <div className="mt-3">
                                     <ul className="ps-0">
-                                        <p className="mt-2 d-flex">
+                                        <p className="mt-2 d-flex contactSectionFonts">
                                             <span className="icon">
                                                 <IconComponent icon={faLocationDot} className="primaryColor fontAwsomeIconSize" />
                                             </span>
@@ -433,7 +433,7 @@ const HomePage = () => {
                                                 18/Floor, China Hong Kong Tower, 8-12 Hennessy Road, Wan Chai, Hong Kong.
                                             </span>
                                         </p>
-                                        <p className="mt-2 d-flex">
+                                        <p className="mt-2 d-flex contactSectionFonts">
                                             <span className="icon">
                                                 <IconComponent icon={faPhone} className="primaryColor fontAwsomeIconSize" />
                                             </span>
@@ -441,7 +441,7 @@ const HomePage = () => {
                                                 Telephone: <a href="tel:+85228783100" className="text-with-underline contactLink">(852) 2878 3100</a>
                                             </span>
                                         </p>
-                                        <p className="mt-2 d-flex">
+                                        <p className="mt-2 d-flex contactSectionFonts">
                                             <span className="icon">
                                                 <IconComponent icon={faFax} className="primaryColor fontAwsomeIconSize" />
                                             </span>
@@ -449,7 +449,7 @@ const HomePage = () => {
                                                 Facsimile: <a href="tel:+85225099233" className="text-with-underline contactLink">(852) 2509 9233</a>
                                             </span>
                                         </p>
-                                        <p className="mt-2 d-flex">
+                                        <p className="mt-2 d-flex contactSectionFonts">
                                             <span className="icon">
                                                 <IconComponent icon={faEnvelope} className="primaryColor fontAwsomeIconSize" />
                                             </span>

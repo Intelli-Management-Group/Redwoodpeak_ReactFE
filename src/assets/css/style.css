@@ -592,4 +592,6 @@ footer {
     color: var(--primary-color);
     text-decoration: underline;
 }
-
+.contactSectionFonts{
+font-size: 0.9rem;
+}
