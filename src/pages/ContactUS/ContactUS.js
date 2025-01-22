@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ContactUsBanner from "../../assets/images/contact-slider.jpg"
+import ContactUsBanner from "../../assets/banner_images/redwood_contact_us.jpg"
 import Maps from "../../assets/images/map.png"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";

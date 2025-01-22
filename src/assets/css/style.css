@@ -12,7 +12,7 @@ body {
     /* background-color: #380000; */
     color: #666666;
     font: 15px 'Open Sans', sans-serif;
-    line-height: 20px;
+    line-height: 13px;
     word-wrap: break-word;
     /* Prevent horizontal scrolling */
     overflow-x: hidden;
@@ -202,10 +202,10 @@ li>a {
     object-fit: cover;
 }
 
-.bannerHeight {
-    height: 45vh;
-    object-fit: cover;
-}
+/*.bannerHeight {*/
+/*    height: 45vh;*/
+/*    object-fit: cover;*/
+/*}*/
 
 .customnBannerHeight {
     height: 45vh;
