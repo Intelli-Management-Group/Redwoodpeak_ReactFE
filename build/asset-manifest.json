@@ -1,31 +1,36 @@
 {
   "files": {
-    "main.css": "/static/css/main.c51a1192.css",
-    "main.js": "/static/js/main.a44bc0a8.js",
-    "static/js/453.6db26e77.chunk.js": "/static/js/453.6db26e77.chunk.js",
-    "static/media/banner_homepage.jpg": "/static/media/banner_homepage.17969459cf48fe681dd2.jpg",
-    "static/media/banner_news.png": "/static/media/banner_news.57db42bf166ff53d6aed.png",
-    "static/media/banner_about_us.jpg": "/static/media/banner_about_us.b2cea5a148830c9fe513.jpg",
+    "main.css": "/static/css/main.a00ac401.css",
+    "main.js": "/static/js/main.03b70758.js",
+    "static/js/453.76daa290.chunk.js": "/static/js/453.76daa290.chunk.js",
+    "static/media/redwood_homepage.jpg": "/static/media/redwood_homepage.8271d1bbd1067ca41816.jpg",
+    "static/media/redwood_contact_us.jpg": "/static/media/redwood_contact_us.f209389f8483fd78fe24.jpg",
+    "static/media/redwood_about_us.jpg": "/static/media/redwood_about_us.cd257b894be689dac5cf.jpg",
     "static/media/map.png": "/static/media/map.725296e7ab4962c7cb5b.png",
     "static/media/service_img3.jpg": "/static/media/service_img3.8989950ba61b8f904cf9.jpg",
     "static/media/service_img2.jpg": "/static/media/service_img2.20c0253d254e8b7df6e2.jpg",
     "static/media/service_img1.jpg": "/static/media/service_img1.d4c43bf8ca8a1a023fde.jpg",
-    "static/media/about-slider.jpg": "/static/media/about-slider.5d5cf28fbd81b4a48e6d.jpg",
+    "static/media/redwood_investment_management.jpg": "/static/media/redwood_investment_management.c2e85552dc415dde3470.jpg",
+    "static/media/redwood_hedge_fund.jpg": "/static/media/redwood_hedge_fund.154f4d6d0a4c94436824.jpg",
     "static/media/banner1.jpg": "/static/media/banner1.5d5cf28fbd81b4a48e6d.jpg",
-    "static/media/banner_investment_management.jpg": "/static/media/banner_investment_management.59f153c3517398687f9b.jpg",
-    "static/media/banner_publications.jpg": "/static/media/banner_publications.ce761128dde26c290e05.jpg",
+    "static/media/redwood_our_approach.jpg": "/static/media/redwood_our_approach.8226d6e107a2faf034dc.jpg",
+    "static/media/redwood_publication.jpg": "/static/media/redwood_publication.1a09b416155be3e4e873.jpg",
     "static/media/banner_investor_resources.jpg": "/static/media/banner_investor_resources.bf817ba8b2c4abdb6cdf.jpg",
-    "static/media/contact-slider.jpg": "/static/media/contact-slider.4684f2cf883fe128bf9a.jpg",
     "static/media/news2.png": "/static/media/news2.3ccce93d3d92e5584567.png",
     "static/media/news1.png": "/static/media/news1.32aa881c151f494aece1.png",
+    "static/media/redwood_risk_management.png": "/static/media/redwood_risk_management.b73d52a2440ec6c63fe1.png",
     "static/media/openSans.woff2": "/static/media/openSans.b82713a8cd03fb7dfde8.woff2",
+    "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
-    "main.c51a1192.css.map": "/static/css/main.c51a1192.css.map",
-    "main.a44bc0a8.js.map": "/static/js/main.a44bc0a8.js.map",
-    "453.6db26e77.chunk.js.map": "/static/js/453.6db26e77.chunk.js.map"
+    "main.a00ac401.css.map": "/static/css/main.a00ac401.css.map",
+    "main.03b70758.js.map": "/static/js/main.03b70758.js.map",
+    "453.76daa290.chunk.js.map": "/static/js/453.76daa290.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c51a1192.css",
-    "static/js/main.a44bc0a8.js"
+    "static/css/main.a00ac401.css",
+    "static/js/main.03b70758.js"
   ]
 }
