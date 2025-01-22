@@ -6,6 +6,7 @@ import Slide2 from "../../assets/images/banner_homepage.jpg"
 import service_img1 from "../../assets/images/service_img1.jpg"
 import service_img2 from "../../assets/images/service_img2.jpg"
 import service_img3 from "../../assets/images/service_img3.jpg"
+import pdfIcon from "../../assets/images/pdf_icon1.png"
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from '../Component/Footer/Footer';
 
@@ -262,17 +263,27 @@ const HomePage = () => {
 
                         {/* Third Column */}
                         <div className="col-md-6 col-lg-4 pr-0 pl-0 p-0">
-                            <div className="card p-5 h-100" style={{ backgroundColor: '#fff' }}>
+                            <div className="card p-5 h-100 secondaryBGColor">
                                 <div className="d-flex flex-column justify-content-between h-100">
                                     <div>
                                         <h2 className="welcome-title-class">Our View</h2>
                                         <div className="mt-2 pt-1">
                                             <ul className='ps-0' style={{ listStyle: 'none' }}>
                                                 {outLookData.map((item, index) => (
-                                                    <p className='p-0 text-left pointer' key={index} onClick={() => handleOverViewClick(item)} style={{ textAlign: 'left' }}>
-                                                        {item.name?.split('.')?.slice(0, -1)?.join('.').length > 50
-                                                            ? item.name?.split('.')?.slice(0, -1)?.join('.')?.substring(0, 50) + "..."
-                                                            : item.name?.split('.')?.slice(0, -1)?.join('.')}
+                                                    <p
+                                                        className='p-0 text-left pointer file-item'
+                                                        key={index}
+                                                        onClick={() => handleOverViewClick(item)}
+                                                        style={{ textAlign: 'left' }}
+                                                    >
+                                                        <span className="pdf-icon">
+                                                            <Image src={pdfIcon} alt="PDF icon" />
+                                                        </span>
+                                                        <span className="file-item-name">
+                                                            {item.name?.split('.')?.slice(0, -1)?.join('.').length > 50
+                                                                ? item.name?.split('.')?.slice(0, -1)?.join('.')?.substring(0, 50) + "..."
+                                                                : item.name?.split('.')?.slice(0, -1)?.join('.')}
+                                                        </span>
                                                     </p>
                                                 ))}
                                             </ul>

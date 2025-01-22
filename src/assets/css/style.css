@@ -29,6 +29,9 @@ body {
 .primaryBGColor{
     background-color: var(--primary-color) !important;
 }
+.secondaryBGColor{
+    background-color: var(--secondary-button-color) !important;
+}
 
 p {
     font-family: 'Open Sans', sans-serif;
@@ -531,4 +534,35 @@ footer {
     background-color: var(--primary-color);
     border-color: var(--secondary-button-color) !important;
     color: #f1eee8;
+}
+
+.file-item {
+    position: relative;
+    display: inline-block;
+    text-decoration: none; /* Remove default underline */
+    color: inherit; /* Use the text color */
+}
+
+.file-item-name {
+    position: relative;
+    display: inline-block;
+}
+
+.file-item-name::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.file-item-name:hover::after {
+    width: 100%;
+}
+
+.pdf-icon {
+    margin-right: 8px;
 }
