@@ -231,7 +231,7 @@ const HomePage = () => {
                     <div className="row pt-0 no-gutters d-flex align-items-stretch">
                         {/* First Column */}
                         <div className="col-md-12 col-lg-4 pr-0 pl-0 p-0">
-                            <div className="card p-5 h-100" style={{ backgroundColor: '#04243d' }}>
+                            <div className="card p-5 h-100 primaryBGColor">
                                 <div className="d-flex flex-column justify-content-between h-100">
                                     <div>
                                         <h5 className="card-title cards-titles">22 OCTOBER 2023, 08.00 PM EDT</h5>
@@ -239,11 +239,11 @@ const HomePage = () => {
                                             Smart investing strategies:<br /> building wealth for the future
                                         </h2>
                                     </div>
-                                    <div className="p-0 pt-3" style={{ backgroundColor: '#fff0' }}>
+                                    <div className="p-0 pt-3">
                                         <Button
                                             text="Learn More"
                                             onClick={handleClick}
-                                            className="btn-primary"
+                                            className="cs-btn-primary"
                                             style={{}}
                                         />
                                     </div>

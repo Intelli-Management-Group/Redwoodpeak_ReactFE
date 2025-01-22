@@ -1,4 +1,8 @@
 /* Global Styles */
+:root {
+    --primary-color: #511515;
+    --secondary-button-color:#f1eee8;
+  }
 @import url('https://fonts.googleapis.com/css2?family=Open Sans:wght@400;500;700&display=swap');
 
 @font-face {
@@ -21,6 +25,9 @@ body {
 
 .primaryColor {
     color: #511515 !important;
+}
+.primaryBGColor{
+    background-color: var(--primary-color) !important;
 }
 
 p {
@@ -515,3 +522,13 @@ footer {
     transition:  0.7s ease-out; 
 }
 /* PDF EFFECTS Close */
+.cs-btn-primary {
+    background-color: var(--secondary-button-color) !important; 
+    border-color: var(--secondary-button-color);
+    color: white;
+}
+.cs-btn-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--secondary-button-color) !important;
+    color: #f1eee8;
+}
