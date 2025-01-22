@@ -348,12 +348,12 @@ const HomePage = () => {
                                             alt="Service Image 1"
                                             className="card-img-top"
                                         />
-                                        <div className="card-body text-left">
+                                        <div className="card-body text-left mt-3">
                                             <h5 className="card-title cards-Label primaryColor">Portfolio Management</h5>
                                             <p className="card-text text-left p-0" style={{ textAlign: 'left' }}>
                                                 Cultivating change enthusiasts fuels success, resulting in superior, more efficient, and robust innovations.
                                             </p>
-                                            <div>
+                                            <div style={{marginBottom:30}}>
                                                 <Button
                                                     text="Learn More"
                                                     onClick={handleClick}
@@ -372,12 +372,12 @@ const HomePage = () => {
                                             alt="Service Image 1"
                                             className="card-img-top"
                                         />
-                                        <div className="card-body text-left">
+                                        <div className="card-body text-left mt-3">
                                             <h5 className="card-title cards-Label primaryColor">Financial Planning</h5>
                                             <p className="card-text text-left p-0" style={{ textAlign: 'left' }}>
                                                 Cultivating change enthusiasts fuels success, resulting in superior, more efficient, and robust innovations.
                                             </p>
-                                            <div>
+                                            <div style={{marginBottom:30}}>
                                                 <Button
                                                     text="Learn More"
                                                     onClick={handleClick}
@@ -396,12 +396,12 @@ const HomePage = () => {
                                             alt="Service Image 1"
                                             className="card-img-top"
                                         />
-                                        <div className="card-body text-left">
+                                        <div className="card-body text-left mt-3">
                                             <h5 className="card-title cards-Label primaryColor">Wealth Management</h5>
                                             <p className="card-text text-left p-0" style={{ textAlign: 'left' }}>
                                                 Cultivating change enthusiasts fuels success, resulting in superior, more efficient, and robust innovations.
                                             </p>
-                                            <div>
+                                            <div style={{marginBottom:30}}>
                                                 <Button
                                                     text="Learn More"
                                                     onClick={handleClick}
