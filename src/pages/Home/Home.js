@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import '../../assets/css/style.css'
 import Image from '../Component/ImagesComponets/ImagesComponets';
-import Slide1 from "../../assets/images/banner_homepage.jpg"
-import Slide2 from "../../assets/images/banner_homepage.jpg"
+import Slide1 from "../../assets/banner_images/redwood_homepage.jpg"
+import Slide2 from "../../assets/banner_images/redwood_homepage.jpg"
 import service_img1 from "../../assets/images/service_img1.jpg"
 import service_img2 from "../../assets/images/service_img2.jpg"
 import service_img3 from "../../assets/images/service_img3.jpg"
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from '../Component/Footer/Footer';
+import Slider from "react-slick";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 
 
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
@@ -60,10 +64,10 @@ const outLookData = [{
     "created_by": 1
 }]
 
-const images = [
-    { url: Slide1 },
-    { url: Slide2 },
-];
+// const images = [
+//     { url: Slide1 },
+//     { url: Slide2 },
+// ];
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -196,6 +200,15 @@ const HomePage = () => {
 
     const handleClose = () => setShowLoginAlert(false);
 
+    const settings = {
+        dots: true, // Enable dots below the slider
+        infinite: true, // Loop through slides infinitely
+        speed: 500, // Transition speed in ms
+        slidesToShow: 1, // Number of slides to show
+        slidesToScroll: 1, // Number of slides to scroll at a time
+        autoplay: true, // Enable autoplay
+        autoplaySpeed: 3000, // Autoplay interval in ms
+    };
     return (
         <React.Fragment>
             <div style={{ overflow: 'hidden' }}>
@@ -217,15 +230,34 @@ const HomePage = () => {
                         </div>
                     </Slider>
                 </div> */}
-                <div>
-                    <SimpleImageSlider
-                        width={'100%'}
-                        height={500}
-                        images={images}
-                        showBullets={true}
-                        showNavs={true}
-                    />
+                {/*<div>*/}
+                {/*    <SimpleImageSlider*/}
+                {/*        width={'100%'}*/}
+                {/*        height={500}*/}
+                {/*        images={images}*/}
+                {/*        showBullets={true}*/}
+                {/*        showNavs={true}*/}
+                {/*    />*/}
+                {/*</div>*/}
+                <div style={{ width: "100%", lineHeight:"0px" }}>
+                    <Slider {...settings}>
+                            <div className="slide">
+                                <img
+                                    src={Slide1}
+                                    alt="Slide 1"
+                                    style={{ width: '100%' }}
+                                />
+                            </div>
+                        <div className="slide">
+                            <img
+                                src={Slide2}
+                                alt="Slide 2"
+                                style={{ width: '100%'}}
+                            />
+                        </div>
+                    </Slider>
                 </div>
+
                 {/* First Section */}
                 <div className="wrapper pt-0 mb-5">
                     <div className="row pt-0 no-gutters d-flex align-items-stretch">
