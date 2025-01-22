@@ -6,6 +6,7 @@ import Slide2 from "../../assets/banner_images/redwood_homepage.jpg"
 import service_img1 from "../../assets/images/service_img1.jpg"
 import service_img2 from "../../assets/images/service_img2.jpg"
 import service_img3 from "../../assets/images/service_img3.jpg"
+import pdfIcon from "../../assets/images/pdf_icon1.png"
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from '../Component/Footer/Footer';
 import Slider from "react-slick";
@@ -22,8 +23,8 @@ import { notifyError } from '../Component/ToastComponents/ToastComponents';
 import SimpleImageSlider from "react-simple-image-slider";
 import "../Home/Home.css"
 import { useNavigate } from 'react-router-dom';
-import { Modal } from 'react-bootstrap';
-
+import { faPhone, faEnvelope, faFax, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import IconComponent from '../Component/IconComponents/IconComponents';
 const outLookData = [{
     "id": 74,
     "name": "China Outlook Q1 2023.pdf",
@@ -263,7 +264,7 @@ const HomePage = () => {
                     <div className="row pt-0 no-gutters d-flex align-items-stretch">
                         {/* First Column */}
                         <div className="col-md-12 col-lg-4 pr-0 pl-0 p-0">
-                            <div className="card p-5 h-100" style={{ backgroundColor: '#04243d' }}>
+                            <div className="card p-5 h-100 primaryBGColor">
                                 <div className="d-flex flex-column justify-content-between h-100">
                                     <div>
                                         <h5 className="card-title cards-titles">22 OCTOBER 2023, 08.00 PM EDT</h5>
@@ -271,11 +272,11 @@ const HomePage = () => {
                                             Smart investing strategies:<br /> building wealth for the future
                                         </h2>
                                     </div>
-                                    <div className="p-0 pt-3" style={{ backgroundColor: '#fff0' }}>
+                                    <div className="p-0 pt-3">
                                         <Button
                                             text="Learn More"
                                             onClick={handleClick}
-                                            className="btn-primary"
+                                            className="cs-btn-primary"
                                             style={{}}
                                         />
                                     </div>
@@ -294,17 +295,27 @@ const HomePage = () => {
 
                         {/* Third Column */}
                         <div className="col-md-6 col-lg-4 pr-0 pl-0 p-0">
-                            <div className="card p-5 h-100" style={{ backgroundColor: '#fff' }}>
+                            <div className="card p-5 h-100 secondaryBGColor">
                                 <div className="d-flex flex-column justify-content-between h-100">
                                     <div>
-                                        <h2 className="welcome-title-class">Our View</h2>
+                                        <h3 className="welcome-title-class">Our View</h3>
                                         <div className="mt-2 pt-1">
                                             <ul className='ps-0' style={{ listStyle: 'none' }}>
                                                 {outLookData.map((item, index) => (
-                                                    <p className='p-0 text-left pointer' key={index} onClick={() => handleOverViewClick(item)} style={{ textAlign: 'left' }}>
-                                                        {item.name?.split('.')?.slice(0, -1)?.join('.').length > 50
-                                                            ? item.name?.split('.')?.slice(0, -1)?.join('.')?.substring(0, 50) + "..."
-                                                            : item.name?.split('.')?.slice(0, -1)?.join('.')}
+                                                    <p
+                                                        className='p-0 text-left pointer file-item'
+                                                        key={index}
+                                                        onClick={() => handleOverViewClick(item)}
+                                                        style={{ textAlign: 'left' }}
+                                                    >
+                                                        <span className="pdf-icon">
+                                                            <Image src={pdfIcon} alt="PDF icon" />
+                                                        </span>
+                                                        <span className="file-item-name">
+                                                            {item.name?.split('.')?.slice(0, -1)?.join('.').length > 50
+                                                                ? item.name?.split('.')?.slice(0, -1)?.join('.')?.substring(0, 50) + "..."
+                                                                : item.name?.split('.')?.slice(0, -1)?.join('.')}
+                                                        </span>
                                                     </p>
                                                 ))}
                                             </ul>
@@ -321,7 +332,7 @@ const HomePage = () => {
 
                     {/* Heading */}
                     <div className="text-center mt-5 ml-5 mr-5 mb-5 ">
-                        <h2 className="">Discover our expertise by learning what we offer</h2>
+                        <h3 className="">Discover our expertise by learning what we offer</h3>
                         <div className="text-center">
                             <p className='pt-2 pb-0'>Sub heading TBC</p>
                         </div>
@@ -409,14 +420,15 @@ const HomePage = () => {
                     <div className="container mt-5 mb-5">
                         <div className="row" style={{ marginBottom: 100 }}>
                             <div className="col-md-4">
-                                <h2 className="welcome-title-class">Latest News</h2>
+                                <h3 className="welcome-title-class">Latest News</h3>
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
                                         {newsData.map((news, index) => {
-                                            // console.log(news)
                                             return (
-                                                <p className='p-0 text-left pointer' key={index} onClick={() => handlePostClick("news")}>
-                                                    {news?.title}
+                                                <p className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts' key={index} onClick={() => handlePostClick("news")}>
+                                                    <span className='file-item-name'>
+                                                        {news?.title}
+                                                    </span>
                                                 </p>
                                             )
                                         })}
@@ -425,14 +437,15 @@ const HomePage = () => {
                             </div>
 
                             <div className="col-md-4">
-                                <h2 className="welcome-title-class">Our Visits</h2>
+                                <h3 className="welcome-title-class">Our Visits</h3>
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
                                         {visitData.map((visit, index) => {
                                             return (
-
-                                                <p className='p-0 text-left pointer' key={index} onClick={() => handlePostClick("visit")}>
-                                                    {visit?.title}
+                                                <p className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts' key={index} onClick={() => handlePostClick("visit")}>
+                                                    <span className='file-item-name'>
+                                                        {visit?.title}
+                                                    </span>
                                                 </p>
                                             )
                                         })}
@@ -441,15 +454,41 @@ const HomePage = () => {
                             </div>
 
                             <div className="col-md-4">
-                                <h2 className="welcome-title-class">Contact Us</h2>
+                                <h3 className="welcome-title-class">Contact Us</h3>
                                 <div className="mt-3">
-                                    <ul className='ps-0'>
-                                        <p className="mt-2">
-                                            18/Floor, China Hong Kong Tower, 8-12 Hennessy Road, Wan Chai, Hong Kong.
+                                    <ul className="ps-0">
+                                        <p className="mt-2 d-flex contactSectionFonts">
+                                            <span className="icon">
+                                                <IconComponent icon={faLocationDot} className="primaryColor fontAwsomeIconSize" />
+                                            </span>
+                                            <span className="ps-3">
+                                                18/Floor, China Hong Kong Tower, 8-12 Hennessy Road, Wan Chai, Hong Kong.
+                                            </span>
                                         </p>
-                                        <p className="mt-2">Telephone: (852) 2878 3100</p>
-                                        <p className="mt-2">Facsimile: (852) 2509 9233</p>
-                                        <p className="mt-2">Email: IR@redwoodpeak.com</p>
+                                        <p className="mt-2 d-flex contactSectionFonts">
+                                            <span className="icon">
+                                                <IconComponent icon={faPhone} className="primaryColor fontAwsomeIconSize" />
+                                            </span>
+                                            <span className="ps-3 text-with-underline">
+                                                Telephone: <a href="tel:+85228783100" className="text-with-underline contactLink">(852) 2878 3100</a>
+                                            </span>
+                                        </p>
+                                        <p className="mt-2 d-flex contactSectionFonts">
+                                            <span className="icon">
+                                                <IconComponent icon={faFax} className="primaryColor fontAwsomeIconSize" />
+                                            </span>
+                                            <span className="ps-3 text-with-underline">
+                                                Facsimile: <a href="tel:+85225099233" className="text-with-underline contactLink">(852) 2509 9233</a>
+                                            </span>
+                                        </p>
+                                        <p className="mt-2 d-flex contactSectionFonts">
+                                            <span className="icon">
+                                                <IconComponent icon={faEnvelope} className="primaryColor fontAwsomeIconSize" />
+                                            </span>
+                                            <span className="ps-3 text-with-underline">
+                                            Email: <a href="mailto:IR@redwoodpeak.com" className="text-with-underline contactLink">IR@redwoodpeak.com</a>
+                                            </span>
+                                        </p>
                                     </ul>
                                 </div>
                             </div>
