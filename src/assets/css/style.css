@@ -453,6 +453,9 @@ footer {
     .header-post-title-class {
         display: none;
     }
+    .mobileTopMargin{
+        margin-top:15px;
+    }
 }
 
 
