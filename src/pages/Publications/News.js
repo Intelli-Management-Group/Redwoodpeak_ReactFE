@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import NewsBanner from "../../assets/images/banner_news.png"
+import NewsBanner from "../../assets/banner_images/redwood_publication.jpg"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import Footer from '../Component/Footer/Footer';

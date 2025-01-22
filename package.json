@@ -21,6 +21,7 @@
     "react-select": "^5.8.3",
     "react-select-country-list": "^2.2.3",
     "react-simple-image-slider": "^2.4.1",
+    "react-slick": "^0.30.3",
     "react-toastify": "^10.0.6",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4"

@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import Footer from '../Component/Footer/Footer';
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
-import OurMissionBanner from "../../assets/images/about-slider.jpg"
+import OurMissionBanner from "../../assets/banner_images/redwood_our_approach.jpg"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
+import RiskManagement from "../../assets/banner_images/redwood_risk_management.png"
 const OurApproach = () => {
     useEffect(() => {
         console.log('component mounted');
@@ -33,7 +34,7 @@ const OurApproach = () => {
                             <Image
                                 // decoding="async" 
                                 className="aligncenter size-full wp-image-2037 w-100"
-                                src={`https://www.redwoodpeak.com/wp-content/uploads/2015/04/risk_management.png`}
+                                src={RiskManagement}
                                 alt="investment-approach" />
                         </p>
                     </div>
