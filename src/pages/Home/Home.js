@@ -19,8 +19,8 @@ import { notifyError } from '../Component/ToastComponents/ToastComponents';
 import SimpleImageSlider from "react-simple-image-slider";
 import "../Home/Home.css"
 import { useNavigate } from 'react-router-dom';
-import { Modal } from 'react-bootstrap';
-
+import { faPhone, faEnvelope, faFax, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import IconComponent from '../Component/IconComponents/IconComponents';
 const outLookData = [{
     "id": 74,
     "name": "China Outlook Q1 2023.pdf",
@@ -392,10 +392,11 @@ const HomePage = () => {
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
                                         {newsData.map((news, index) => {
-                                            // console.log(news)
                                             return (
-                                                <p className='p-0 text-left pointer' key={index} onClick={() => handlePostClick("news")}>
-                                                    {news?.title}
+                                                <p className='p-0 ps-3 text-left pointer news-item-name' key={index} onClick={() => handlePostClick("news")}>
+                                                    <span className='file-item-name'>
+                                                        {news?.title}
+                                                    </span>
                                                 </p>
                                             )
                                         })}
@@ -409,9 +410,10 @@ const HomePage = () => {
                                     <ul className='ps-0'>
                                         {visitData.map((visit, index) => {
                                             return (
-
-                                                <p className='p-0 text-left pointer' key={index} onClick={() => handlePostClick("visit")}>
-                                                    {visit?.title}
+                                                <p className='p-0 ps-3 text-left pointer news-item-name' key={index} onClick={() => handlePostClick("visit")}>
+                                                    <span className='file-item-name'>
+                                                        {visit?.title}
+                                                    </span>
                                                 </p>
                                             )
                                         })}
@@ -422,13 +424,39 @@ const HomePage = () => {
                             <div className="col-md-4">
                                 <h2 className="welcome-title-class">Contact Us</h2>
                                 <div className="mt-3">
-                                    <ul className='ps-0'>
-                                        <p className="mt-2">
-                                            18/Floor, China Hong Kong Tower, 8-12 Hennessy Road, Wan Chai, Hong Kong.
+                                    <ul className="ps-0">
+                                        <p className="mt-2 d-flex">
+                                            <span className="icon">
+                                                <IconComponent icon={faLocationDot} className="primaryColor fontAwsomeIconSize" />
+                                            </span>
+                                            <span className="ps-3">
+                                                18/Floor, China Hong Kong Tower, 8-12 Hennessy Road, Wan Chai, Hong Kong.
+                                            </span>
                                         </p>
-                                        <p className="mt-2">Telephone: (852) 2878 3100</p>
-                                        <p className="mt-2">Facsimile: (852) 2509 9233</p>
-                                        <p className="mt-2">Email: IR@redwoodpeak.com</p>
+                                        <p className="mt-2 d-flex">
+                                            <span className="icon">
+                                                <IconComponent icon={faPhone} className="primaryColor fontAwsomeIconSize" />
+                                            </span>
+                                            <span className="ps-3 text-with-underline">
+                                                Telephone: <a href="tel:+85228783100" className="text-with-underline contactLink">(852) 2878 3100</a>
+                                            </span>
+                                        </p>
+                                        <p className="mt-2 d-flex">
+                                            <span className="icon">
+                                                <IconComponent icon={faFax} className="primaryColor fontAwsomeIconSize" />
+                                            </span>
+                                            <span className="ps-3 text-with-underline">
+                                                Facsimile: <a href="tel:+85225099233" className="text-with-underline contactLink">(852) 2509 9233</a>
+                                            </span>
+                                        </p>
+                                        <p className="mt-2 d-flex">
+                                            <span className="icon">
+                                                <IconComponent icon={faEnvelope} className="primaryColor fontAwsomeIconSize" />
+                                            </span>
+                                            <span className="ps-3 text-with-underline">
+                                            Email: <a href="mailto:IR@redwoodpeak.com" className="text-with-underline contactLink">IR@redwoodpeak.com</a>
+                                            </span>
+                                        </p>
                                     </ul>
                                 </div>
                             </div>

@@ -566,3 +566,30 @@ footer {
 .pdf-icon {
     margin-right: 8px;
 }
+.news-item-name {
+    position: relative;
+    margin-bottom: 8px;
+    padding-left: 16px;
+    cursor: pointer;
+}
+
+.news-item-name::before {
+    content: '•'; 
+    position: absolute;
+    left: 0; 
+    color: var(--primary-color);
+    font-size: 18px;
+    line-height: 1;
+}
+.fontAwsomeIconSize{
+    font-size: 18px;
+}
+.contactLink{
+    color: #212529;
+    text-decoration: underline;
+}
+.contactLink:hover{
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
