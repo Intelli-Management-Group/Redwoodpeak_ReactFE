@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ContactUsBanner from "../../assets/banner_images/redwood_contact_us.jpg"
-import Maps from "../../assets/images/map.png"
+import Maps from "../../assets/images/RedwoodMap.png"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
 import Footer from "../Component/Footer/Footer";
@@ -127,7 +127,7 @@ const ContactUs = () => {
                             <div id="map" className="mobileTopMargin">
                                 <Image
                                     src={Maps}
-                                    className="w-100 bannerHeight"
+                                    className="w-100"
                                     alt="CONTACT US Banner"
                                 />
                             </div>
