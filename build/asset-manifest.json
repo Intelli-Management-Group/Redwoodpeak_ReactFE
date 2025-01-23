@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/static/css/main.a00ac401.css",
-    "main.js": "/static/js/main.03b70758.js",
+    "main.js": "/static/js/main.aa835c39.js",
     "static/js/453.76daa290.chunk.js": "/static/js/453.76daa290.chunk.js",
+    "static/media/RedwoodMap.png": "/static/media/RedwoodMap.1cacb5c816f58fe8f080.png",
     "static/media/redwood_homepage.jpg": "/static/media/redwood_homepage.8271d1bbd1067ca41816.jpg",
     "static/media/redwood_contact_us.jpg": "/static/media/redwood_contact_us.f209389f8483fd78fe24.jpg",
     "static/media/redwood_about_us.jpg": "/static/media/redwood_about_us.cd257b894be689dac5cf.jpg",
-    "static/media/map.png": "/static/media/map.725296e7ab4962c7cb5b.png",
     "static/media/service_img3.jpg": "/static/media/service_img3.8989950ba61b8f904cf9.jpg",
     "static/media/service_img2.jpg": "/static/media/service_img2.20c0253d254e8b7df6e2.jpg",
     "static/media/service_img1.jpg": "/static/media/service_img1.d4c43bf8ca8a1a023fde.jpg",
@@ -26,11 +26,11 @@
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
     "main.a00ac401.css.map": "/static/css/main.a00ac401.css.map",
-    "main.03b70758.js.map": "/static/js/main.03b70758.js.map",
+    "main.aa835c39.js.map": "/static/js/main.aa835c39.js.map",
     "453.76daa290.chunk.js.map": "/static/js/453.76daa290.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a00ac401.css",
-    "static/js/main.03b70758.js"
+    "static/js/main.aa835c39.js"
   ]
 }
