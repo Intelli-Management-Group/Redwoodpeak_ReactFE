@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ContactUsBanner from "../../assets/banner_images/redwood_contact_us.jpg"
-import Maps from "../../assets/images/RedwoodMap.png"
+import Maps from "../../assets/images/map.png"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
 import Footer from "../Component/Footer/Footer";
@@ -77,62 +77,66 @@ const ContactUs = () => {
                 />
 
             </div>
-            <div className="container mb-5">
-                <div className="container-custom mt-1 mb-5 p-lg-4">
-                    {/*<h1 className="header-post-title-class">Contact Us</h1>*/}
-                    <div className="mt-5 row m-4">
-                        <div className="col-md-6">
-                            <ul className="ps-0">
-                                <p>
-                                    <strong>
-                                        <span style={{ color: "#823535" }}>Redwood Peak Limited</span>
-                                    </strong>
-                                </p>
-                                <p className="mt-3 d-flex contactSectionFonts">
+            {/*<div className="container mb-5">*/}
+            {/*    <div className="container-custom mt-1 mb-5 p-lg-4">*/}
+            {/*        /!*<h1 className="header-post-title-class">Contact Us</h1>*!/*/}
+
+            {/*    </div>*/}
+            {/*</div>*/}
+            <div className="row">
+                <div className="mt-5 col-md-6">
+                    <ul className="ps-0" style={{marginTop:"15%", marginLeft:"15%"}}>
+                        <p>
+                            <strong>
+                                <span style={{ color: "#823535" }}>Redwood Peak Limited</span>
+                            </strong>
+                        </p>
+                        <p className="mt-3 d-flex contactSectionFonts">
                                     <span className="icon">
                                         <IconComponent icon={faLocationDot} className="primaryColor fontAwsomeIconSize" />
                                     </span>
-                                    <span className="ps-3">
+                            <span className="ps-3">
                                         18/Floor, China Hong Kong Tower, 8-12 Hennessy Road, Wan Chai, Hong Kong.
                                     </span>
-                                </p>
-                                <p className="mt-2 d-flex contactSectionFonts">
+                        </p>
+                        <p className="mt-2 d-flex contactSectionFonts">
                                     <span className="icon">
                                         <IconComponent icon={faPhone} className="primaryColor fontAwsomeIconSize" />
                                     </span>
-                                    <span className="ps-3 text-with-underline">
+                            <span className="ps-3 text-with-underline">
                                         Telephone: <a href="tel:+85228783100" className="text-with-underline contactLink">(852) 2878 3100</a>
                                     </span>
-                                </p>
-                                <p className="mt-2 d-flex contactSectionFonts">
+                        </p>
+                        <p className="mt-2 d-flex contactSectionFonts">
                                     <span className="icon">
                                         <IconComponent icon={faFax} className="primaryColor fontAwsomeIconSize" />
                                     </span>
-                                    <span className="ps-3 text-with-underline">
+                            <span className="ps-3 text-with-underline">
                                         Facsimile: <a href="tel:+85225099233" className="text-with-underline contactLink">(852) 2509 9233</a>
                                     </span>
-                                </p>
-                                <p className="mt-2 d-flex contactSectionFonts">
+                        </p>
+                        <p className="mt-2 d-flex contactSectionFonts">
                                     <span className="icon">
                                         <IconComponent icon={faEnvelope} className="primaryColor fontAwsomeIconSize" />
                                     </span>
-                                    <span className="ps-3 text-with-underline">
+                            <span className="ps-3 text-with-underline">
                                         Email: <a href="mailto:IR@redwoodpeak.com" className="text-with-underline contactLink">IR@redwoodpeak.com</a>
                                     </span>
-                                </p>
-                            </ul>
+                        </p>
+                    </ul>
 
-                        </div>
-                        <div className="col-md-6 ">
-                            <div id="map" className="mobileTopMargin">
-                                <Image
-                                    src={Maps}
-                                    className="w-100"
-                                    alt="CONTACT US Banner"
-                                />
-                            </div>
-                            {/* Currently Form Commentds */}
-                            {/* <form onSubmit={handleSubmit}>
+                </div>
+                <div className="col-md-6 ">
+                    <div id="map" className="mobileTopMargin">
+                        <Image
+                            src={Maps}
+                            className="w-100"
+                            alt="CONTACT US Banner"
+                            // style={{width:"100%", height:"100%"}}
+                        />
+                    </div>
+                    {/* Currently Form Commentds */}
+                    {/* <form onSubmit={handleSubmit}>
                                 <div className="row pt-5">
                                     <Input
                                         label="Your Name"
@@ -193,8 +197,6 @@ const ContactUs = () => {
                                     />
                                 </div>
                             </form> */}
-                        </div>
-                    </div>
                 </div>
             </div>
             <Footer />
