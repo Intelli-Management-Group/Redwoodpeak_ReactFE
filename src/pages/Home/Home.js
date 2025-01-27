@@ -343,7 +343,7 @@ const HomePage = () => {
                         <div className="">
                             <div className="row">
                                 <div className="col-md-4 ">
-                                    <div className="card h-100 card-shadow">
+                                    <div className="card h-auto  card-shadow">
                                         <Image
                                             src={service_img1}
                                             alt="Service Image 1"
@@ -367,7 +367,7 @@ const HomePage = () => {
                                 </div>
 
                                 <div className="col-md-4 ">
-                                    <div className="card h-100 card-shadow">
+                                    <div className="card h-auto  card-shadow">
                                         <Image
                                             src={service_img2}
                                             alt="Service Image 1"
@@ -391,7 +391,7 @@ const HomePage = () => {
                                 </div>
 
                                 <div className="col-md-4 ">
-                                    <div className="card h-100 card-shadow">
+                                    <div className="card h-auto  card-shadow">
                                         <Image
                                             src={service_img3}
                                             alt="Service Image 1"
