@@ -83,7 +83,7 @@ const ContactUs = () => {
 
             {/*    </div>*/}
             {/*</div>*/}
-            <div className="row">
+            <div className="row ml-0 mr-0">
                 <div className="mt-5 col-md-6">
                     <ul className="ps-0" style={{marginTop:"15%", marginLeft:"15%"}}>
                         <p>
