@@ -240,20 +240,20 @@ const HomePage = () => {
                 {/*        showNavs={true}*/}
                 {/*    />*/}
                 {/*</div>*/}
-                <div style={{ width: "100%", lineHeight:"0px" }}>
+                <div style={{ width: "100%", lineHeight: "0px" }}>
                     <Slider {...settings}>
-                            <div className="slide">
-                                <img
-                                    src={Slide1}
-                                    alt="Slide 1"
-                                    style={{ width: '100%' }}
-                                />
-                            </div>
+                        <div className="slide">
+                            <img
+                                src={Slide1}
+                                alt="Slide 1"
+                                style={{ width: '100%' }}
+                            />
+                        </div>
                         <div className="slide">
                             <img
                                 src={Slide2}
                                 alt="Slide 2"
-                                style={{ width: '100%'}}
+                                style={{ width: '100%' }}
                             />
                         </div>
                     </Slider>
@@ -288,7 +288,7 @@ const HomePage = () => {
                         <div className="col-md-6 col-lg-4 pr-0 pl-0 p-0">
                             <div className="card p-5 card-bg-img h-100">
                                 <h5 className="cards-headings">
-                                    Some quick example text to build on the card title and make up the bulk of the card's content.
+                                    Empowering Your Financial Future with Bespoke Investment Excellence.
                                 </h5>
                             </div>
                         </div>
@@ -332,9 +332,10 @@ const HomePage = () => {
 
                     {/* Heading */}
                     <div className="text-center mt-5 ml-5 mr-5 mb-5 ">
-                        <h3 className="">Discover our expertise by learning what we offer</h3>
-                        <div className="text-center">
-                            <p className='pt-2 pb-0'>Sub heading TBC</p>
+                        <h3 className="">Aligning Success, Delivering Value</h3>
+                        <div className="container text-left">
+                            <p className='pt-2 pb-0'>
+                                At Redwood Peak, we are dedicated to achieving investment excellence through a results-driven partnership with our clients, employees, and stakeholders. Since our founding in 2007, we’ve focused on providing bespoke wealth and fund management solutions for high-net-worth individuals, family offices, and institutions. With over 45 years of combined investment experience, we leverage our deep local network and disciplined approach to identify mispriced opportunities, always prioritizing the interests of our clients. Committed to excellence, integrity, and transparency, we aim to deliver sustainable success for all involved.</p>
                         </div>
                     </div>
                     {/* Services Section */}
@@ -342,18 +343,18 @@ const HomePage = () => {
                         <div className="">
                             <div className="row">
                                 <div className="col-md-4 ">
-                                    <div className="card card-shadow">
+                                    <div className="card h-100 card-shadow">
                                         <Image
                                             src={service_img1}
                                             alt="Service Image 1"
                                             className="card-img-top"
                                         />
                                         <div className="card-body text-left mt-3">
-                                            <h5 className="card-title cards-Label primaryColor">Portfolio Management</h5>
+                                            <h5 className="card-title cards-Label primaryColor">Tailored Investment Strategies</h5>
                                             <p className="card-text text-left p-0" style={{ textAlign: 'left' }}>
-                                                Cultivating change enthusiasts fuels success, resulting in superior, more efficient, and robust innovations.
+                                                At Redwood Peak, we specialize in providing bespoke wealth and fund management solutions for high-net-worth individuals, family offices, and institutions. We design custom portfolios that are specifically crafted to meet your unique financial goals, with a focus on long-term growth and prudent risk management.
                                             </p>
-                                            <div style={{marginBottom:30}}>
+                                            <div style={{ marginBottom: 30 }}>
                                                 <Button
                                                     text="Learn More"
                                                     onClick={handleClick}
@@ -366,18 +367,18 @@ const HomePage = () => {
                                 </div>
 
                                 <div className="col-md-4 ">
-                                    <div className="card card-shadow">
+                                    <div className="card h-100 card-shadow">
                                         <Image
                                             src={service_img2}
                                             alt="Service Image 1"
                                             className="card-img-top"
                                         />
                                         <div className="card-body text-left mt-3">
-                                            <h5 className="card-title cards-Label primaryColor">Financial Planning</h5>
+                                            <h5 className="card-title cards-Label primaryColor">Expertise & Integrity</h5>
                                             <p className="card-text text-left p-0" style={{ textAlign: 'left' }}>
-                                                Cultivating change enthusiasts fuels success, resulting in superior, more efficient, and robust innovations.
+                                                With over 45 years of combined investment experience, we prioritize transparency and integrity in every partnership. Our extensive local network provides valuable insights, empowering us to make informed investment decisions. We place your interests at the forefront, ensuring our success is fully aligned with your objectives.
                                             </p>
-                                            <div style={{marginBottom:30}}>
+                                            <div style={{ marginBottom: 30 }}>
                                                 <Button
                                                     text="Learn More"
                                                     onClick={handleClick}
@@ -390,18 +391,18 @@ const HomePage = () => {
                                 </div>
 
                                 <div className="col-md-4 ">
-                                    <div className="card card-shadow">
+                                    <div className="card h-100 card-shadow">
                                         <Image
                                             src={service_img3}
                                             alt="Service Image 1"
                                             className="card-img-top"
                                         />
                                         <div className="card-body text-left mt-3">
-                                            <h5 className="card-title cards-Label primaryColor">Wealth Management</h5>
+                                            <h5 className="card-title cards-Label primaryColor">Hedge Fund & Managed Account Platforms</h5>
                                             <p className="card-text text-left p-0" style={{ textAlign: 'left' }}>
-                                                Cultivating change enthusiasts fuels success, resulting in superior, more efficient, and robust innovations.
+                                                We offer flexible and sophisticated investment vehicles tailored to your specific needs. Our hedge fund and managed account platforms provide access to transparent performance tracking, giving you confidence in your investments. Additionally, our operations are regulated by the Hong Kong Securities and Futures Commission, ensuring regulatory oversight and peace of mind.
                                             </p>
-                                            <div style={{marginBottom:30}}>
+                                            <div style={{ marginBottom: 30 }}>
                                                 <Button
                                                     text="Learn More"
                                                     onClick={handleClick}
@@ -486,7 +487,7 @@ const HomePage = () => {
                                                 <IconComponent icon={faEnvelope} className="primaryColor fontAwsomeIconSize" />
                                             </span>
                                             <span className="ps-3 text-with-underline">
-                                            Email: <a href="mailto:IR@redwoodpeak.com" className="text-with-underline contactLink">IR@redwoodpeak.com</a>
+                                                Email: <a href="mailto:IR@redwoodpeak.com" className="text-with-underline contactLink">IR@redwoodpeak.com</a>
                                             </span>
                                         </p>
                                     </ul>
