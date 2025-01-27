@@ -165,13 +165,13 @@ const HeaderComponents = () => {
                     </ul>
                 </Nav>
                 {isAuthenticated ? (
-                    <Button variant="primary" className="ms-5 w-auto" onClick={handleLogout}>Logout</Button>
+                    <Button variant="primary" className="ms-5 w-auto login-register-btn" onClick={handleLogout}>Logout</Button>
                 ) : (
                     <>
-                        <Button variant="primary" className="me-2 ms-3 w-auto" onClick={() => handleAuth("login")}>
+                        <Button variant="primary" className="me-2 ms-3 w-auto login-register-btn" onClick={() => handleAuth("login")}>
                             Log In
                         </Button>
-                        <Button variant="primary" className="w-auto" onClick={() => handleAuth("signIn")}>
+                        <Button variant="primary" className="w-auto login-register-btn" onClick={() => handleAuth("signIn")}>
                             Register
                         </Button>
                     </>

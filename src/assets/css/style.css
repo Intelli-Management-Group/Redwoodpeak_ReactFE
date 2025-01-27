@@ -110,7 +110,7 @@ li>a {
     background-color: #511515 !important;
     border-radius: 5px !important;
     box-shadow: none !important;
-    font-size: 11px !important;
+    font-size: 13px !important;
     padding: 10px 14px;
     font-weight: 600;
     line-height: 1;
@@ -597,4 +597,9 @@ footer {
 }
 .contactSectionFonts{
 font-size: 0.9rem;
+}
+
+.login-register-btn{
+ font-size: 12px !important;
+ padding: 6px !important;
 }
