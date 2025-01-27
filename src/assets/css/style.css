@@ -108,9 +108,9 @@ li>a {
     color: #fff;
     border-color: #511515 !important;
     background-color: #511515 !important;
-    border-radius: 8px !important;
+    border-radius: 5px !important;
     box-shadow: none !important;
-    font-size: 13px;
+    font-size: 11px !important;
     padding: 10px 14px;
     font-weight: 600;
     line-height: 1;
