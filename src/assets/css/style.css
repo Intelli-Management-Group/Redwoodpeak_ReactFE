@@ -603,3 +603,49 @@ font-size: 0.9rem;
  font-size: 12px !important;
  padding: 6px !important;
 }
+
+/*  */
+.tilesCard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 8px; 
+    border: none !important;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.tilesCard-img-top {
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.tilesCard-img-top:hover {
+    transform: scale(1.1);
+}
+
+.tilesCard-body {
+    flex-grow: 1; 
+    padding: 2rem;
+    background-color: #fff;
+}
+
+.tilesCard-footer {
+    padding: 0rem 2rem 2rem 2rem;
+    background-color: #fff !important; 
+    border-top: none !important;
+}
+
+.tilesCard-shadow {
+    box-shadow: 0px 0px 10px 0px rgba(237, 237, 237, 0.84);
+    border-style: none;
+    background-color: #fff;
+}
+
+@media (max-width: 767px) {
+    .col-md-4 {
+        flex: 0 0 100%; 
+        margin-bottom: 20px;
+    }
+}

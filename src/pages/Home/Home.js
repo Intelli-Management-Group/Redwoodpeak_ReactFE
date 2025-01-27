@@ -339,78 +339,82 @@ const HomePage = () => {
                         </div>
                     </div>
                     {/* Services Section */}
-                    <div className="container mt-0">
-                        <div className="">
-                            <div className="row">
-                                <div className="col-md-4 ">
-                                    <div className="card h-auto  card-shadow">
-                                        <Image
-                                            src={service_img1}
-                                            alt="Service Image 1"
-                                            className="card-img-top"
+                    <div className="container">
+                        <div className="row">
+                            {/* Card 1 */}
+                            <div className="col-md-4">
+                                <div className="tilesCard tilesCard-shadow h-100">
+                                    <Image
+                                        src={service_img1}
+                                        alt="Service Image 1"
+                                        className="tilesCard-img-top"
+                                    />
+                                    <div className="tilesCard-body">
+                                        <h5 className="card-title cards-Label primaryColor">
+                                            Tailored Investment Strategies
+                                        </h5>
+                                        <p className="card-text mb-0 mt-3">
+                                            At Redwood Peak, we specialize in providing bespoke wealth and fund management solutions for high-net-worth individuals, family offices, and institutions. We design custom portfolios that are specifically crafted to meet your unique financial goals, with a focus on long-term growth and prudent risk management.
+                                        </p>
+                                    </div>
+                                    <div className="tilesCard-footer text-left">
+                                        <Button
+                                            text="Learn More"
+                                            onClick={handleClick}
+                                            className="btn-primary"
                                         />
-                                        <div className="card-body text-left mt-3">
-                                            <h5 className="card-title cards-Label primaryColor">Tailored Investment Strategies</h5>
-                                            <p className="card-text text-left p-0" style={{ textAlign: 'left' }}>
-                                                At Redwood Peak, we specialize in providing bespoke wealth and fund management solutions for high-net-worth individuals, family offices, and institutions. We design custom portfolios that are specifically crafted to meet your unique financial goals, with a focus on long-term growth and prudent risk management.
-                                            </p>
-                                            <div style={{ marginBottom: 30 }}>
-                                                <Button
-                                                    text="Learn More"
-                                                    onClick={handleClick}
-                                                    className="btn-primary"
-                                                    style={{}}
-                                                />
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div className="col-md-4 ">
-                                    <div className="card h-auto  card-shadow">
-                                        <Image
-                                            src={service_img2}
-                                            alt="Service Image 1"
-                                            className="card-img-top"
+                            {/* Card 2 */}
+                            <div className="col-md-4">
+                                <div className="tilesCard tilesCard-shadow h-100">
+                                    <Image
+                                        src={service_img2}
+                                        alt="Service Image 2"
+                                        className="tilesCard-img-top"
+                                    />
+                                    <div className="tilesCard-body">
+                                        <h5 className="card-title cards-Label primaryColor">
+                                            Expertise & Integrity
+                                        </h5>
+                                        <p className="card-text mb-0 mt-3">
+                                            With over 45 years of combined investment experience, we prioritize transparency and integrity in every partnership. Our extensive local network provides valuable insights, empowering us to make informed investment decisions. We place your interests at the forefront, ensuring our success is fully aligned with your objectives.
+                                        </p>
+                                    </div>
+                                    <div className="tilesCard-footer text-left">
+                                        <Button
+                                            text="Learn More"
+                                            onClick={handleClick}
+                                            className="btn-primary"
                                         />
-                                        <div className="card-body text-left mt-3">
-                                            <h5 className="card-title cards-Label primaryColor">Expertise & Integrity</h5>
-                                            <p className="card-text text-left p-0" style={{ textAlign: 'left' }}>
-                                                With over 45 years of combined investment experience, we prioritize transparency and integrity in every partnership. Our extensive local network provides valuable insights, empowering us to make informed investment decisions. We place your interests at the forefront, ensuring our success is fully aligned with your objectives.
-                                            </p>
-                                            <div style={{ marginBottom: 30 }}>
-                                                <Button
-                                                    text="Learn More"
-                                                    onClick={handleClick}
-                                                    className="btn-primary"
-                                                    style={{}}
-                                                />
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div className="col-md-4 ">
-                                    <div className="card h-auto  card-shadow">
-                                        <Image
-                                            src={service_img3}
-                                            alt="Service Image 1"
-                                            className="card-img-top"
+                            {/* Card 3 */}
+                            <div className="col-md-4">
+                                <div className="tilesCard tilesCard-shadow h-100">
+                                    <Image
+                                        src={service_img3}
+                                        alt="Service Image 3"
+                                        className="tilesCard-img-top"
+                                    />
+                                    <div className="tilesCard-body">
+                                        <h5 className="card-title cards-Label primaryColor">
+                                            Hedge Fund & Managed Account Platforms
+                                        </h5>
+                                        <p className="card-text mb-0 mt-3">
+                                            We offer flexible and sophisticated investment vehicles tailored to your specific needs. Our hedge fund and managed account platforms provide access to transparent performance tracking, giving you confidence in your investments. Additionally, our operations are regulated by the Hong Kong Securities and Futures Commission, ensuring regulatory oversight and peace of mind.
+                                        </p>
+                                    </div>
+                                    <div className="tilesCard-footer text-left">
+                                        <Button
+                                            text="Learn More"
+                                            onClick={handleClick}
+                                            className="btn-primary"
                                         />
-                                        <div className="card-body text-left mt-3">
-                                            <h5 className="card-title cards-Label primaryColor">Hedge Fund & Managed Account Platforms</h5>
-                                            <p className="card-text text-left p-0" style={{ textAlign: 'left' }}>
-                                                We offer flexible and sophisticated investment vehicles tailored to your specific needs. Our hedge fund and managed account platforms provide access to transparent performance tracking, giving you confidence in your investments. Additionally, our operations are regulated by the Hong Kong Securities and Futures Commission, ensuring regulatory oversight and peace of mind.
-                                            </p>
-                                            <div style={{ marginBottom: 30 }}>
-                                                <Button
-                                                    text="Learn More"
-                                                    onClick={handleClick}
-                                                    className="btn-primary"
-                                                    style={{}}
-                                                />
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
