@@ -108,9 +108,9 @@ const HedgeFundReports = () => {
               </div>
             </div>
           ) : (
-            <div style={{ display: "flex", gap: "30px" }}>
+            <div className="row" >
               {/* Left Column: Monthly Portfolio Summary */}
-              <div style={{ flex: 1 }}>
+              <div className="col-md-6 col-sm-12" >
                 <div className="type-header pt-2 pb-1 text-primary-color">
                   Monthly Portfolio Summary
                 </div>
@@ -171,7 +171,7 @@ const HedgeFundReports = () => {
               </div>
 
               {/* Right Column: Report Types */}
-              <div style={{ flex: 1 }}>
+              <div className="col-md-6 col-sm-12">
                 {reportTypes.map((type) => (
                   <div key={type}>
                     <div
