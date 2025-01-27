@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import '../../assets/css/style.css'
 import Image from '../Component/ImagesComponets/ImagesComponets';
-import Slide1 from "../../assets/banner_images/redwood_homepage.jpg"
-import Slide2 from "../../assets/banner_images/redwood_homepage.jpg"
-import service_img1 from "../../assets/images/service_img1.jpg"
-import service_img2 from "../../assets/images/service_img2.jpg"
-import service_img3 from "../../assets/images/service_img3.jpg"
+import Slide1 from "../../assets/banner_images/redwood_homepage_hong_kong.jpg"
+import Slide2 from "../../assets/banner_images/redwood_homepage_wealth_management.jpg"
+import service_img1 from "../../assets/images/redrood_hgihlight_investment_strategies.png"
+import service_img2 from "../../assets/images/redrood_hgihlight_investment_expertise.png"
+import service_img3 from "../../assets/images/redrood_hgihlight_investment_platform.png"
 import pdfIcon from "../../assets/images/pdf_icon1.png"
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from '../Component/Footer/Footer';
