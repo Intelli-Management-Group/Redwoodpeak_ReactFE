@@ -296,11 +296,11 @@ const HomePage = () => {
                         {/* Third Column */}
                         <div className="col-md-6 col-lg-4 pr-0 pl-0 p-0">
                             <div className="card p-5 h-100 secondaryBGColor">
-                                <div className="d-flex flex-column justify-content-between h-100">
+                                <div className="d-flex flex-row justify-content-between h-100">
                                     <div>
                                         <h3 className="welcome-title-class">Our View</h3>
                                         <div className="mt-2 pt-1">
-                                            <ul className='ps-0' style={{ listStyle: 'none' }}>
+                                            <ul className='ps-0' style={{ listStyle: 'none',display:'grid' }}>
                                                 {outLookData.map((item, index) => (
                                                     <p
                                                         className='p-0 text-left pointer file-item'
