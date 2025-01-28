@@ -108,13 +108,14 @@ li>a {
     color: #fff;
     border-color: #511515 !important;
     background-color: #511515 !important;
-    border-radius: 5px !important;
+    border-radius: 3px !important;
     box-shadow: none !important;
-    font-size: 13px !important;
-    padding: 10px 14px;
+    font-size: 12px !important; 
+    padding: 3px 7px !important; /* Updated padding to x0.5 (7px) and y0.3 (3px) */
     font-weight: 600;
     line-height: 1;
 }
+
 
 .btn:hover,
 .btn:focus,
@@ -201,7 +202,9 @@ li>a {
 
 .form-group button {
     width: 100px;
-    border-radius: 4px !important;
+    border-radius: 3px !important;
+    padding: 3px 7px !important;
+    font-size: 12px !important;
 }
 
 
@@ -456,7 +459,11 @@ footer {
     .mobileTopMargin{
         margin-top:15px;
     }
+    .mapImage {
+        max-height: 300px;
+    }
 }
+
 
 
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -483,6 +490,13 @@ footer {
 @media (min-width: 1025px) and (max-width: 2560px) {
     .d-none {
         display: block !important;
+    }
+}
+@media (min-width: 2350px) and (max-width: 2560px) {
+    .mapImage {
+        height: auto;  
+        max-height: 700px !important;
+        object-fit: cover;
     }
 }
 
@@ -532,6 +546,9 @@ footer {
     background-color: var(--secondary-button-color) !important; 
     border-color: var(--secondary-button-color);
     color: white;
+    padding: 3px 7px !important;
+    font-size: 12px !important;
+    border-radius: 3px !important;
 }
 .cs-btn-primary:hover {
     background-color: var(--primary-color);
@@ -601,7 +618,8 @@ font-size: 0.9rem;
 
 .login-register-btn{
  font-size: 12px !important;
- padding: 6px !important;
+ padding: 3px 7px !important;
+ border-radius: 3px !important;
 }
 
 /*  */
@@ -649,3 +667,9 @@ font-size: 0.9rem;
         margin-bottom: 20px;
     }
 }
+.mapImage {
+    height: auto;  
+    max-height: 500px;
+    object-fit: cover;
+}
+

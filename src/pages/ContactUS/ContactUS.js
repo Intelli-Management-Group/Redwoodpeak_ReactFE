@@ -130,7 +130,7 @@ const ContactUs = () => {
                     <div id="map" className="mobileTopMargin">
                         <Image
                             src={Maps}
-                            className="w-100"
+                            className="w-100 mapImage"
                             alt="CONTACT US Banner"
                             // style={{width:"100%", height:"100%"}}
                         />
