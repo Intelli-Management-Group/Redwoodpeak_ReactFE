@@ -41,7 +41,7 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Registration/>}/>
         <Route path='/forgotPassword' element={<ForgotPassword/>}/>
-        <Route path='/update-password/:token' element={<UpdatePassword/>} />
+        <Route path="/update-password" element={<UpdatePassword />} />
 
         </Routes>
     </BrowserRouter>

@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 
 const UpdatePassword = () => {
-    const { token } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const token = queryParams.get('token');
+  
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -14,69 +18,73 @@ const UpdatePassword = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        if (!token) {
+          setError('Token is missing');
+          return;
+        }
+    
         const verifyToken = async () => {
-            try {
-                const response = await fetch(`/api/verify-reset-token?token=${token}`);
-                const data = await response.json();
-
-                if (data.success) {
-                    // setEmail(data.email);
-                } else {
-                    setError('Invalid or expired token');
-                }
-            } catch (err) {
-                setError('Error verifying token');
+          try {
+            const response = await fetch(`/api/verify-reset-token?token=${token}`);
+            const data = await response.json();
+    
+            if (data.success) {
+            //   setEmail(data.email); // Set email based on token
+            } else {
+              setError('Invalid or expired token');
             }
+          } catch (err) {
+            setError('Error verifying token');
+          }
         };
-
+    
         verifyToken();
-    }, [token]);
-
-    const handleSubmit = async (e) => {
+      }, [token]);
+    
+      const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Reset errors
+    
         setEmailError('');
         setPasswordError('');
         setConfirmPasswordError('');
         setError('');
-
+    
         if (password !== confirmPassword) {
-            setConfirmPasswordError('Passwords do not match');
-            return;
+          setConfirmPasswordError('Passwords do not match');
+          return;
         }
-
+    
         if (password.length < 6) {
-            setPasswordError('Password must be at least 6 characters');
-            return;
+          setPasswordError('Password must be at least 6 characters');
+          return;
         }
-
+    
         setIsLoading(true);
-        console.log("email",email);
-        console.log("confirmPassword",confirmPassword);
+    
         try {
-            const response = await fetch('/api/update-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    token,
-                    password,
-                }),
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                navigate('/login');
-            } else {
-                setError(data.message || 'Failed to update password');
-            }
+          const response = await fetch('/api/update-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              token,
+              password,
+            }),
+          });
+    
+          const data = await response.json();
+    
+          if (data.success) {
+            navigate('/login');
+          } else {
+            setError(data.message || 'Failed to update password');
+          }
         } catch (err) {
-            setError('Error updating password');
+          setError('Error updating password');
         } finally {
-            setIsLoading(false);
+          setIsLoading(false);
         }
-    };
+      };
+    
 
     return (
         <div 
