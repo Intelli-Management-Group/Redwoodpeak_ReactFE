@@ -26,22 +26,22 @@ const UpdatePassword = () => {
       return;
     }
 
-    const verifyToken = async () => {
-      try {
-        const response = await fetch(`/api/verify-reset-token?token=${token}`);
-        const data = await response.json();
+    // const verifyToken = async () => {
+    //   try {
+    //     const response = await fetch(`/api/verify-reset-token?token=${token}`);
+    //     const data = await response.json();
 
-        if (data.success) {
-          //   setEmail(data.email); // Set email based on token
-        } else {
-          setError('Invalid or expired token');
-        }
-      } catch (err) {
-        setError('Error verifying token');
-      }
-    };
+    //     if (data.success) {
+    //       //   setEmail(data.email); // Set email based on token
+    //     } else {
+    //       setError('Invalid or expired token');
+    //     }
+    //   } catch (err) {
+    //     setError('Error verifying token');
+    //   }
+    // };
 
-    verifyToken();
+    // verifyToken();
   }, [token]);
 
   const handleSubmit = async (e) => {
