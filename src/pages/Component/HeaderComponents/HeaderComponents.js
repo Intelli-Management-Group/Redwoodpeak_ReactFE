@@ -7,12 +7,24 @@ import Logo from "../../../assets/images/logo.png"
 import IconComponent from "../IconComponents/IconComponents"
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-
 const HeaderComponents = () => {
     const location = useLocation();
     const isAuthenticated = localStorage.getItem('userToken');
     const navigate = useNavigate();
     const [openDropdown, setOpenDropdown] = useState(null);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useState(null);
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+    };
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setDropdownOpen(false);
+        }
+    };
+
 
 
     const handleDropdownToggle = (dropdownName) => {
@@ -168,11 +180,30 @@ const HeaderComponents = () => {
                     </ul>
                 </Nav>
                 {isAuthenticated ? (
-                    <>
-                    <Button variant="primary" className="ms-5 w-auto login-register-btn" onClick={handleLogout}>Logout</Button>
-                    <IconComponent icon={faUser} className="primaryColor ms-5" onClick={Profile}/>
+                    <div className="dropdown" ref={dropdownRef}>
+                        <button className="ms-5 ps-5 dropbtn" onClick={toggleDropdown}>
+                            {/* <svg
+                            className="me-5 primary"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="35"
+                            height="35"
+                            onClick={handleDropdownToggle}
+                            >
+                            <path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                            </svg> */}
+                            <IconComponent icon={faUser} className="primaryColor fontAwsomeIconSize" onClick={handleDropdownToggle}/>
 
-                    </>
+                        </button>
+                            {dropdownOpen && (
+                              <div className="dropdown-content">
+                                 <a href="#" onClick={Profile}>Profile</a>
+                                 <a href="#" onClick={handleLogout}>Logout</a>
+                              </div>
+                            )}
+                    </div>
+
+
                 ) : (
                     <>
                         <Button variant="primary" className="me-2 ms-3 w-auto login-register-btn" onClick={() => handleAuth("login")}>
@@ -184,16 +215,6 @@ const HeaderComponents = () => {
                     </>
                 )}
             </Navbar.Collapse >
-            {/* <svg
-                className="me-5 primary"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="35"
-                height="35"
-                onClick={Profile}
-            >
-                <path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-            </svg> */}
 
         </Navbar >
 

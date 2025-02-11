@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Footer from "../Footer/Footer";
 import HeaderComponents from "../HeaderComponents/HeaderComponents";
 import {ToastContainer} from "react-toastify";
-import Button from "../ButtonComponents/ButtonComponents"; // Optional: for custom styling
 
 const ChangePassword = () => {
     const [currentPassword, setCurrentPassword] = useState('');
@@ -10,6 +9,22 @@ const ChangePassword = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const formdata = new FormData();
+    formdata.append("user_id", "");
+    formdata.append("old_password", "");
+    formdata.append("new_password", "");
+    formdata.append("confirm_password", "");
+
+    const requestOptions = {
+        method: "POST",
+        body: formdata,
+        redirect: "follow"
+    };
+
+    fetch("{{url}}/api/user/update-password", requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error));
 
     const handleSubmit = (e) => {
         e.preventDefault();
