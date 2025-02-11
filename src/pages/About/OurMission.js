@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import Footer from '../Component/Footer/Footer';
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
-import OurMissionBanner from "../../Assetes/images/about-slider.jpg"
+import OurMissionBanner from "../../assets/banner_images/redwood_about_us.jpg"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
 const OurMission = () => {
   useEffect(() => {
-        console.log('component mounted');
-    }, []);
+    console.log('component mounted');
+  }, []);
   return (
     <div id="page">
       <HeaderComponents />
-      <MetaTitle pageTitle="Our Mission – Redwood Peak Limited"/>
+      <MetaTitle pageTitle="Our Mission – Redwood Peak Limited" />
       <div>
         <Image
           src={OurMissionBanner}
@@ -23,10 +23,10 @@ const OurMission = () => {
       {/* Main Content */}
       <div className="container mb-5">
         <div className="container-custom mt-1 mb-5 p-4">
-          <h1 className="header-post-title-class">Our Mission</h1>
+          {/*<h1 className="header-post-title-class">Our Mission</h1>*/}
 
           <div className="mt-3">
-            <h3 className="fancytitle">
+            <h3 className="fancytitle mb-5">
               <em>
                 “Our mission is to achieve investment excellence for our clients through a
               </em>

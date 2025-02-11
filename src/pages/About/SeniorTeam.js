@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import Footer from '../Component/Footer/Footer';
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
-import SeniorTeams from "../../Assetes/images/about-slider.jpg"
+import SeniorTeams from "../../assets/banner_images/redwood_about_us.jpg"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
 
 const SeniorTeam = () => {
   useEffect(() => {
-        console.log('component mounted');
-    }, []);
+    console.log('component mounted');
+  }, []);
   return (
     <div id="page">
       <HeaderComponents />
@@ -24,7 +24,7 @@ const SeniorTeam = () => {
       {/* Main Content */}
       <div className="container mb-5">
         <div className="container-custom mt-1 mb-5 p-4">
-          <h1 className="header-post-title-class">Senior Team</h1>
+          {/*<h1 className="header-post-title-class">Senior Team</h1>*/}
           <div className="mt-3">
             <p>
               <strong>

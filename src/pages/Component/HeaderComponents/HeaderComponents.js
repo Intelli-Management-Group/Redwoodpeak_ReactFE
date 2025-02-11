@@ -3,9 +3,7 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import Image from '../ImagesComponets/ImagesComponets';
-import Logo from "../../../Assetes/images/logo.png";
-
-
+import Logo from "../../../assets/images/logo.png"
 
 
 const HeaderComponents = () => {
@@ -18,8 +16,12 @@ const HeaderComponents = () => {
     const handleDropdownToggle = (dropdownName) => {
         setOpenDropdown((prev) => (prev === dropdownName ? null : dropdownName));
     };
-    const handleAuth = () => {
-        navigate('/login');
+    const handleAuth = (actionType) => {
+        if (actionType === "login") {
+            navigate('/login');
+        } else if (actionType === "signIn") {
+            navigate('/register');
+        }
     }
     const Profile = () => {
         navigate('/Profile');
@@ -28,7 +30,7 @@ const HeaderComponents = () => {
         localStorage.removeItem('userToken');
         window.location.href = '/';
     }
-    console.log(openDropdown, location)
+    // console.log(openDropdown, location)
     return (
         <Navbar expand="lg" className="container px-4 mx-sm-3 mx-md-4 mx-lg-5">
             <Navbar.Brand href="/">
@@ -164,9 +166,16 @@ const HeaderComponents = () => {
                     </ul>
                 </Nav>
                 {isAuthenticated ? (
-                    <Button variant="primary" className="ms-auto me-5 w-auto" onClick={handleLogout}>Logout</Button>
+                    <Button variant="primary" className="ms-5 w-auto login-register-btn" onClick={handleLogout}>Logout</Button>
                 ) : (
-                    <Button variant="primary" className="ms-auto me-5 w-auto" onClick={handleAuth}>Sign In</Button>
+                    <>
+                        <Button variant="primary" className="me-2 ms-3 w-auto login-register-btn" onClick={() => handleAuth("login")}>
+                            Log In
+                        </Button>
+                        <Button variant="primary" className="w-auto login-register-btn" onClick={() => handleAuth("signIn")}>
+                            Register
+                        </Button>
+                    </>
                 )}
             </Navbar.Collapse >
             <svg

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import NewsBanner from "../../Assetes/images/banner_news.png"
+import NewsBanner from "../../assets/banner_images/redwood_publication.jpg"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import Footer from '../Component/Footer/Footer';
-import News1 from "../../Assetes/images/news1.png";
-import News2 from "../../Assetes/images/news2.png";
-import News3 from "../../Assetes/images/news3.jpeg";
+import News1 from "../../assets/images/news1.png";
+import News2 from "../../assets/images/news2.png";
+import News3 from "../../assets/images/news3.jpeg";
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
@@ -72,7 +72,7 @@ const News = () => {
 
   const updateContent = (postId) => {
     setLoading(true);
-    window.scrollTo(0, 150);
+    window.scrollTo(0, 370);
 
     const selectedPost = Object.values(newsData)
       .flat()
@@ -97,7 +97,7 @@ const News = () => {
 
       <div className="container mb-5">
         <div className="container-custom mt-1 mb-5 p-4">
-          <h1 className="header-post-title-class">News</h1>
+          {/*<h1 className="header-post-title-class">News</h1>*/}
           <div className="row">
             {/* Left Column for Thumbnails */}
             <div className="col-md-3">

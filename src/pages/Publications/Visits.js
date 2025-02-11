@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import NewsBanner from "../../Assetes/images/banner_news.png"
+import NewsBanner from "../../assets/banner_images/redwood_publication.jpg"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import Footer from '../Component/Footer/Footer';
-import News2 from "../../Assetes/images/news2.png";
-import News3 from "../../Assetes/images/news3.jpeg";
+import News2 from "../../assets/images/news2.png";
+import News3 from "../../assets/images/news3.jpeg";
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
@@ -40,7 +40,7 @@ const Visits = () => {
 
   const updateContent = (postId) => {
     setLoading(true);
-    window.scrollTo(0, 150);
+    window.scrollTo(0, 370);
 
     const selectedPost = Object.values(newsData)
       .flat()
@@ -100,7 +100,7 @@ const Visits = () => {
 
       <div className="container mb-5">
         <div className="container-custom mt-1 mb-5 p-4">
-          <h1 className="header-post-title-class">Visits</h1>
+          {/*<h1 className="header-post-title-class">Visits</h1>*/}
 
           <div className="row">
             {/* Left Column for Year and Post Thumbnails */}
@@ -124,7 +124,7 @@ const Visits = () => {
                         {newsData[year].map((post) => (
                           <div
                             key={post.id}
-                            className="pdf-row mb-3"
+                            className="pdf-row mb-3 pointer"
                             onClick={() => updateContent(post.id)}
                           >
                             <div className="pdf-title row">
@@ -135,7 +135,7 @@ const Visits = () => {
                                   alt={post.title}
                                   width={50}
                                   height={50}
-                                  className="img-thumbnail"
+                                  className="img-thumbnail pointer"
                                 />
                               </div>
                               {/* Post Title */}

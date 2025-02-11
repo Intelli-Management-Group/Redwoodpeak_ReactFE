@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Component/Footer/Footer";
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
@@ -6,9 +6,15 @@ import Button from "../Component/ButtonComponents/ButtonComponents";
 import AuthenticationServices from "../../Services/AuthenticationServices";
 import { notifyError, notifySuccess, notifyWarning } from "../Component/ToastComponents/ToastComponents";
 import { ToastContainer } from 'react-toastify';
+import Select from "react-select";
+import countryList from 'react-select-country-list'
+import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
+
+
 const Registration = () => {
   const navigate = useNavigate();
-
+  const options = useMemo(() => countryList().getData(), [])
+  const [loading, setLoading] = useState(false)
   // Form state and error state
   const [formData, setFormData] = useState({
     id: "",
@@ -36,88 +42,123 @@ const Registration = () => {
     });
   };
 
+  const handleCountryChange = (selectedOption) => {
+    setFormData({ ...formData, country: selectedOption ? selectedOption.value : "" });
+    if (!selectedOption) {
+      setErrors({ ...errors, country: "Please select a country." });
+    } else {
+      setErrors({ ...errors, country: "" });
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newErrors = {};
+    setLoading(true);
 
-    // Client-side validation
-    if (!formData.firstName) newErrors.firstName = "First name is required.";
-    if (!formData.lastName) newErrors.lastName = "Last name is required.";
-    if (!formData.userName) newErrors.userName = "User name is required.";
-
-    if (!formData.email) newErrors.email = "Email is required.";
-    if (!formData.password) newErrors.password = "Password is required.";
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match.";
+    const validationErrors = validateFormData(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setLoading(false);
+      return;
     }
-    if (!formData.contact || isNaN(formData.contact))
-      newErrors.contact = "Contact must be a valid number.";
-    if (!formData.country) newErrors.country = "Country is required.";
-    if (!formData.companyName) newErrors.companyName = "Company name is required.";
-    if (!formData.position) newErrors.position = "Position is required.";
 
-    if (Object.keys(newErrors).length === 0) {
-      // Simulate form submission
+    try {
+      const registrationData = new FormData();
+      populateFormData(registrationData);
 
+      const response = await AuthenticationServices.userSignUp(registrationData);
 
+      if (response?.status_code === 200) {
+        const { token, user } = response;
 
-      try {
-
-        const registrationData = new FormData();
-        registrationData.append("id", "");
-        registrationData.append("email", formData.email);
-        registrationData.append("password", formData.password);
-        registrationData.append("confirm_password", formData.confirmPassword);
-        registrationData.append("first_name", formData.firstName);
-        registrationData.append("last_name", formData.lastName);
-        registrationData.append("username", formData.userName);
-        registrationData.append("country", formData.country);
-        registrationData.append("contact_no", formData.contact);
-        registrationData.append("company_name", formData.companyName);
-        registrationData.append("position", formData.position);
-        registrationData.append("role", formData.role);
-        registrationData.append("status", "pending");
-
-        const response = await AuthenticationServices.userSignUp(registrationData);
-        console.log(response)
-        if (response?.status_code === 200) {
-          const { token, user } = response;
-          if (user?.status === "pending") {
-            notifyWarning(`${user?.email} has not been approved by the admin. Please contact the administrator or wait for approval.`);
-          } else {
-
-            localStorage.setItem("userToken", token);
-            localStorage.setItem('userData', JSON.stringify(user));
-
-            notifySuccess(`SignUp successful!`);
-            setTimeout(() => navigate("/"), 2500);
-          }
-        } else if (response.message === "User With this Email Already Exist") {
-          setTimeout(() => navigate("/login"), 1500);
-          notifyError(`Email already exist`);
+        if (user?.status === "pending") {
+          notifySuccess(
+            `Thank you for registering, ${user?.email}! Your account is pending admin approval. Please contact the administrator or wait for approval.`
+          );
         } else {
-          notifyError(`Invalid email or password`);
+          localStorage.setItem("userToken", token);
+          localStorage.setItem("userData", JSON.stringify(user));
+          notifySuccess("Sign-up successful!");
+          setTimeout(() => navigate("/"), 2500);
         }
-      } catch (error) {
 
+        resetFormData();
+      } else if (response?.status_code === 500 && response.message === "User With this Email Already Exist") {
+        notifyError("Email already exists.");
+      } else {
+        notifyError("An unexpected error occurred. Please try again.");
       }
-    } else {
-      setErrors(newErrors); // Set errors for rendering
+    } catch (error) {
+      console.error("Error during registration:", error);
+      notifyError("Failed to register. Please check your details and try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Handle redirect to login page
-  const redirectToLogin = () => {
-    navigate("/login");
+  const validateFormData = (formData) => {
+    const errors = {};
+
+    if (!formData.firstName) errors.firstName = "First name is required.";
+    if (!formData.lastName) errors.lastName = "Last name is required.";
+    if (!formData.email) errors.email = "Email is required.";
+    if (!formData.password) errors.password = "Password is required.";
+    if (formData.password !== formData.confirmPassword) {
+      errors.confirmPassword = "Passwords do not match.";
+    }
+    if (!formData.contact || isNaN(formData.contact)) {
+      errors.contact = "Contact must be a valid number.";
+    }
+    if (!formData.country) errors.country = "Country is required.";
+    if (!formData.companyName) errors.companyName = "Company name is required.";
+    if (!formData.position) errors.position = "Position is required.";
+
+    return errors;
   };
+
+  const populateFormData = (formDataObj) => {
+    formDataObj.append("id", "");
+    formDataObj.append("email", formData.email);
+    formDataObj.append("password", formData.password);
+    formDataObj.append("confirm_password", formData.confirmPassword);
+    formDataObj.append("first_name", formData.firstName);
+    formDataObj.append("last_name", formData.lastName);
+    formDataObj.append("username", "");
+    formDataObj.append("country", formData.country);
+    formDataObj.append("contact_no", formData.contact);
+    formDataObj.append("company_name", formData.companyName);
+    formDataObj.append("position", formData.position);
+    formDataObj.append("role", formData.role);
+    formDataObj.append("status", "pending");
+  };
+
+  const resetFormData = () => {
+    setFormData({
+      id: "",
+      firstName: "",
+      lastName: "",
+      userName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      country: "",
+      companyName: "",
+      contact: "",
+      position: "",
+      role: "user",
+    });
+  };
+
 
   return (
     <React.Fragment>
       <HeaderComponents />
-      <div className="container">
+      <MetaTitle pageTitle={"Registration"} />
+
+      <div className="container ">
         <div className="container-custom mb-5 p-2 min-heights">
-          <h1 className="header-post-title-class">Register</h1>
+          {/* <h1 className="ml-5">Register</h1> */}
           <div className="mt-4 inside-container">
             <div className="text-center">
               <span
@@ -172,7 +213,7 @@ const Registration = () => {
               </div>
               {/* userName & Email  */}
               <div className="row mt-4">
-                <div className="col-md-6">
+                {/* <div className="col-md-6">
                   <label htmlFor="userName">User Name</label>
                   <input
                     id="userName"
@@ -186,8 +227,8 @@ const Registration = () => {
                   {errors.userName && (
                     <div className="invalid-feedback">{errors.userName}</div>
                   )}
-                </div>
-                <div className="col-md-6">
+                </div> */}
+                <div className="col-md-12">
                   <label htmlFor="email">Email</label>
                   <input
                     id="email"
@@ -259,7 +300,7 @@ const Registration = () => {
                   )}
                 </div>
 
-                <div className="col-md-6">
+                {/* <div className="col-md-6">
                   <label htmlFor="country">Country</label>
                   <select
                     id="country"
@@ -276,6 +317,20 @@ const Registration = () => {
                   {errors.country && (
                     <div className="invalid-feedback">{errors.country}</div>
                   )}
+                </div> */}
+                <div className="col-md-6">
+                  <label htmlFor="country">Country</label>
+                  <Select
+                    id="country"
+                    options={options} // Country options from react-select-country-list
+                    className={`basic-single ${errors.country ? "is-invalid" : ""}`}
+                    classNamePrefix="select"
+                    onChange={handleCountryChange}
+                    value={options.find((option) => option.value === formData.country)} // Set selected value
+                    placeholder="Select a country..."
+                    isClearable
+                  />
+                  {errors.country && <div className="invalid-feedback">{errors.country}</div>}
                 </div>
               </div>
 
@@ -317,11 +372,11 @@ const Registration = () => {
 
               {/* Position */}
               <div className="row mt-4">
-              
+
               </div>
 
               {/* Footer information */}
-              <div className="mt-5">
+              <div className="mt-2">
                 <div style={{ fontSize: "17px" }}>
                   * For investor-level access please{" "}
                   <b>
@@ -336,19 +391,20 @@ const Registration = () => {
               </div>
 
               {/* Submit & Redirect buttons */}
-              <div className="form-group row mb-0 mt-2">
+              <div className="form-group row mb-0 mt-2 justify-content-center">
                 <Button
-                  text="Register"
+                  text={loading ? "Submitting..." : "Submit"}
                   onClick={handleSubmit}
-                  className="btn btn-primary"
+                  disabled={loading}
+                  className="btn btn-primary w-auto"
                   type="submit"
                 />
-                <Button
+                {/* <Button
                   text="Login"
                   onClick={redirectToLogin}
                   className="btn btn-secondary ms-3 button-gap"
                   type="submit"
-                />
+                /> */}
               </div>
             </form>
           </div>

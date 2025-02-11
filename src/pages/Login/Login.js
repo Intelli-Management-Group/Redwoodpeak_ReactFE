@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from "../Component/Footer/Footer";
 import AuthenticationServices from '../../Services/AuthenticationServices';
-import {notifyError, notifySuccess, notifyWarning} from "../Component/ToastComponents/ToastComponents";
+import { notifyError, notifySuccess, notifyWarning } from "../Component/ToastComponents/ToastComponents";
 import { ToastContainer } from 'react-toastify';
+import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
+import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 
 const Login = () => {
+    const location = useLocation();
+    const [loading, setLoading] = useState(false)
     // State to hold form data
     const [formData, setFormData] = useState({
         email: '',
@@ -35,6 +38,7 @@ const Login = () => {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);  // Set loading to true when the form is submitted.
 
         // Clear previous errors
         setErrors({
@@ -49,43 +53,55 @@ const Login = () => {
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
+            setLoading(false);
             return;
         }
 
         try {
-            const formDataCopy = { ...formData }; // Create a copy to avoid mutating the original object
+            const formDataCopy = { ...formData };
             delete formDataCopy.remember;
 
             const response = await AuthenticationServices.userLogin(formDataCopy);
             console.log(response)
             if (response?.status_code === 200) {
                 const { token, user } = response;
-                if(user?.status === "approve") {
+                if (user?.status === "approve") {
                     localStorage.setItem("userToken", token);
                     localStorage.setItem('userData', JSON.stringify(user));
 
-                    // login();
                     notifySuccess(`Login successful!`);
-                    setTimeout(() => navigate("/"), 1500);
-                }else{
+                    setTimeout(() => {
+                        const from = location.state?.from?.pathname || "/"; // Default to home if no previous page exists.
+                        navigate(from);
+                    }, 1500);
+
+                } else {
                     notifyWarning(`${user?.email} has not been approved by the admin. Please contact the administrator or wait for approval.`);
                 }
             } else {
-                notifyError(response?.message)
+                notifyError(response?.message || 'Login failed. Please try again.');
             }
+
         } catch (error) {
             console.error("Login Error:", error);
             notifyError(`An error occurred during login. Please try again.`);
+        } finally {
+            setLoading(false);
         }
     };
 
     const redirectToRegister = () => {
         window.location.href = '/register';
     };
+    const forgotPassword = () =>{
+        window.location.href = '/forgotPassword';
+    }
 
     return (
         <React.Fragment>
-            <HeaderComponents />
+            <HeaderComponents/>
+            <MetaTitle pageTitle={"Login"} />
+
             <div className="container">
                 <div className="container-custom mb-5 p-2 min-heights" style={{ minHeight: '75vh' }}>
                     <div className="mt-4">
@@ -144,13 +160,19 @@ const Login = () => {
                                         Keep me signed in
                                     </label>
                                 </div>
+                                <div className='mt-3'>
+                                    <label className="form-check-label pointer"  onClick={forgotPassword}>
+                                        Forgot your password?
+                                    </label>
+                                </div>
 
                                 {/* Submit Button */}
                                 <div className="form-group row mb-0 mt-2">
                                     <Button
-                                        text="Login"
+                                        text={loading ? "Loading..." : "Login"}
                                         onClick={handleSubmit}
                                         className="btn btn-primary"
+                                        disabled={loading}
                                         type="submit"
                                     />
 
@@ -166,7 +188,7 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            <ToastContainer/>
+            <ToastContainer />
 
             <Footer />
         </React.Fragment>

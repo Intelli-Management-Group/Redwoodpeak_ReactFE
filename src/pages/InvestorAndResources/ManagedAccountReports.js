@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Image from '../Component/ImagesComponets/ImagesComponets';
-import HedgeFundReportsnBanner from "../../Assetes/images/banner_investor_resources.jpg"
+import HedgeFundReportsnBanner from "../../assets/images/banner_investment_management.jpg"
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import Footer from '../Component/Footer/Footer';
-import pdfIcon from "../../Assetes/images/pdf_icon1.png"
+import pdfIcon from "../../assets/images/pdf_icon1.png"
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
@@ -71,9 +71,9 @@ const ManagedAccountReports = () => {
             </div>
             <div className="container mb-5">
                 <div className="container-custom mt-1 mb-5 p-4">
-                    <h1 className="header-post-title-class" >
-                        Managed Account Reports
-                    </h1>
+                    {/*<h1 className="header-post-title-class" >*/}
+                    {/*    Managed Account Reports*/}
+                    {/*</h1>*/}
                     {isLoading ? (
                         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
                             <div className="spinner-border text-primary-color" role="status">

@@ -41,10 +41,10 @@ const ProfileView = ({ user, onEdit }) => {
                                     </div>
                                 </div>
                                 <div className="col-md-3">
-                                    <p>{user.first_name}</p>
-                                    <p>{user.last_name}</p>
-                                    <p>{user.username}</p>
-                                    <p>{user.email}</p>
+                                    <p>{user?.first_name}</p>
+                                    <p>{user?.last_name}</p>
+                                    <p>{user?.username}</p>
+                                    <p>{user?.email}</p>
 
                                 </div>
                             </div>
