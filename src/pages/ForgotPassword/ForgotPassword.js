@@ -6,7 +6,7 @@ import Footer from "../Component/Footer/Footer";
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
 import AuthenticationServices from "../../Services/AuthenticationServices";
-import { notifySuccess } from "../Component/ToastComponents/ToastComponents";
+import { notifyError, notifySuccess } from "../Component/ToastComponents/ToastComponents";
 
 
 const ForgotPassword = () => {
@@ -36,7 +36,7 @@ const ForgotPassword = () => {
             if (response.status_code === 200) {
                 notifySuccess(`Reset link sent to your email.`);
               } else {
-                setError(response.message || 'Failed to update password');
+                notifyError(`Something went wrong. Please try again.`);
               }
 
 
