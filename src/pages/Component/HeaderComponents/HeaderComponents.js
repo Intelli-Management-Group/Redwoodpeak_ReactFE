@@ -4,6 +4,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import Image from '../ImagesComponets/ImagesComponets';
 import Logo from "../../../assets/images/logo.png"
+import IconComponent from "../IconComponents/IconComponents"
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 
 const HeaderComponents = () => {
@@ -166,7 +168,11 @@ const HeaderComponents = () => {
                     </ul>
                 </Nav>
                 {isAuthenticated ? (
+                    <>
                     <Button variant="primary" className="ms-5 w-auto login-register-btn" onClick={handleLogout}>Logout</Button>
+                    <IconComponent icon={faUser} className="primaryColor ms-5" onClick={Profile}/>
+
+                    </>
                 ) : (
                     <>
                         <Button variant="primary" className="me-2 ms-3 w-auto login-register-btn" onClick={() => handleAuth("login")}>
@@ -178,7 +184,7 @@ const HeaderComponents = () => {
                     </>
                 )}
             </Navbar.Collapse >
-            <svg
+            {/* <svg
                 className="me-5 primary"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -187,7 +193,7 @@ const HeaderComponents = () => {
                 onClick={Profile}
             >
                 <path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-            </svg>
+            </svg> */}
 
         </Navbar >
 
