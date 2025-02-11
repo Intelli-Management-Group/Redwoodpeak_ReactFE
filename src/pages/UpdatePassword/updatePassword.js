@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import AuthenticationServices from '../../Services/AuthenticationServices';
 
 
 const UpdatePassword = () => {
@@ -62,18 +63,19 @@ const UpdatePassword = () => {
         setIsLoading(true);
     
         try {
-          const response = await fetch('/api/update-password', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              token,
-              password,
-            }),
-          });
-    
+
+          const formdata = new FormData();
+          formdata.append("token", token);
+          formdata.append("email", email);
+          formdata.append("password", password);
+
+          const response = await AuthenticationServices.Update_Password_Via_Mail(formdata);
+        console.log(response)
+          
           const data = await response.json();
     
-          if (data.success) {
+          if (data.status_code ===200) {
+            console.log("Password SuccessFully Update")
             navigate('/login');
           } else {
             setError(data.message || 'Failed to update password');

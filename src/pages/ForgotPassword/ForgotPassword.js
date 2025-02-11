@@ -5,6 +5,7 @@ import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
 import Footer from "../Component/Footer/Footer";
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
+import AuthenticationServices from "../../Services/AuthenticationServices";
 
 
 const ForgotPassword = () => {
@@ -14,9 +15,8 @@ const ForgotPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setErrors({}); // Clear existing errors
+        setErrors({});
 
-        // Client-side validation
         if (!email) {
             setErrors({ email: "Email is required." });
             return;
@@ -28,23 +28,20 @@ const ForgotPassword = () => {
         try {
             setLoading(true);
 
-            // Simulate API call
-            const response = await fetch("https://example.com/api/forgot-password", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email }),
-            });
+            const formdata = new FormData();
+            formdata.append("email", email);
+            const response = await AuthenticationServices.ForgotPassword(formdata);
+            if (response.ok) {
+                console.log("Reset link sent to your email.");
 
-            if (!response.ok) {
+            }else{
                 const data = await response.json();
+                console.log("response",response)
                 if (data.error) {
-                    setErrors({ email: data.error }); // Handle server-side error
+                    setErrors({ email: data.error });
                 } else {
                     throw new Error("Something went wrong. Please try again.");
                 }
-            } else {
-                // Success: Notify the user
-                console.log("Reset link sent to your email.");
             }
         } catch (error) {
             console.error(error.message);
