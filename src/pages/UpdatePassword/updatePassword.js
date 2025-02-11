@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import AuthenticationServices from '../../Services/AuthenticationServices';
 import { notifySuccess } from '../Component/ToastComponents/ToastComponents';
+import { ToastContainer } from 'react-toastify';
 
 
 const UpdatePassword = () => {
@@ -80,7 +81,7 @@ const UpdatePassword = () => {
           navigate('/login');
         }, 1500);
       } else {
-        setError(data.message || 'Failed to update password');
+        setError(response.message || 'Failed to update password');
       }
     } catch (err) {
       setError('Error updating password');
