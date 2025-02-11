@@ -6,6 +6,7 @@ import Footer from "../Component/Footer/Footer";
 import Button from '../Component/ButtonComponents/ButtonComponents';
 import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
 import AuthenticationServices from "../../Services/AuthenticationServices";
+import { notifySuccess } from "../Component/ToastComponents/ToastComponents";
 
 
 const ForgotPassword = () => {
@@ -31,18 +32,26 @@ const ForgotPassword = () => {
             const formdata = new FormData();
             formdata.append("email", email);
             const response = await AuthenticationServices.ForgotPassword(formdata);
-            if (response.ok) {
-                console.log("Reset link sent to your email.");
 
-            }else{
-                const data = await response.json();
-                console.log("response",response)
-                if (data.error) {
-                    setErrors({ email: data.error });
-                } else {
-                    throw new Error("Something went wrong. Please try again.");
-                }
-            }
+            if (response.status_code === 200) {
+                notifySuccess(`Reset link sent to your email.`);
+              } else {
+                setError(response.message || 'Failed to update password');
+              }
+
+
+            // if (response.ok) {
+            //     console.log("Reset link sent to your email.");
+
+            // }else{
+            //     const data = await response.json();
+            //     console.log("response",response)
+            //     if (data.error) {
+            //         setErrors({ email: data.error });
+            //     } else {
+            //         throw new Error("Something went wrong. Please try again.");
+            //     }
+            // }
         } catch (error) {
             console.error(error.message);
         } finally {
