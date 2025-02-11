@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.b4e6c640.css",
-    "main.js": "/static/js/main.744530dc.js",
+    "main.js": "/static/js/main.01579c32.js",
     "static/js/453.76daa290.chunk.js": "/static/js/453.76daa290.chunk.js",
     "static/media/redwood_homepage_hong_kong.jpg": "/static/media/redwood_homepage_hong_kong.03e99471f618c29b3a99.jpg",
     "static/media/redwood_homepage_wealth_management.jpg": "/static/media/redwood_homepage_wealth_management.7b6ba786d428e78f11e4.jpg",
@@ -27,11 +27,11 @@
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
     "main.b4e6c640.css.map": "/static/css/main.b4e6c640.css.map",
-    "main.744530dc.js.map": "/static/js/main.744530dc.js.map",
+    "main.01579c32.js.map": "/static/js/main.01579c32.js.map",
     "453.76daa290.chunk.js.map": "/static/js/453.76daa290.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b4e6c640.css",
-    "static/js/main.744530dc.js"
+    "static/js/main.01579c32.js"
   ]
 }
