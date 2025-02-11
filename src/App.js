@@ -19,6 +19,7 @@ import Login from './pages/Login/Login';
 import Registration from './pages/Registration/Registration';
 import AuthProtectedRoute from './pages/Component/AuthProtectorComponents/AuthProtectorComponents';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import UpdatePassword from './pages/UpdatePassword/updatePassword';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Registration/>}/>
         <Route path='/forgotPassword' element={<ForgotPassword/>}/>
+        <Route path='/update-password/:token' element={<UpdatePassword/>} />
 
         </Routes>
     </BrowserRouter>
