@@ -197,33 +197,36 @@ const HedgeFundReports = () => {
                           }}
                         >
                           {data[type] &&
-                            Object.keys(data[type]).map((year) =>
-                              data[type][year]
-                                .sort((a, b) => {
-                                  const dateA = new Date(a.created_at || a.file_name);
-                                  const dateB = new Date(b.created_at || b.file_name);
-                                  return dateB - dateA;
-                                })
-                                .map((item, index) => (
-                                  <div key={index} className="pdf-row p-3">
-                                    <div className="pdf-title">
-                                      <span>
-                                        <Image src={pdfIcon} alt="PDF icon" />
-                                      </span>
-                                      <a
-                                        href={item.file_path}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        style={{ textDecoration: "none", color: "inherit" }}
-                                      >
-                                        {item.file_name.split(".").slice(0, -1).join(".").length > 60
-                                          ? item.file_name.split(".").slice(0, -1).join(".").substring(0, 60) + "..."
-                                          : item.file_name.split(".").slice(0, -1).join(".")}
-                                      </a>
+                            Object.keys(data[type])
+                              .sort((a, b) => b - a)
+                              .map((year) =>
+                                data[type][year]
+                                  .sort((a, b) => {
+                                    const dateA = new Date(a.created_at || a.file_name);
+                                    const dateB = new Date(b.created_at || b.file_name);
+                                    return dateB - dateA;
+                                  })
+                                  .map((item, index) => (
+                                    <div key={index} className="pdf-row p-3">
+                                      <div className="pdf-title">
+                                        <span>
+                                          <Image src={pdfIcon} alt="PDF icon" />
+                                        </span>
+                                        <a
+                                          href={item.file_path}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          style={{ textDecoration: "none", color: "inherit"}}
+                                        >
+                                          {item.file_name.split(".").slice(0, -1).join(".").length > 60
+                                            ? item.file_name.split(".").slice(0, -1).join(".").substring(0, 60) + "..."
+                                            : item.file_name.split(".").slice(0, -1).join(".")}
+                                        </a>
+                                      </div>
                                     </div>
-                                  </div>
-                                ))
-                            )}
+                                  ))
+                              )}
+
                         </div>
                       </div>
                     )}
