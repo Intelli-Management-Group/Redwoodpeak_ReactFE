@@ -259,7 +259,7 @@ const Registration = () => {
               {/* Password & Confirm Password */}
               <div className="row mt-4">
                 <div className="col-md-6">
-                  <label htmlFor="password">Password<span style={{color:"red"}}>*</span></label>
+                  <label htmlFor="password">Password <span style={{color:"red"}}>*</span></label>
                   <input
                     id="password"
                     type="password"
