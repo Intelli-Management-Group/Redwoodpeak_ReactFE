@@ -178,11 +178,11 @@ const Login = () => {
 
                                 {/* Submit Button */}
                                 <div className='row'>
-                                <div className="form-group  mb-0 mt-2">
+                                <div className="mb-0 mt-2">
                                     <Button
                                         text={loading ? "Loading..." : "Login"}
                                         onClick={handleSubmit}
-                                        className="btn btn-primary"
+                                        className="btn-primary"
                                         disabled={loading}
                                         type="submit"
                                     />
@@ -190,7 +190,7 @@ const Login = () => {
                                     <Button
                                         text="Register"
                                         onClick={redirectToRegister}
-                                        className="btn btn-secondary ms-3 button-gap"
+                                        className="btn-secondarys ms-3 "
                                         type="submit"
                                     />
                                 </div>
