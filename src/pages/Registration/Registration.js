@@ -99,20 +99,29 @@ const Registration = () => {
 
   const validateFormData = (formData) => {
     const errors = {};
-
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const contactRegex = /^[0-9]{10}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
     if (!formData.firstName) errors.firstName = "First name is required.";
     if (!formData.lastName) errors.lastName = "Last name is required.";
-    if (!formData.email) errors.email = "Email is required.";
-    if (!formData.password) errors.password = "Password is required.";
+    if (!formData.email) {
+      errors.email = "Email is required.";
+    } else if (!emailRegex.test(formData.email)) {
+      errors.email = "Please enter a valid email address.";
+    }
+    if (!formData.password) {
+      errors.password = "Password is required.";
+    } else if (!passwordRegex.test(formData.password)) {
+      errors.password = "Password must contain at least one lowercase letter, one uppercase letter, and one number.";
+    }
     if (formData.password !== formData.confirmPassword) {
       errors.confirmPassword = "Passwords do not match.";
     }
-    if (!formData.contact || isNaN(formData.contact)) {
-      errors.contact = "Contact must be a valid number.";
+    if (!formData.contact) {
+      errors.contact = "Contact number is required.";
+    } else if (!contactRegex.test(formData.contact)) {
+      errors.contact = "Please enter a valid 10-digit contact number.";
     }
-    if (!formData.country) errors.country = "Country is required.";
-    if (!formData.companyName) errors.companyName = "Company name is required.";
-    if (!formData.position) errors.position = "Position is required.";
 
     return errors;
   };
@@ -180,7 +189,7 @@ const Registration = () => {
               {/* First Name & Last Name */}
               <div className="row mt-4">
                 <div className="col-md-6">
-                  <label htmlFor="firstName">First Name</label>
+                  <label htmlFor="firstName">First Name <span style={{color:"red"}}>*</span></label>
                   <input
                     id="firstName"
                     type="text"
@@ -196,7 +205,7 @@ const Registration = () => {
                 </div>
 
                 <div className="col-md-6">
-                  <label htmlFor="lastName">Last Name</label>
+                  <label htmlFor="lastName">Last Name <span style={{color:"red"}}>*</span></label>
                   <input
                     id="lastName"
                     type="text"
@@ -229,7 +238,7 @@ const Registration = () => {
                   )}
                 </div> */}
                 <div className="col-md-12">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email">Email <span style={{color:"red"}}>*</span></label>
                   <input
                     id="email"
                     type="email"
@@ -250,7 +259,7 @@ const Registration = () => {
               {/* Password & Confirm Password */}
               <div className="row mt-4">
                 <div className="col-md-6">
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="password">Password<span style={{color:"red"}}>*</span></label>
                   <input
                     id="password"
                     type="password"
