@@ -170,14 +170,15 @@ const Login = () => {
                                         Keep me signed in
                                     </label>
                                 </div>
-                                <div className='mt-3'>
+                                <div className='row mt-3'>
                                     <label className="form-check-label pointer" onClick={forgotPassword}>
                                         Forgot your password?
                                     </label>
                                 </div>
 
                                 {/* Submit Button */}
-                                <div className="form-group row mb-0 mt-2">
+                                <div className='row'>
+                                <div className="form-group  mb-0 mt-2">
                                     <Button
                                         text={loading ? "Loading..." : "Login"}
                                         onClick={handleSubmit}
@@ -192,6 +193,7 @@ const Login = () => {
                                         className="btn btn-secondary ms-3 button-gap"
                                         type="submit"
                                     />
+                                </div>
                                 </div>
                             </form>
                         </div>
