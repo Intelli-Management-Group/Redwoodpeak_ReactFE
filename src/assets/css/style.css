@@ -127,6 +127,17 @@ li>a {
     outline: none !important;
     box-shadow: none !important;
 }
+.btn-secondarys {
+    color: #fff !important;
+    border-color: #6c757d !important;
+    background-color: #6c757d !important;
+    border-radius: 3px !important;
+    box-shadow: none !important;
+    font-size: 12px !important; 
+    padding: 3px 7px !important; /* Updated padding to x0.5 (7px) and y0.3 (3px) */
+    font-weight: 600;
+    line-height: 1;
+}
 
 .HeaderBGColor {
     background-color: #fff !important;

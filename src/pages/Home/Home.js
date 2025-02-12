@@ -25,50 +25,6 @@ import "../Home/Home.css"
 import { useNavigate } from 'react-router-dom';
 import { faPhone, faEnvelope, faFax, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import IconComponent from '../Component/IconComponents/IconComponents';
-const outLookData = [{
-    "id": 74,
-    "name": "China Outlook Q1 2023.pdf",
-    "category": "application",
-    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-58c1f5987c817f17b55d4153c1aacfa0.pdf",
-    "size_in_kb": "97231",
-    "extension": "pdf",
-    "is_enabled": 1,
-    "created_by": 1
-},
-{
-    "id": 73,
-    "name": "China Outlook Q4 2022.pdf",
-    "category": "application",
-    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-bcf4ef7fe25972e784570cc4c53bd873.pdf",
-    "size_in_kb": "120676",
-    "extension": "pdf",
-    "is_enabled": 1,
-    "created_by": 1
-},
-{
-    "id": 75,
-    "name": "China Outlook Q3 2022.pdf",
-    "category": "application",
-    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-bcd983adacdd50c49a534c3e5d9d8bd6.pdf",
-    "size_in_kb": "110505",
-    "extension": "pdf",
-    "is_enabled": 1,
-    "created_by": 1
-}, {
-    "id": 76,
-    "name": "China Outlook Q2 2022.pdf",
-    "category": "application",
-    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-88525464c0045b0c268c2d5b57c14e8a.pdf",
-    "size_in_kb": "100605",
-    "extension": "pdf",
-    "is_enabled": 1,
-    "created_by": 1
-}]
-
-// const images = [
-//     { url: Slide1 },
-//     { url: Slide2 },
-// ];
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -301,7 +257,7 @@ const HomePage = () => {
                                         <h3 className="welcome-title-class">Our View</h3>
                                         <div className="mt-2 pt-1">
                                             <ul className='ps-0' style={{ listStyle: 'none',display:'grid' }}>
-                                                {outLookData.map((item, index) => (
+                                                {overViewData.slice(0,4).map((item, index) => (
                                                     <p
                                                         className='p-0 text-left pointer file-item'
                                                         key={index}
@@ -312,9 +268,9 @@ const HomePage = () => {
                                                             <Image src={pdfIcon} alt="PDF icon" />
                                                         </span>
                                                         <span className="file-item-name">
-                                                            {item.name?.split('.')?.slice(0, -1)?.join('.').length > 50
-                                                                ? item.name?.split('.')?.slice(0, -1)?.join('.')?.substring(0, 50) + "..."
-                                                                : item.name?.split('.')?.slice(0, -1)?.join('.')}
+                                                            {item.file_name?.split('.')?.slice(0, -1)?.join('.').length > 50
+                                                                ? item.file_name?.split('.')?.slice(0, -1)?.join('.')?.substring(0, 50) + "..."
+                                                                : item.file_name?.split('.')?.slice(0, -1)?.join('.')}
                                                         </span>
                                                     </p>
                                                 ))}

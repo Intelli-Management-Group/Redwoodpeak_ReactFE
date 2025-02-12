@@ -4,13 +4,14 @@ import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from "../Component/Footer/Footer";
 import AuthenticationServices from '../../Services/AuthenticationServices';
 import { notifyError, notifySuccess, notifyWarning } from "../Component/ToastComponents/ToastComponents";
+
 import { ToastContainer } from 'react-toastify';
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 
 const Login = () => {
     const location = useLocation();
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
     // State to hold form data
     const [formData, setFormData] = useState({
         email: '',
@@ -35,6 +36,12 @@ const Login = () => {
         });
     };
 
+    // Email validation function
+    const validateEmail = (email) => {
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(email);
+    };
+
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -46,9 +53,12 @@ const Login = () => {
             password: '',
         });
 
-
         const newErrors = {};
-        if (!formData.email) newErrors.email = 'Email is required';
+        if (!formData.email) {
+            newErrors.email = 'Email is required';
+        } else if (!validateEmail(formData.email)) {
+            newErrors.email = 'Please enter a valid email address';
+        }
         if (!formData.password) newErrors.password = 'Password is required';
 
         if (Object.keys(newErrors).length > 0) {
@@ -62,7 +72,7 @@ const Login = () => {
             delete formDataCopy.remember;
 
             const response = await AuthenticationServices.userLogin(formDataCopy);
-            console.log(response)
+            console.log(response);
             if (response?.status_code === 200) {
                 const { token, user } = response;
                 if (user?.status === "approve") {
@@ -93,13 +103,13 @@ const Login = () => {
     const redirectToRegister = () => {
         window.location.href = '/register';
     };
-    const forgotPassword = () =>{
+    const forgotPassword = () => {
         window.location.href = '/forgotPassword';
     }
 
     return (
         <React.Fragment>
-            <HeaderComponents/>
+            <HeaderComponents />
             <MetaTitle pageTitle={"Login"} />
 
             <div className="container">
@@ -160,18 +170,19 @@ const Login = () => {
                                         Keep me signed in
                                     </label>
                                 </div>
-                                <div className='mt-3'>
-                                    <label className="form-check-label pointer"  onClick={forgotPassword}>
+                                <div className='row mt-3'>
+                                    <label className="form-check-label pointer" onClick={forgotPassword}>
                                         Forgot your password?
                                     </label>
                                 </div>
 
                                 {/* Submit Button */}
-                                <div className="form-group row mb-0 mt-2">
+                                <div className='row'>
+                                <div className="mb-0 mt-2">
                                     <Button
                                         text={loading ? "Loading..." : "Login"}
                                         onClick={handleSubmit}
-                                        className="btn btn-primary"
+                                        className="btn-primary"
                                         disabled={loading}
                                         type="submit"
                                     />
@@ -179,9 +190,10 @@ const Login = () => {
                                     <Button
                                         text="Register"
                                         onClick={redirectToRegister}
-                                        className="btn btn-secondary ms-3 button-gap"
+                                        className="btn-secondarys ms-3 "
                                         type="submit"
                                     />
+                                </div>
                                 </div>
                             </form>
                         </div>
