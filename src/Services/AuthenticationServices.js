@@ -17,6 +17,9 @@ const AuthenticationServices = {
   Update_Password_Via_Mail: async (body) => {
     return requests.post("/update-password-via-mail", body);
   },
+  getUserDetails: async (id) =>{
+    return requests.get(`/user/${id}/get-by-id`);
+  }
 
 }
 export default AuthenticationServices;

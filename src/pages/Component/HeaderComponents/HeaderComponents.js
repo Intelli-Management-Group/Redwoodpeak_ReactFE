@@ -11,10 +11,9 @@ import Logo from "../../../assets/images/logo.png"
 const HeaderComponents = () => {
     const location = useLocation();
     const isAuthenticated = localStorage.getItem('userToken');
+    const userData = JSON.parse(localStorage.getItem('userData'))
     const navigate = useNavigate();
     const [openDropdown, setOpenDropdown] = useState(null);
-
-
     const handleDropdownToggle = (dropdownName) => {
         setOpenDropdown((prev) => (prev === dropdownName ? null : dropdownName));
     };
@@ -27,9 +26,13 @@ const HeaderComponents = () => {
     }
     const handleLogout = () => {
         localStorage.removeItem('userToken');
+        localStorage.removeItem('userData');
         window.location.href = '/';
     }
     // console.log(openDropdown, location)
+    const encodeToken = (token) => {
+        return btoa(token);
+    };
     return (
         <Navbar expand="lg" className="container px-4 mx-sm-3 mx-md-4 mx-lg-5">
             <Navbar.Brand href="/">
@@ -162,6 +165,17 @@ const HeaderComponents = () => {
                                 Contact Us
                             </Link>
                         </li>
+                        {(userData?.role === "admin" || userData?.role === "siteAdmin") && isAuthenticated &&
+                            <li className="nav-item">
+                                <a
+                                    className={`nav-link`}
+                                    // href={`http://localhost:3000/?token=${encodeToken(isAuthenticated)}`}
+                                    href={`http://localhost:3000/?token=${encodeToken(isAuthenticated)}&id=${userData.id}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >Site Admin</a>
+                            </li>
+                        }
                     </ul>
                 </Nav>
                 {isAuthenticated ? (
