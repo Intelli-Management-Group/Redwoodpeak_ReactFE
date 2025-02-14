@@ -156,9 +156,25 @@ const HedgeFundReports = () => {
                                       rel="noopener noreferrer"
                                       style={{ textDecoration: "none", color: "inherit" }}
                                     >
-                                      {item.file_name.split(".").slice(0, -1).join(".").length > 60
-                                        ? item.file_name.split(".").slice(0, -1).join(".").substring(0, 60) + "..."
-                                        : item.file_name.split(".").slice(0, -1).join(".")}
+                                      {
+                                        (() => {
+                                          const targetName = "Redwood Peak Opportunities Master Fund Portfolio Summary";
+
+                                          const file_name = item.file_name;
+                                          const name = item.name;
+
+                                          const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
+
+                                          const shouldDisplayTargetName = fileNameWithoutExtension?.startsWith(targetName) || name?.startsWith(targetName);
+
+                                          const displayName = shouldDisplayTargetName
+                                            ? (fileNameWithoutExtension?.startsWith(targetName) ? fileNameWithoutExtension : name)
+                                            : (fileNameWithoutExtension.length > 60
+                                              ? fileNameWithoutExtension.substring(0, 60) + "..."
+                                              : fileNameWithoutExtension);
+                                          return displayName;
+                                        })()
+                                      }
                                     </a>
                                   </div>
                                 </div>
@@ -216,11 +232,31 @@ const HedgeFundReports = () => {
                                           href={item.file_path}
                                           target="_blank"
                                           rel="noopener noreferrer"
-                                          style={{ textDecoration: "none", color: "inherit"}}
+                                          style={{ textDecoration: "none", color: "inherit" }}
                                         >
-                                          {item.file_name.split(".").slice(0, -1).join(".").length > 60
-                                            ? item.file_name.split(".").slice(0, -1).join(".").substring(0, 60) + "..."
-                                            : item.file_name.split(".").slice(0, -1).join(".")}
+                                          {
+                                            (() => {
+                                              const targetName = item.hedge_fund_report_type === "quarterlyPerformanceAnalysis"
+                                                ? "Redwood Peak Opportunities Master Fund Portfolio Summary"
+                                                : item.hedge_fund_report_type === "quarterlyShareholderLetter"
+                                                  ? "Redwood Peak Opportunities Master Fund Shareholders Letter"
+                                                  : '';
+
+                                              const file_name = item.file_name;
+                                              const name = item.name;
+
+                                              const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
+
+                                              const shouldDisplayTargetName = fileNameWithoutExtension?.startsWith(targetName) || name?.startsWith(targetName);
+
+                                              const displayName = shouldDisplayTargetName
+                                                ? (fileNameWithoutExtension?.startsWith(targetName) ? fileNameWithoutExtension : name)
+                                                : (fileNameWithoutExtension.length > 60
+                                                  ? fileNameWithoutExtension.substring(0, 60) + "..."
+                                                  : fileNameWithoutExtension);                                  
+                                              return displayName || name || fileNameWithoutExtension; // Return name or file name if no specific condition is met
+                                            })()
+                                          }
                                         </a>
                                       </div>
                                     </div>

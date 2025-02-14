@@ -178,11 +178,29 @@ const Publications = () => {
                                   rel="noopener noreferrer"
                                   style={{ textDecoration: 'none', color: 'inherit' }}
                                 >
-                                  {item.file_name.split('.').slice(0, -1).join('.').length > 60
-                                    ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 60) + "..."
-                                    : item.file_name.split('.').slice(0, -1).join('.')}
+                                  {
+                                    (() => {
+                                      const targetName = "Redwood Peak China Outlook";
+
+                                      const file_name = item.file_name;
+                                      const name = item.name;
+
+                                      const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
+
+                                      const shouldDisplayTargetName = fileNameWithoutExtension?.startsWith(targetName) || name?.startsWith(targetName);
+
+                                      const displayName = shouldDisplayTargetName
+                                        ? (fileNameWithoutExtension?.startsWith(targetName) ? fileNameWithoutExtension : name)
+                                        : (fileNameWithoutExtension.length > 60
+                                          ? fileNameWithoutExtension.substring(0, 60) + "..."
+                                          : fileNameWithoutExtension);
+                                      console.log(displayName);
+                                      return displayName;
+                                    })()
+                                  }
                                 </a>
                               </div>
+
                             </div>
                           ))}
                       </div>
