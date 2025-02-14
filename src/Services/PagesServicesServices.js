@@ -12,7 +12,9 @@ const pagesServices = {
     }
   },
   getPostList:async({limit,page,body}) =>{
-        return requests.post(`/post/list?page=${1}&pageSize=${500}`,body);
+    let datalimit = limit ? limit :500;
+    let pageNumber =  page ? page : 1 
+    return requests.post(`/post/list?page=${pageNumber}&pageSize=${datalimit}`,body);
   }
   
 

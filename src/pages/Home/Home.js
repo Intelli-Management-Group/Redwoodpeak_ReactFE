@@ -44,7 +44,10 @@ const HomePage = () => {
 
     useEffect(() => {
         getFetchOverView()
-        getFetchNewsVisit()
+        // getFetchNewsVisit()
+        getFetchNews("news");
+        getFetchVisit("visit");
+
 
     }, []);
 
@@ -52,39 +55,17 @@ const HomePage = () => {
         console.log("Learn more clicked!");
     };
 
-    const getFetchNewsVisit = async () => {
+    const getFetchNews = async (category) => {
         setIsLoading(true);
         try {
+            const formData = new FormData();
+            formData.append("category", category);
             const resp = await pagesServices.getPostList({ limit, page, documentType });
+
             if (resp?.status_code === 200) {
-                console.log(resp);
+                // console.log("only NEws Data",resp);
                 if (resp?.list?.data) {
-                    function categorizePosts(posts) {
-                        // Step 1: Group by category
-                        const categorized = posts.reduce((acc, post) => {
-                            if (!acc[post.category]) {
-                                acc[post.category] = [];
-                            }
-                            acc[post.category].push(post);
-                            return acc;
-                        }, {});
-
-                        // Step 2: Select only the first 5 posts from each category
-                        for (const category in categorized) {
-                            categorized[category] = categorized[category].slice(0, 5); // Limit to 5 records
-                        }
-
-                        return categorized;
-                    }
-
-                    const result = categorizePosts(resp?.list?.data);
-                    setVisitData(result?.visit)
-                    setNewsData(result?.news)
-
-
-                } else {
-                    console.error("No data found in response.");
-                    notifyError("No data found. Please try again.");
+                    setNewsData(resp?.list?.data)
                 }
             } else {
                 // Handle non-200 status codes or unexpected responses
@@ -99,6 +80,84 @@ const HomePage = () => {
         }
 
     };
+    const getFetchVisit = async (category) => {
+        setIsLoading(true);
+        try {
+            const formData = new FormData();
+            formData.append("category", category);
+            const resp = await pagesServices.getPostList({
+                page: page,
+                limit: limit,
+                body: formData,
+            });
+            if (resp?.status_code === 200) {
+                console.log("only NEws Data", resp);
+                if (resp?.list?.data) {
+                    setVisitData(resp?.list?.data)
+                }
+
+            } else {
+                // Handle non-200 status codes or unexpected responses
+                console.error("Failed to fetch data: ", resp?.message);
+                notifyError("Please try again.");
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            notifyError("An error occurred during fetching data. Please try again.");
+        } finally {
+            setIsLoading(false); // Set loading to false once the request is done
+        }
+
+    };
+
+    //Single Api in news Visit Data set
+    // const getFetchNewsVisit = async () => {
+    //     setIsLoading(true);
+    //     try {
+    //         const resp = await pagesServices.getPostList({ limit, page, documentType });
+    //         if (resp?.status_code === 200) {
+    //             console.log(resp);
+    //             if (resp?.list?.data) {
+    //                 function categorizePosts(posts) {
+    //                     // Step 1: Group by category
+    //                     const categorized = posts.reduce((acc, post) => {
+    //                         if (!acc[post.category]) {
+    //                             acc[post.category] = [];
+    //                         }
+    //                         acc[post.category].push(post);
+    //                         return acc;
+    //                     }, {});
+
+    //                     // Step 2: Select only the first 5 posts from each category
+    //                     for (const category in categorized) {
+    //                         categorized[category] = categorized[category].slice(0, 5); // Limit to 5 records
+    //                     }
+
+    //                     return categorized;
+    //                 }
+
+    //                 const result = categorizePosts(resp?.list?.data);
+    //                 setVisitData(result?.visit)
+    //                 setNewsData(result?.news)
+
+
+    //             } else {
+    //                 console.error("No data found in response.");
+    //                 notifyError("No data found. Please try again.");
+    //             }
+    //         } else {
+    //             // Handle non-200 status codes or unexpected responses
+    //             console.error("Failed to fetch data: ", resp?.message);
+    //             notifyError("Please try again.");
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching data:", error);
+    //         notifyError("An error occurred during fetching data. Please try again.");
+    //     } finally {
+    //         setIsLoading(false); // Set loading to false once the request is done
+    //     }
+
+    // };
     const getFetchOverView = async () => {
         setIsOverVirewLoading(true);
         try {
@@ -261,7 +320,12 @@ const HomePage = () => {
                                         <h3 className="welcome-title-class">Our View</h3>
                                         <div className="mt-2 pt-1">
                                             <ul className='ps-0' style={{ listStyle: 'none', display: 'grid' }}>
-                                                {overViewData.length === 0 && !isOverVirewLoading ? (
+                                                {/* Conditional rendering for loading and empty data */}
+                                                {isOverVirewLoading ? (
+                                                    <p className='p-0 mt-2 text-left text-blue-500 font-semibold'>
+                                                        Loading overview data, please wait...
+                                                    </p>
+                                                ) : overViewData?.length === 0 ? (
                                                     <p className='p-0 mt-2 text-left text-red-500 font-semibold'>
                                                         Oops! No data available at the moment. Please try again later.
                                                     </p>
@@ -277,13 +341,32 @@ const HomePage = () => {
                                                                 <Image src={pdfIcon} alt="PDF icon" />
                                                             </span>
                                                             <span className="file-item-name">
-                                                                {item.file_name?.split('.')?.slice(0, -1)?.join('.').length > 50
-                                                                    ? item.file_name?.split('.')?.slice(0, -1)?.join('.')?.substring(0, 50) + "..."
-                                                                    : item.file_name?.split('.')?.slice(0, -1)?.join('.')}
+                                                                {
+                                                                    (() => {
+                                                                        const targetName = "Redwood Peak China Outlook";
+
+                                                                        const file_name = item.file_name;
+                                                                        const name = item.name;
+
+                                                                        const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
+
+                                                                        const shouldDisplayTargetName = fileNameWithoutExtension?.startsWith(targetName) || name?.startsWith(targetName);
+
+                                                                        const displayName = shouldDisplayTargetName
+                                                                            ? (fileNameWithoutExtension?.startsWith(targetName) ? fileNameWithoutExtension : name)
+                                                                            : (fileNameWithoutExtension.length > 60
+                                                                                ? fileNameWithoutExtension.substring(0, 60) + "..."
+                                                                                : fileNameWithoutExtension);
+                                                                        console.log(displayName);
+                                                                        return displayName;
+                                                                    })()
+                                                                }
                                                             </span>
                                                         </p>
-                                                    )))}
+                                                    ))
+                                                )}
                                             </ul>
+
                                         </div>
 
                                     </div>
@@ -392,15 +475,15 @@ const HomePage = () => {
                             <div className="col-md-4">
                                 <h3 className="welcome-title-class">Latest News</h3>
                                 <div className="mt-3 pt-1">
-                                    <ul className='ps-0'>
-                                        {newsData.length === 0 && !isLoading ? (
+                                    {/* <ul className='ps-0'>
+                                        {newsData && newsData?.length === 0 && !isLoading ? (
                                             <p className='p-0 mt-2 text-left contactSectionFonts'>
                                                 <span className=''>
                                                     Oops! No data available at the moment.<br/> Please try again later.
                                                 </span>
                                             </p>
                                         ) : (
-                                            newsData.map((news, index) => {
+                                            newsData && newsData.map((news, index) => {
                                                 return (
                                                     <p className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts' key={index} onClick={() => handlePostClick("news")}>
                                                         <span className='file-item-name'>
@@ -409,7 +492,29 @@ const HomePage = () => {
                                                     </p>
                                                 )
                                             }))}
+                                    </ul> */}
+                                    <ul className='ps-0'>
+                                        {isLoading ? (
+                                            <p className='p-0 mt-2 text-left contactSectionFonts'>
+                                                Loading news, please wait...
+                                            </p>
+                                        ) : newsData?.length === 0 ? (
+                                            <p className='p-0 mt-2 text-left contactSectionFonts'>
+                                                <span>
+                                                    Oops! No data available at the moment. <br /> Please try again later.
+                                                </span>
+                                            </p>
+                                        ) : (
+                                            newsData?.map((news, index) => (
+                                                <li key={index} className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts'>
+                                                    <span className='file-item-name' onClick={() => handlePostClick("news")}>
+                                                        {news?.title}
+                                                    </span>
+                                                </li>
+                                            ))
+                                        )}
                                     </ul>
+
                                 </div>
                             </div>
 
@@ -417,23 +522,27 @@ const HomePage = () => {
                                 <h3 className="welcome-title-class">Our Visits</h3>
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
-                                    {visitData.length === 0 && !isLoading ? (
+                                        {isLoading ? (
                                             <p className='p-0 mt-2 text-left contactSectionFonts'>
-                                                <span className=''>
-                                                    Oops! No data available at the moment.<br/> Please try again later.
+                                                Loading visit data, please wait...
+                                            </p>
+                                        ) : visitData?.length === 0 ? (
+                                            <p className='p-0 mt-2 text-left contactSectionFonts'>
+                                                <span>
+                                                    Oops! No data available at the moment. <br /> Please try again later.
                                                 </span>
                                             </p>
                                         ) : (
-                                        visitData.map((visit, index) => {
-                                            return (
-                                                <p className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts' key={index} onClick={() => handlePostClick("visit")}>
-                                                    <span className='file-item-name'>
+                                            visitData.map((visit, index) => (
+                                                <li key={index} className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts'>
+                                                    <span className='file-item-name' onClick={() => handlePostClick("visit")}>
                                                         {visit?.title}
                                                     </span>
-                                                </p>
-                                            )
-                                        }))}
+                                                </li>
+                                            ))
+                                        )}
                                     </ul>
+
                                 </div>
                             </div>
 
