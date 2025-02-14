@@ -35,6 +35,7 @@ const HomePage = () => {
 
     const documentType = "publications";
     const [isLoading, setIsLoading] = useState(true);
+    const [isOverVirewLoading, setIsOverVirewLoading] = useState(true);
     const [overViewData, setOverViewData] = useState([])
     const [showLoginAlert, setShowLoginAlert] = useState(false)
     const [visitData, setVisitData] = useState([])
@@ -99,27 +100,30 @@ const HomePage = () => {
 
     };
     const getFetchOverView = async () => {
-        setIsLoading(true);
+        setIsOverVirewLoading(true);
         try {
             const resp = await pagesServices.getPageList({ limit, page, documentType });
             if (resp?.status_code === 200) {
                 console.log(resp);
                 if (resp?.list?.data) {
                     setOverViewData(resp?.list?.data || []);
+                    setIsOverVirewLoading(false)
                 } else {
                     console.error("No data found in response.");
                     notifyError("No data found. Please try again.");
                 }
             } else {
                 // Handle non-200 status codes or unexpected responses
+                setIsOverVirewLoading(false);
                 console.error("Failed to fetch data: ", resp?.message);
                 notifyError("Please try again.");
             }
         } catch (error) {
             console.error("Error fetching data:", error);
             notifyError("An error occurred during fetching data. Please try again.");
+            setIsOverVirewLoading(false);
         } finally {
-            setIsLoading(false); // Set loading to false once the request is done
+            setIsOverVirewLoading(false);
         }
 
     };
@@ -256,24 +260,29 @@ const HomePage = () => {
                                     <div>
                                         <h3 className="welcome-title-class">Our View</h3>
                                         <div className="mt-2 pt-1">
-                                            <ul className='ps-0' style={{ listStyle: 'none',display:'grid' }}>
-                                                {overViewData.slice(0,4).map((item, index) => (
-                                                    <p
-                                                        className='p-0 text-left pointer file-item'
-                                                        key={index}
-                                                        onClick={() => handleOverViewClick(item)}
-                                                        style={{ textAlign: 'left' }}
-                                                    >
-                                                        <span className="pdf-icon">
-                                                            <Image src={pdfIcon} alt="PDF icon" />
-                                                        </span>
-                                                        <span className="file-item-name">
-                                                            {item.file_name?.split('.')?.slice(0, -1)?.join('.').length > 50
-                                                                ? item.file_name?.split('.')?.slice(0, -1)?.join('.')?.substring(0, 50) + "..."
-                                                                : item.file_name?.split('.')?.slice(0, -1)?.join('.')}
-                                                        </span>
+                                            <ul className='ps-0' style={{ listStyle: 'none', display: 'grid' }}>
+                                                {overViewData.length === 0 && !isOverVirewLoading ? (
+                                                    <p className='p-0 mt-2 text-left text-red-500 font-semibold'>
+                                                        Oops! No data available at the moment. Please try again later.
                                                     </p>
-                                                ))}
+                                                ) : (
+                                                    overViewData.slice(0, 4).map((item, index) => (
+                                                        <p
+                                                            className='p-0 text-left pointer file-item'
+                                                            key={index}
+                                                            onClick={() => handleOverViewClick(item)}
+                                                            style={{ textAlign: 'left' }}
+                                                        >
+                                                            <span className="pdf-icon">
+                                                                <Image src={pdfIcon} alt="PDF icon" />
+                                                            </span>
+                                                            <span className="file-item-name">
+                                                                {item.file_name?.split('.')?.slice(0, -1)?.join('.').length > 50
+                                                                    ? item.file_name?.split('.')?.slice(0, -1)?.join('.')?.substring(0, 50) + "..."
+                                                                    : item.file_name?.split('.')?.slice(0, -1)?.join('.')}
+                                                            </span>
+                                                        </p>
+                                                    )))}
                                             </ul>
                                         </div>
 
@@ -384,15 +393,22 @@ const HomePage = () => {
                                 <h3 className="welcome-title-class">Latest News</h3>
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
-                                        {newsData.map((news, index) => {
-                                            return (
-                                                <p className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts' key={index} onClick={() => handlePostClick("news")}>
-                                                    <span className='file-item-name'>
-                                                        {news?.title}
-                                                    </span>
-                                                </p>
-                                            )
-                                        })}
+                                        {newsData.length === 0 && !isLoading ? (
+                                            <p className='p-0 mt-2 text-left contactSectionFonts'>
+                                                <span className=''>
+                                                    Oops! No data available at the moment.<br/> Please try again later.
+                                                </span>
+                                            </p>
+                                        ) : (
+                                            newsData.map((news, index) => {
+                                                return (
+                                                    <p className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts' key={index} onClick={() => handlePostClick("news")}>
+                                                        <span className='file-item-name'>
+                                                            {news?.title}
+                                                        </span>
+                                                    </p>
+                                                )
+                                            }))}
                                     </ul>
                                 </div>
                             </div>
@@ -401,7 +417,14 @@ const HomePage = () => {
                                 <h3 className="welcome-title-class">Our Visits</h3>
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
-                                        {visitData.map((visit, index) => {
+                                    {visitData.length === 0 && !isLoading ? (
+                                            <p className='p-0 mt-2 text-left contactSectionFonts'>
+                                                <span className=''>
+                                                    Oops! No data available at the moment.<br/> Please try again later.
+                                                </span>
+                                            </p>
+                                        ) : (
+                                        visitData.map((visit, index) => {
                                             return (
                                                 <p className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts' key={index} onClick={() => handlePostClick("visit")}>
                                                     <span className='file-item-name'>
@@ -409,7 +432,7 @@ const HomePage = () => {
                                                     </span>
                                                 </p>
                                             )
-                                        })}
+                                        }))}
                                     </ul>
                                 </div>
                             </div>
