@@ -200,7 +200,8 @@ const Visits = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      {!loading && <Footer />}
+
     </div>
   );
 };

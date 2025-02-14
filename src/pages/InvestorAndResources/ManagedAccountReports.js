@@ -131,7 +131,7 @@ const ManagedAccountReports = () => {
                     )}
                 </div>
             </div>
-            <Footer />
+            {!isLoading && <Footer />}
         </div>
     );
 };

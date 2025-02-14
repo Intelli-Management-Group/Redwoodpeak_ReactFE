@@ -273,7 +273,7 @@ const HedgeFundReports = () => {
           )}
         </div>
       </div>
-      <Footer />
+      {!isLoading && <Footer />}
     </div>
   );
 };

@@ -212,7 +212,7 @@ const Publications = () => {
 
         </div>
       </div>
-      <Footer />
+      {!isLoading && <Footer />}
     </div>
   );
 };

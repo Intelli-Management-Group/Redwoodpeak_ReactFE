@@ -189,7 +189,8 @@ const News = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      {!loading && <Footer />}
+
     </div>
   );
 };
