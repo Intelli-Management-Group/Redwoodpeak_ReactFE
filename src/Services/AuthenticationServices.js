@@ -19,7 +19,21 @@ const AuthenticationServices = {
   },
   getUserDetails: async (id) =>{
     return requests.get(`/user/${id}/get-by-id`);
-  }
+  },
+  tokenVerify: async (token) => {
+    try {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      const response = await requests.customPost("/authenticate", {}, token); 
+
+      return response;
+    } catch (error) {
+      console.error("Error in tokenVerify:", error.response ? error.response.data : error.message);
+      throw error;  
+    }
+  },
 
 }
 export default AuthenticationServices;

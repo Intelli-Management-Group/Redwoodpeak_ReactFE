@@ -170,7 +170,7 @@ const HeaderComponents = () => {
                                 <a
                                     className={`nav-link`}
                                     // href={`http://localhost:3000/?token=${encodeToken(isAuthenticated)}`}
-                                    href={`http://localhost:3000/?token=${encodeToken(isAuthenticated)}&id=${userData.id}`}
+                                    href={`https://admin.jackychee.com/?token=${encodeToken(isAuthenticated)}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >Site Admin</a>

@@ -26,7 +26,7 @@ instance.interceptors.request.use(function (config) {
 
   // console.log('Admin Http Services Cookie Read : ' + company);
   // let companyName = JSON.stringify(company);
-console.log("TOKEN ====>>",token)
+  console.log("TOKEN ====>>", token)
   return {
     ...config,
     headers: {
@@ -52,7 +52,15 @@ const requests = {
   upload: (url, formData) =>
     instance.post(url, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data', 
+        'Content-Type': 'multipart/form-data',
+      },
+    }).then(responseBody),
+  customPost: (url, body, token) =>
+    instance.post(url, body, {
+
+      headers: {
+        Authorization: `Bearer ${token}`,
+        // 'Content-Type': 'multipart/form-data',
       },
     }).then(responseBody),
 };

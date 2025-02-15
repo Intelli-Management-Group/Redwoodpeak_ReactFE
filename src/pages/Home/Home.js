@@ -26,6 +26,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { faPhone, faEnvelope, faFax, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import IconComponent from '../Component/IconComponents/IconComponents';
 import AuthenticationServices from '../../Services/AuthenticationServices';
+import axios from 'axios';
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -46,15 +47,15 @@ const HomePage = () => {
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const token = params.get('token');
-        const id = params.get('id');
-        if (token && id) {
+        if (token) {
             try {
                 const decodedToken = atob(token);
                 console.log(decodedToken);
-                getUserDetila(id)
-                if (decodedToken ) {
-                    //Currently Direct  Access Admin without Api
-                    localStorage.setItem("userToken", token); 
+                // getUserDetila(id)
+                if (decodedToken) {
+                    // getTokenVerify(decodedToken)
+                    staticAPiCall(decodedToken)
+
                 }
             } catch (error) {
                 console.error("Invalid token:", error);
@@ -62,7 +63,7 @@ const HomePage = () => {
             }
         }
     }, [location]);
-    
+
     useEffect(() => {
         getFetchOverView()
         // getFetchNewsVisit()
@@ -71,6 +72,43 @@ const HomePage = () => {
 
 
     }, []);
+
+    const staticAPiCall = async (tokens) => {
+        const apiUrl = "https://dev.jackychee.com/api/authenticate";
+        const headers = {
+            Authorization: `Bearer ${tokens}`,
+        };
+
+        axios
+            .post(apiUrl, {}, { headers })
+            .then((response) => {
+                console.log("API Response:", response.data);
+                // console.log("OBJ",JSON.stringify(response?.data?.message))
+                localStorage.setItem("userToken", tokens);
+                localStorage.setItem('userData', JSON.stringify(response?.data?.message));
+
+   
+                // console.log("HERE")
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
+
+    // const getTokenVerify = async (tokens) => {
+    //     console.log('Token:', tokens);
+    //     try {
+    //         const resp = await AuthenticationServices.tokenVerify(tokens);
+    //         if (resp?.status_code === 200) {
+    //             setTimeout(() => navigate("/dashboard"), 1500);
+    //         } else {
+    //             notifyError(resp?.message || "Invalid email or password");
+    //         }
+    //     } catch (error) {
+    //         console.error("Token verification error:", error);
+    //         notifyError("An error occurred during token verification. Please try again.");
+    //     }
+    // };
 
     //id Through UserData Get 
     const getUserDetila = async (id) => {
