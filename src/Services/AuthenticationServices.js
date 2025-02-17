@@ -17,6 +17,13 @@ const AuthenticationServices = {
   Update_Password_Via_Mail: async (body) => {
     return requests.post("/update-password-via-mail", body);
   },
+  getUserDetails: async (id) => {
+    return requests.get(`/user/${id}/get-by-id`);
+  },
+  tokenVerify: async (token) => {
+    const response = await requests.customPost("/authenticate", {}, token);
+    return response;
+  },
 
 }
 export default AuthenticationServices;

@@ -22,12 +22,15 @@ import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
 import SimpleImageSlider from "react-simple-image-slider";
 import "../Home/Home.css"
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { faPhone, faEnvelope, faFax, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import IconComponent from '../Component/IconComponents/IconComponents';
+import AuthenticationServices from '../../Services/AuthenticationServices';
+import axios from 'axios';
 
 const HomePage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const limit = 5;
     const page = 1;
@@ -41,6 +44,21 @@ const HomePage = () => {
     const [visitData, setVisitData] = useState([])
     const [newsData, setNewsData] = useState([])
 
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const token = params.get('token');
+        if (token) {
+            try {
+                const decodedToken = atob(token);
+                if (decodedToken) {
+                    getTokenVerify(decodedToken)
+                }
+            } catch (error) {
+                console.error("Invalid token:", error);
+                notifyError("Invalid token in URL.");
+            }
+        }
+    }, [location]);
 
     useEffect(() => {
         getFetchOverView()
@@ -51,6 +69,47 @@ const HomePage = () => {
 
     }, []);
 
+    const getTokenVerify = async (tokens) => {
+        try {
+            const resp = await AuthenticationServices.tokenVerify(tokens);
+            if (resp?.status_code === 200) {
+
+                localStorage.setItem("userToken", tokens);
+                localStorage.setItem("token", tokens);
+                localStorage.setItem('userData', JSON.stringify(resp.message));
+
+            } else {
+                notifyError(resp?.message || "Invalid email or password");
+            }
+        } catch (error) {
+            console.error("Token verification error:", error);
+            notifyError("An error occurred during token verification. Please try again.");
+        }
+    };
+
+    //id Through UserData Get 
+    const getUserDetila = async (id) => {
+        setIsLoading(true);
+        try {
+            const resp = await AuthenticationServices.getUserDetails(id);
+            if (resp?.status_code === 200) {
+                // console.log(resp);
+                if (resp?.data) {
+                    localStorage.setItem('userData', JSON.stringify(resp?.data));
+                } else {
+                    notifyError("No data found. Please try again.");
+                }
+            } else {
+                console.error("Failed to fetch data: ", resp?.message);
+                notifyError("Please try again.");
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            notifyError("An error occurred during fetching data. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
     const handleClick = () => {
         console.log("Learn more clicked!");
     };
