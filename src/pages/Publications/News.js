@@ -39,6 +39,7 @@ const News = () => {
 
   const fetchNewsData = async () => {
     try {
+      setLoading(true)
       const formData = new FormData();
       formData.append("category", type);
 
@@ -60,12 +61,14 @@ const News = () => {
         };
         const groupedData = groupByYear(resp.list.data);
         setNewsData(groupedData);
+        setLoading(false)
       } else {
         console.error("No data found in response.");
         notifyError("No data found. Please try again.");
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+      setLoading(false)
       notifyError("An error occurred during fetching data. Please try again.");
     }
   };
@@ -98,6 +101,13 @@ const News = () => {
       <div className="container mb-5">
         <div className="container-custom mt-1 mb-5 p-4">
           {/*<h1 className="header-post-title-class">News</h1>*/}
+          {loading ? (
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
+              <div className="spinner-border text-primary-color" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
           <div className="row">
             {/* Left Column for Thumbnails */}
             <div className="col-md-3">
@@ -187,6 +197,7 @@ const News = () => {
               </div>
             </div>
           </div>
+          )}
         </div>
       </div>
       <Footer />
