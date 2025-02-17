@@ -178,26 +178,37 @@ const Publications = () => {
                                   rel="noopener noreferrer"
                                   style={{ textDecoration: 'none', color: 'inherit' }}
                                 >
-                                  {
-                                    (() => {
-                                      const targetName = "Redwood Peak China Outlook";
+                               
+                                   {(() => {
+                                        const targetName = "redwood peak china outlook";
 
-                                      const file_name = item.file_name;
-                                      const name = item.name;
+                                        const file_name = item.file_name;
+                                        const name = item.name;
 
-                                      const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
+                                        const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
 
-                                      const shouldDisplayTargetName = fileNameWithoutExtension?.startsWith(targetName) || name?.startsWith(targetName);
+                                        const normalize = (name) =>
+                                          name.toLowerCase()
+                                            .replace(/[-–]/g, " ")
+                                            .replace(/\s+/g, " ")
+                                            .trim();
+                                        const normalizedFileName = normalize(fileNameWithoutExtension);
+                                        const normalizedName = name ? normalize(name) : "";
 
-                                      const displayName = shouldDisplayTargetName
-                                        ? (fileNameWithoutExtension?.startsWith(targetName) ? fileNameWithoutExtension : name)
-                                        : (fileNameWithoutExtension.length > 60
-                                          ? fileNameWithoutExtension.substring(0, 60) + "..."
-                                          : fileNameWithoutExtension);
-                                      console.log(displayName);
-                                      return displayName;
-                                    })()
-                                  }
+                                        const normalizedTargetName = normalize(targetName);
+
+                                        const shouldDisplayTargetName =
+                                          normalizedFileName.startsWith(normalizedTargetName) ||
+                                          normalizedName.startsWith(normalizedTargetName);
+
+                                        const displayName = shouldDisplayTargetName
+                                          ? (normalizedFileName.startsWith(normalizedTargetName) ? fileNameWithoutExtension : name)
+                                          : (fileNameWithoutExtension.length > 60
+                                            ? fileNameWithoutExtension.substring(0, 60) + "..."
+                                            : fileNameWithoutExtension);
+
+                                        return displayName;
+                                      })()}
                                 </a>
                               </div>
 

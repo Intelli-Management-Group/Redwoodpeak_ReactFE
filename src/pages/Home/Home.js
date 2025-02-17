@@ -400,27 +400,29 @@ const HomePage = () => {
                                                                 <Image src={pdfIcon} alt="PDF icon" />
                                                             </span>
                                                             <span className="file-item-name">
-                                                                {
-                                                                    (() => {
-                                                                        const targetName = "Redwood Peak China Outlook";
+                                                                {(() => {
+                                                                    const targetName = "redwood peak china outlook"; // Lowercase reference
+                                                                    const file_name = item.file_name;
+                                                                    const name = item.name;
 
-                                                                        const file_name = item.file_name;
-                                                                        const name = item.name;
+                                                                    const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
 
-                                                                        const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
+                                                                    const normalizedFileName = fileNameWithoutExtension.toLowerCase().replace(/-/g, " ");
+                                                                    const normalizedName = name?.toLowerCase().replace(/-/g, " ");
 
-                                                                        const shouldDisplayTargetName = fileNameWithoutExtension?.startsWith(targetName) || name?.startsWith(targetName);
+                                                                    const shouldDisplayTargetName = normalizedFileName.startsWith(targetName) || normalizedName?.startsWith(targetName);
 
-                                                                        const displayName = shouldDisplayTargetName
-                                                                            ? (fileNameWithoutExtension?.startsWith(targetName) ? fileNameWithoutExtension : name)
-                                                                            : (fileNameWithoutExtension.length > 60
-                                                                                ? fileNameWithoutExtension.substring(0, 60) + "..."
-                                                                                : fileNameWithoutExtension);
-                                                                        console.log(displayName);
-                                                                        return displayName;
-                                                                    })()
-                                                                }
+                                                                    const displayName = shouldDisplayTargetName
+                                                                        ? (normalizedFileName.startsWith(targetName) ? fileNameWithoutExtension : name)
+                                                                        : (fileNameWithoutExtension.length > 60
+                                                                            ? fileNameWithoutExtension.substring(0, 60) + "..."
+                                                                            : fileNameWithoutExtension);
+
+                                                                    // console.log(displayName);
+                                                                    return displayName;
+                                                                })()}
                                                             </span>
+
                                                         </p>
                                                     ))
                                                 )}

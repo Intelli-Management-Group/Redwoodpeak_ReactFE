@@ -156,25 +156,37 @@ const HedgeFundReports = () => {
                                       rel="noopener noreferrer"
                                       style={{ textDecoration: "none", color: "inherit" }}
                                     >
-                                      {
-                                        (() => {
-                                          const targetName = "Redwood Peak Opportunities Master Fund Portfolio Summary";
+                                      {(() => {
+                                        const targetName = "Redwood Peak Opportunities Master Fund Portfolio Summary";
 
-                                          const file_name = item.file_name;
-                                          const name = item.name;
+                                        const file_name = item.file_name;
+                                        const name = item.name;
 
-                                          const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
+                                        const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
 
-                                          const shouldDisplayTargetName = fileNameWithoutExtension?.startsWith(targetName) || name?.startsWith(targetName);
+                                        const normalize = (name) =>
+                                          name.toLowerCase()
+                                            .replace(/[-–]/g, " ")
+                                            .replace(/\s+/g, " ")
+                                            .trim();
+                                        const normalizedFileName = normalize(fileNameWithoutExtension);
+                                        const normalizedName = name ? normalize(name) : "";
 
-                                          const displayName = shouldDisplayTargetName
-                                            ? (fileNameWithoutExtension?.startsWith(targetName) ? fileNameWithoutExtension : name)
-                                            : (fileNameWithoutExtension.length > 60
-                                              ? fileNameWithoutExtension.substring(0, 60) + "..."
-                                              : fileNameWithoutExtension);
-                                          return displayName;
-                                        })()
-                                      }
+                                        const normalizedTargetName = normalize(targetName);
+
+                                        const shouldDisplayTargetName =
+                                          normalizedFileName.startsWith(normalizedTargetName) ||
+                                          normalizedName.startsWith(normalizedTargetName);
+
+                                        const displayName = shouldDisplayTargetName
+                                          ? (normalizedFileName.startsWith(normalizedTargetName) ? fileNameWithoutExtension : name)
+                                          : (fileNameWithoutExtension.length > 60
+                                            ? fileNameWithoutExtension.substring(0, 60) + "..."
+                                            : fileNameWithoutExtension);
+
+                                        return displayName;
+                                      })()}
+
                                     </a>
                                   </div>
                                 </div>
@@ -234,29 +246,42 @@ const HedgeFundReports = () => {
                                           rel="noopener noreferrer"
                                           style={{ textDecoration: "none", color: "inherit" }}
                                         >
-                                          {
-                                            (() => {
-                                              const targetName = item.hedge_fund_report_type === "quarterlyPerformanceAnalysis"
-                                                ? "Redwood Peak Opportunities Master Fund Portfolio Summary"
-                                                : item.hedge_fund_report_type === "quarterlyShareholderLetter"
-                                                  ? "Redwood Peak Opportunities Master Fund Shareholders Letter"
-                                                  : '';
+                                          {(() => {
+                                            const targetNames = {
+                                              quarterlyPerformanceAnalysis: "Redwood Peak Opportunities Master Fund Performance Analysis",
+                                              quarterlyShareholderLetter: "Redwood Peak Opportunities Master Fund Shareholders Letter",
+                                            };
 
-                                              const file_name = item.file_name;
-                                              const name = item.name;
+                                            const targetName = targetNames[item.hedge_fund_report_type] || "";
 
-                                              const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
+                                            const file_name = item.file_name || "";
+                                            const name = item.name || "";
 
-                                              const shouldDisplayTargetName = fileNameWithoutExtension?.startsWith(targetName) || name?.startsWith(targetName);
+                                            const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
 
-                                              const displayName = shouldDisplayTargetName
-                                                ? (fileNameWithoutExtension?.startsWith(targetName) ? fileNameWithoutExtension : name)
-                                                : (fileNameWithoutExtension.length > 60
-                                                  ? fileNameWithoutExtension.substring(0, 60) + "..."
-                                                  : fileNameWithoutExtension);                                  
-                                              return displayName || name || fileNameWithoutExtension; // Return name or file name if no specific condition is met
-                                            })()
-                                          }
+                                            const normalize = (name) =>
+                                              name.toLowerCase()
+                                                .replace(/[-–]/g, " ")
+                                                .replace(/\s+/g, " ")
+                                                .trim();
+
+                                            const normalizedFileName = normalize(fileNameWithoutExtension);
+                                            const normalizedName = normalize(name);
+                                            const normalizedTargetName = normalize(targetName);
+
+                                            const shouldDisplayTargetName =
+                                              normalizedFileName.startsWith(normalizedTargetName) ||
+                                              normalizedName.startsWith(normalizedTargetName);
+
+                                            const displayName = shouldDisplayTargetName
+                                              ? (normalizedFileName.startsWith(normalizedTargetName) ? fileNameWithoutExtension : name)
+                                              : (fileNameWithoutExtension.length > 60
+                                                ? fileNameWithoutExtension.substring(0, 60) + "..."
+                                                : fileNameWithoutExtension);
+
+                                            return displayName || name || fileNameWithoutExtension;
+                                          })()}
+
                                         </a>
                                       </div>
                                     </div>
