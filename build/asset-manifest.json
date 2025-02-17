@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.752df617.css",
-    "main.js": "/static/js/main.9e1d5440.js",
+    "main.js": "/static/js/main.c078b2b3.js",
     "static/js/453.76daa290.chunk.js": "/static/js/453.76daa290.chunk.js",
     "static/media/rewood_location.png": "/static/media/rewood_location.1c562736e819b648c01e.png",
     "static/media/redwood_homepage_hong_kong.jpg": "/static/media/redwood_homepage_hong_kong.03e99471f618c29b3a99.jpg",
@@ -27,11 +27,11 @@
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
     "main.752df617.css.map": "/static/css/main.752df617.css.map",
-    "main.9e1d5440.js.map": "/static/js/main.9e1d5440.js.map",
+    "main.c078b2b3.js.map": "/static/js/main.c078b2b3.js.map",
     "453.76daa290.chunk.js.map": "/static/js/453.76daa290.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.752df617.css",
-    "static/js/main.9e1d5440.js"
+    "static/js/main.c078b2b3.js"
   ]
 }
