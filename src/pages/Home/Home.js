@@ -50,12 +50,8 @@ const HomePage = () => {
         if (token) {
             try {
                 const decodedToken = atob(token);
-                console.log(decodedToken);
-                // getUserDetila(id)
                 if (decodedToken) {
-                    // getTokenVerify(decodedToken)
-                    staticAPiCall(decodedToken)
-
+                    getTokenVerify(decodedToken)
                 }
             } catch (error) {
                 console.error("Invalid token:", error);
@@ -73,42 +69,23 @@ const HomePage = () => {
 
     }, []);
 
-    const staticAPiCall = async (tokens) => {
-        const apiUrl = "https://dev.jackychee.com/api/authenticate";
-        const headers = {
-            Authorization: `Bearer ${tokens}`,
-        };
+    const getTokenVerify = async (tokens) => {
+        try {
+            const resp = await AuthenticationServices.tokenVerify(tokens);
+            if (resp?.status_code === 200) {
 
-        axios
-            .post(apiUrl, {}, { headers })
-            .then((response) => {
-                console.log("API Response:", response.data);
-                // console.log("OBJ",JSON.stringify(response?.data?.message))
                 localStorage.setItem("userToken", tokens);
-                localStorage.setItem('userData', JSON.stringify(response?.data?.message));
+                localStorage.setItem("token", tokens);
+                localStorage.setItem('userData', JSON.stringify(resp.message));
 
-   
-                // console.log("HERE")
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    }
-
-    // const getTokenVerify = async (tokens) => {
-    //     console.log('Token:', tokens);
-    //     try {
-    //         const resp = await AuthenticationServices.tokenVerify(tokens);
-    //         if (resp?.status_code === 200) {
-    //             setTimeout(() => navigate("/dashboard"), 1500);
-    //         } else {
-    //             notifyError(resp?.message || "Invalid email or password");
-    //         }
-    //     } catch (error) {
-    //         console.error("Token verification error:", error);
-    //         notifyError("An error occurred during token verification. Please try again.");
-    //     }
-    // };
+            } else {
+                notifyError(resp?.message || "Invalid email or password");
+            }
+        } catch (error) {
+            console.error("Token verification error:", error);
+            notifyError("An error occurred during token verification. Please try again.");
+        }
+    };
 
     //id Through UserData Get 
     const getUserDetila = async (id) => {
