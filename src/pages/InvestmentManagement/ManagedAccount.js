@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Footer from '../Component/Footer/Footer';
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
-import OurMissionBanner from "../../assets/banner_images/redwood_investment_management.jpg"
+import OurMissionBanner from "../../assets/banner_images/redwood_hedge_fund.jpg"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import { Link } from "react-router-dom";
 import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
