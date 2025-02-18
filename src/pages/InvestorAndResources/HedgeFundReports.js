@@ -98,9 +98,11 @@ const HedgeFundReports = () => {
   };
 
   return (
-    <div>
+    <div className="page-wrapper">
       <HeaderComponents />
       <MetaTitle pageTitle={"Hedge Fund Reports – Redwood Peak Limited"} />
+      <div className="content-area">
+
       <div>
         <Image
           src={HedgeFundReportsnBanner}
@@ -355,6 +357,7 @@ const HedgeFundReports = () => {
             </div>
           )}
         </div>
+      </div>
       </div>
       <Footer />
     </div>

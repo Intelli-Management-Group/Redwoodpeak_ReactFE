@@ -59,80 +59,79 @@ const ManagedAccountReports = () => {
     };
 
     return (
-        <div>
+        <div className="page-wrapper">
             <HeaderComponents />
             <MetaTitle pageTitle={'Managed Account Reports – Redwood Peak Limited'} />
-            <div>
+
+            <div className="content-area">
                 <Image
                     src={HedgeFundReportsnBanner}
                     className="w-100 bannerHeight"
                     alt="OverView Banner"
                 />
-            </div>
-            <div className="container mb-5">
-                <div className="container-custom mt-1 mb-5 p-4">
-                    {/*<h1 className="header-post-title-class" >*/}
-                    {/*    Managed Account Reports*/}
-                    {/*</h1>*/}
-                    {isLoading ? (
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
-                            <div className="spinner-border text-primary-color" role="status">
-                                <span className="visually-hidden">Loading...</span>
+                <div className="container mb-5">
+                    <div className="container-custom mt-1 mb-5 p-4">
+                        {isLoading ? (
+                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
+                                <div className="spinner-border text-primary-color" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
                             </div>
-                        </div>
-                    ) : (
-                        <div>
-                            {Object.keys(data)
-                                .sort((a, b) => parseInt(b) - parseInt(a)) // Sort years in descending order
-                                .map((year) => (
-                                    <div key={year} id={`year-${year}`}>
-                                        <div
-                                            className="year-header pt-1 pb-1"
-                                            onClick={() => toggleVisibility(parseInt(year, 10))}
-                                            style={{ cursor: 'pointer' }}
-                                        >
-                                            {year}
-                                        </div>
-
-                                        {/* Conditionally render the PDFs for the year */}
-                                        {visibleYear === parseInt(year, 10) && (
-                                            <div className="ml-5">
-                                                {data[year]
-                                                    .sort((a, b) => {
-                                                        const dateA = new Date(a.created_at || a.file_name);
-                                                        const dateB = new Date(b.created_at || b.file_name);
-                                                        return dateB - dateA; // Descending order of dates
-                                                    })
-                                                    .map((item, index) => (
-                                                        <div key={index} className="pdf-row p-3">
-                                                            <div className="pdf-title">
-                                                                <span>
-                                                                    <Image src={pdfIcon} alt="PDF icon" />
-                                                                </span>
-
-                                                                <a
-                                                                    href={item.file_path}
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
-                                                                    style={{ textDecoration: 'none', color: 'inherit' }}
-                                                                >
-                                                                    {item.file_name.split('.').slice(0, -1).join('.').length > 60
-                                                                        ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 60) + "..."
-                                                                        : item.file_name.split('.').slice(0, -1).join('.')}
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    ))}
+                        ) : (
+                            <div>
+                                {Object.keys(data)
+                                    .sort((a, b) => parseInt(b) - parseInt(a)) // Sort years in descending order
+                                    .map((year) => (
+                                        <div key={year} id={`year-${year}`}>
+                                            <div
+                                                className="year-header pt-1 pb-1"
+                                                onClick={() => toggleVisibility(parseInt(year, 10))}
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                {year}
                                             </div>
-                                        )}
-                                    </div>
-                                ))}
-                        </div>
-                    )}
+
+                                            {/* Conditionally render the PDFs for the year */}
+                                            {visibleYear === parseInt(year, 10) && (
+                                                <div className="ml-5">
+                                                    {data[year]
+                                                        .sort((a, b) => {
+                                                            const dateA = new Date(a.created_at || a.file_name);
+                                                            const dateB = new Date(b.created_at || b.file_name);
+                                                            return dateB - dateA; // Descending order of dates
+                                                        })
+                                                        .map((item, index) => (
+                                                            <div key={index} className="pdf-row p-3">
+                                                                <div className="pdf-title">
+                                                                    <span>
+                                                                        <Image src={pdfIcon} alt="PDF icon" />
+                                                                    </span>
+
+                                                                    <a
+                                                                        href={item.file_path}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        style={{ textDecoration: 'none', color: 'inherit' }}
+                                                                    >
+                                                                        {item.file_name.split('.').slice(0, -1).join('.').length > 60
+                                                                            ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 60) + "..."
+                                                                            : item.file_name.split('.').slice(0, -1).join('.')}
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
             <Footer />
         </div>
+
     );
 };
 

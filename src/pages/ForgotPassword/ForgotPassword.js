@@ -35,9 +35,9 @@ const ForgotPassword = () => {
 
             if (response.status_code === 200) {
                 notifySuccess(`Reset link sent to your email.`);
-              } else {
+            } else {
                 notifyError(`Something went wrong. Please try again.`);
-              }
+            }
 
 
             // if (response.ok) {
@@ -61,53 +61,58 @@ const ForgotPassword = () => {
 
     return (
         <React.Fragment>
-            <HeaderComponents />
-            <MetaTitle pageTitle={"ForgotPassword"} />
-            <div className="container">
-                <div className="container-custom mb-5 p-2 min-heights" style={{ minHeight: "75vh" }}>
-                    <div className="mt-4">
-                        <div className="mt-5 m-3">
-                            <form onSubmit={handleSubmit}>
-                                {/* Email Input */}
-                                <div className="row mt-4">
-                                    <div className="col-md-12">
-                                        <label htmlFor="email">E-mail</label>
-                                        <input
-                                            id="email"
-                                            type="email"
-                                            className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                                            name="email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            required
-                                        />
-                                        {errors.email && (
-                                            <span className="invalid-feedback" role="alert">
-                                                <strong>{errors.email}</strong>
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
+            <div className="page-wrapper">
+                <HeaderComponents />
+                <MetaTitle pageTitle={"ForgotPassword"} />
+                <div className="content-area">
 
-                                {/* Submit Button */}
-                                <div className="row">
-                                <div className="form-group mb-0 mt-4">
-                                    <Button
-                                        text={loading ? "Sending..." : "Send Reset Link"}
-                                        onClick={handleSubmit}
-                                        className="btn btn-primary fitContent"
-                                        disabled={loading}
-                                        type="submit"
-                                    />
+                    <div className="container">
+                        <div className="container-custom mb-5 p-2 min-heights">
+                            <div className="mt-4">
+                                <div className="mt-5 m-3">
+                                    <form onSubmit={handleSubmit}>
+                                        {/* Email Input */}
+                                        <div className="row mt-4">
+                                            <div className="col-md-12">
+                                                <label htmlFor="email">E-mail</label>
+                                                <input
+                                                    id="email"
+                                                    type="email"
+                                                    className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                                                    name="email"
+                                                    value={email}
+                                                    onChange={(e) => setEmail(e.target.value)}
+                                                    required
+                                                />
+                                                {errors.email && (
+                                                    <span className="invalid-feedback" role="alert">
+                                                        <strong>{errors.email}</strong>
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Submit Button */}
+                                        <div className="row">
+                                            <div className="form-group mb-0 mt-4">
+                                                <Button
+                                                    text={loading ? "Sending..." : "Send Reset Link"}
+                                                    onClick={handleSubmit}
+                                                    className="btn btn-primary fitContent"
+                                                    disabled={loading}
+                                                    type="submit"
+                                                />
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <ToastContainer />
+                <Footer />
             </div>
-            <ToastContainer />
-            <Footer />
         </React.Fragment>
     );
 };

@@ -1,8 +1,9 @@
 /* Global Styles */
 :root {
     --primary-color: #511515;
-    --secondary-button-color:#f1eee8;
-  }
+    --secondary-button-color: #f1eee8;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Open Sans:wght@400;500;700&display=swap');
 
 @font-face {
@@ -11,7 +12,10 @@
     font-family: 'Open Sans';
     src: url('../fonts/openSans.woff2') format('woff2');
 }
-
+html, body {
+    height: 100%;  
+    margin: 0;
+}
 body {
     /* background-color: #380000; */
     color: #666666;
@@ -26,10 +30,12 @@ body {
 .primaryColor {
     color: #511515 !important;
 }
-.primaryBGColor{
+
+.primaryBGColor {
     background-color: var(--primary-color) !important;
 }
-.secondaryBGColor{
+
+.secondaryBGColor {
     background-color: var(--secondary-button-color) !important;
 }
 
@@ -110,8 +116,9 @@ li>a {
     background-color: #511515 !important;
     border-radius: 3px !important;
     box-shadow: none !important;
-    font-size: 12px !important; 
-    padding: 3px 7px !important; /* Updated padding to x0.5 (7px) and y0.3 (3px) */
+    font-size: 12px !important;
+    padding: 3px 7px !important;
+    /* Updated padding to x0.5 (7px) and y0.3 (3px) */
     font-weight: 600;
     line-height: 1;
 }
@@ -127,14 +134,16 @@ li>a {
     outline: none !important;
     box-shadow: none !important;
 }
+
 .btn-secondarys {
     color: #fff !important;
     border-color: #6c757d !important;
     background-color: #6c757d !important;
     border-radius: 3px !important;
     box-shadow: none !important;
-    font-size: 12px !important; 
-    padding: 3px 7px !important; /* Updated padding to x0.5 (7px) and y0.3 (3px) */
+    font-size: 12px !important;
+    padding: 3px 7px !important;
+    /* Updated padding to x0.5 (7px) and y0.3 (3px) */
     font-weight: 600;
     line-height: 1;
 }
@@ -467,9 +476,11 @@ footer {
     .header-post-title-class {
         display: none;
     }
-    .mobileTopMargin{
-        margin-top:15px;
+
+    .mobileTopMargin {
+        margin-top: 15px;
     }
+
     .mapImage {
         max-height: 300px;
     }
@@ -503,9 +514,10 @@ footer {
         display: block !important;
     }
 }
+
 @media (min-width: 2350px) and (max-width: 2560px) {
     .mapImage {
-        height: auto;  
+        height: auto;
         max-height: 700px !important;
         object-fit: cover;
     }
@@ -532,7 +544,8 @@ footer {
 .pointer {
     cursor: pointer;
 }
-.fitContent{
+
+.fitContent {
     width: fit-content !important;
 }
 
@@ -550,17 +563,19 @@ footer {
 
 /* PDF EFFECTS */
 .pdf-content {
-    transition:  0.7s ease-out; 
+    transition: 0.7s ease-out;
 }
+
 /* PDF EFFECTS Close */
 .cs-btn-primary {
-    background-color: var(--secondary-button-color) !important; 
+    background-color: var(--secondary-button-color) !important;
     border-color: var(--secondary-button-color);
     color: white;
     padding: 3px 7px !important;
     font-size: 12px !important;
     border-radius: 3px !important;
 }
+
 .cs-btn-primary:hover {
     background-color: var(--primary-color);
     border-color: var(--secondary-button-color) !important;
@@ -570,8 +585,10 @@ footer {
 .file-item {
     position: relative;
     display: inline-block;
-    text-decoration: none; /* Remove default underline */
-    color: inherit; /* Use the text color */
+    text-decoration: none;
+    /* Remove default underline */
+    color: inherit;
+    /* Use the text color */
 }
 
 .file-item-name {
@@ -597,6 +614,7 @@ footer {
 .pdf-icon {
     margin-right: 8px;
 }
+
 .news-item-name {
     position: relative;
     margin-bottom: 8px;
@@ -605,32 +623,36 @@ footer {
 }
 
 .news-item-name::before {
-    content: '•'; 
+    content: '•';
     position: absolute;
-    left: 0; 
+    left: 0;
     color: var(--primary-color);
     font-size: 18px;
     line-height: 1;
 }
-.fontAwsomeIconSize{
+
+.fontAwsomeIconSize {
     font-size: 18px;
 }
-.contactLink{
+
+.contactLink {
     color: #212529;
     text-decoration: underline;
 }
-.contactLink:hover{
+
+.contactLink:hover {
     color: var(--primary-color);
     text-decoration: underline;
 }
-.contactSectionFonts{
-font-size: 0.9rem;
+
+.contactSectionFonts {
+    font-size: 0.9rem;
 }
 
-.login-register-btn{
- font-size: 12px !important;
- padding: 3px 7px !important;
- border-radius: 3px !important;
+.login-register-btn {
+    font-size: 12px !important;
+    padding: 3px 7px !important;
+    border-radius: 3px !important;
 }
 
 /*  */
@@ -638,7 +660,7 @@ font-size: 0.9rem;
     display: flex;
     flex-direction: column;
     height: 100%;
-    border-radius: 8px; 
+    border-radius: 8px;
     border: none !important;
     overflow: hidden;
     background-color: #fff;
@@ -655,14 +677,14 @@ font-size: 0.9rem;
 }
 
 .tilesCard-body {
-    flex-grow: 1; 
+    flex-grow: 1;
     padding: 2rem;
     background-color: #fff;
 }
 
 .tilesCard-footer {
     padding: 0rem 2rem 2rem 2rem;
-    background-color: #fff !important; 
+    background-color: #fff !important;
     border-top: none !important;
 }
 
@@ -674,15 +696,17 @@ font-size: 0.9rem;
 
 @media (max-width: 767px) {
     .col-md-4 {
-        flex: 0 0 100%; 
+        flex: 0 0 100%;
         margin-bottom: 20px;
     }
 }
+
 .mapImage {
-    height: auto;  
+    height: auto;
     max-height: 500px;
     object-fit: cover;
 }
+
 /* Approach Box */
 .aprroch-Box {
     border: 2px solid var(--primary-color);
@@ -708,7 +732,7 @@ font-size: 0.9rem;
     min-width: 130px;
     z-index: 1;
     display: block;
-    border:1px solid #e0e0e0;
+    border: 1px solid #e0e0e0;
     border-radius: 5px;
 }
 
@@ -722,13 +746,14 @@ font-size: 0.9rem;
 .dropdown-content a:hover {
     background-color: #f1f1f1;
 }
+
 .aprroch-title {
     padding-bottom: 5px;
     font-size: 24px;
 }
 
 .aprroch-Box ul {
-    list-style: disc; 
+    list-style: disc;
     padding-left: 20px;
 }
 
@@ -741,4 +766,31 @@ font-size: 0.9rem;
 .aprroch-Box ul ul li::before {
     content: "";
 }
+
 /* Approach Box */
+
+/*  */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content-area {
+    flex-grow: 1;  
+    padding-bottom: 45px;
+}
+
+.my-footer-s {
+    /* position: sticky; */
+    bottom: 0;
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: center;
+}
+
+.container-custom {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+/*  */

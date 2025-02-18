@@ -74,109 +74,112 @@ const Publications = () => {
   };
 
   return (
-    <div>
+    <div className="page-wrapper">
       <HeaderComponents />
       <MetaTitle pageTitle={'Publications – Redwood Peak Limited'} />
-      <div>
-        <Image
-          src={PublicationsnBanner}
-          className="w-100 bannerHeight"
-          alt="OverView Banner"
-        />
-      </div>
-      <div className="container mb-5">
-        <div className="container-custom mt-1 mb-5 p-4">
-          {/*<h1 className="header-post-title-class" >*/}
-          {/*  Publications*/}
-          {/*</h1>*/}
-          {/* <h1 className="header-post-title-class" style={{ top: 0 }}>
+      <div className="content-area">
+
+        <div>
+          <Image
+            src={PublicationsnBanner}
+            className="w-100 bannerHeight"
+            alt="OverView Banner"
+          />
+        </div>
+        <div className="container mb-5">
+          <div className="container-custom mt-1 mb-5 p-4">
+            {/*<h1 className="header-post-title-class" >*/}
+            {/*  Publications*/}
+            {/*</h1>*/}
+            {/* <h1 className="header-post-title-class" style={{ top: 0 }}>
             Publications
           </h1> */}
-          {isLoading ? (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
-              <div className="spinner-border text-primary-color" role="status">
-                <span className="visually-hidden">Loading...</span>
+            {isLoading ? (
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
+                <div className="spinner-border text-primary-color" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="row">
-              {Object.keys(data)
-                .sort((a, b) => parseInt(b) - parseInt(a))
-                .map((year, index) => (
-                  <div key={year} className={`col-6 mb-4`}>
-                    <div id={`year-${year}`}>
-                      <div
-                        className="year-header pt-1 pb-1"
-                        onClick={() => toggleVisibility(parseInt(year, 10))}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        {year}
-                      </div>
-
-                      {/* Conditionally render the PDFs for the year with transition effect */}
-                      {visibleYears.includes(parseInt(year, 10)) && (
-                        <div className="pdf-content ml-5">
-                          {data[year]
-                            .sort((a, b) => {
-                              const dateA = new Date(a.created_at || a.file_name);
-                              const dateB = new Date(b.created_at || b.file_name);
-                              return dateB - dateA;
-                            })
-                            .map((item, index) => (
-                              <div key={index} className="pdf-row p-3">
-                                <div className="pdf-title ms-4 ">
-                                  <span>
-                                    <Image src={pdfIcon} alt="PDF icon" />
-                                  </span>
-
-                                  <a
-                                    href={item.file_path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    style={{ textDecoration: 'none', color: 'inherit' }}
-                                    className='file-item-name'
-                                  >
-                                    {(() => {
-                                      const targetName = "redwood peak china outlook";
-
-                                      const file_name = item.file_name;
-                                      const name = item.name;
-
-                                      const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
-
-                                      const normalize = (name) =>
-                                        name.toLowerCase()
-                                          .replace(/[-–]/g, " ")
-                                          .replace(/\s+/g, " ")
-                                          .trim();
-                                      const normalizedFileName = normalize(fileNameWithoutExtension);
-                                      const normalizedName = name ? normalize(name) : "";
-
-                                      const normalizedTargetName = normalize(targetName);
-
-                                      const shouldDisplayTargetName =
-                                        normalizedFileName.startsWith(normalizedTargetName) ||
-                                        normalizedName.startsWith(normalizedTargetName);
-
-                                      const displayName = shouldDisplayTargetName
-                                        ? (normalizedFileName.startsWith(normalizedTargetName) ? fileNameWithoutExtension : name)
-                                        : (fileNameWithoutExtension.length > 60
-                                          ? fileNameWithoutExtension.substring(0, 60) + "..."
-                                          : fileNameWithoutExtension);
-
-                                      return displayName;
-                                    })()}
-                                  </a>
-                                </div>
-                              </div>
-                            ))}
+            ) : (
+              <div className="row">
+                {Object.keys(data)
+                  .sort((a, b) => parseInt(b) - parseInt(a))
+                  .map((year, index) => (
+                    <div key={year} className={`col-6 mb-4`}>
+                      <div id={`year-${year}`}>
+                        <div
+                          className="year-header pt-1 pb-1"
+                          onClick={() => toggleVisibility(parseInt(year, 10))}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          {year}
                         </div>
-                      )}
+
+                        {/* Conditionally render the PDFs for the year with transition effect */}
+                        {visibleYears.includes(parseInt(year, 10)) && (
+                          <div className="pdf-content ml-5">
+                            {data[year]
+                              .sort((a, b) => {
+                                const dateA = new Date(a.created_at || a.file_name);
+                                const dateB = new Date(b.created_at || b.file_name);
+                                return dateB - dateA;
+                              })
+                              .map((item, index) => (
+                                <div key={index} className="pdf-row p-3">
+                                  <div className="pdf-title ms-4 ">
+                                    <span>
+                                      <Image src={pdfIcon} alt="PDF icon" />
+                                    </span>
+
+                                    <a
+                                      href={item.file_path}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      style={{ textDecoration: 'none', color: 'inherit' }}
+                                      className='file-item-name'
+                                    >
+                                      {(() => {
+                                        const targetName = "redwood peak china outlook";
+
+                                        const file_name = item.file_name;
+                                        const name = item.name;
+
+                                        const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
+
+                                        const normalize = (name) =>
+                                          name.toLowerCase()
+                                            .replace(/[-–]/g, " ")
+                                            .replace(/\s+/g, " ")
+                                            .trim();
+                                        const normalizedFileName = normalize(fileNameWithoutExtension);
+                                        const normalizedName = name ? normalize(name) : "";
+
+                                        const normalizedTargetName = normalize(targetName);
+
+                                        const shouldDisplayTargetName =
+                                          normalizedFileName.startsWith(normalizedTargetName) ||
+                                          normalizedName.startsWith(normalizedTargetName);
+
+                                        const displayName = shouldDisplayTargetName
+                                          ? (normalizedFileName.startsWith(normalizedTargetName) ? fileNameWithoutExtension : name)
+                                          : (fileNameWithoutExtension.length > 60
+                                            ? fileNameWithoutExtension.substring(0, 60) + "..."
+                                            : fileNameWithoutExtension);
+
+                                        return displayName;
+                                      })()}
+                                    </a>
+                                  </div>
+                                </div>
+                              ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
-            </div>
-          )}
+                  ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <Footer />

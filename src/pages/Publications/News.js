@@ -31,7 +31,7 @@ const News = () => {
       setExpandedYear(latestYear.toString());
     }
   }, [newsData]);
-  
+
   useEffect(() => {
     if (expandedYear && newsData[expandedYear]) {
       const firstPost = newsData[expandedYear][0];
@@ -96,112 +96,115 @@ const News = () => {
   };
 
   return (
-    <div>
+    <div className="page-wrapper">
       <HeaderComponents />
       <MetaTitle pageTitle={"News – Redwood Peak Limited"} />
-      <div>
-        <Image src={NewsBanner} className="w-100 bannerHeight" alt="News Banner" />
-      </div>
+      <div className="content-area">
 
-      <div className="container mb-5">
-        <div className="container-custom mt-1 mb-5 p-4">
-          {loading ? (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
-              <div className="spinner-border text-primary-color" role="status">
-                <span className="visually-hidden">Loading...</span>
+        <div>
+          <Image src={NewsBanner} className="w-100 bannerHeight" alt="News Banner" />
+        </div>
+
+        <div className="container mb-5">
+          <div className="container-custom mt-1 mb-5 p-4">
+            {loading ? (
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
+                <div className="spinner-border text-primary-color" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="row">
-              {/* Left Column for Thumbnails */}
-              <div className="col-md-3">
-                {Object.keys(newsData)
-                  .sort((a, b) => parseInt(b) - parseInt(a)) // Sort years in descending order
-                  .map((year) => (
-                    <div key={year}>
-                      {/* Year Header */}
-                      <div id={`year-${year}`} className="mt-3 mb-4">
-                        <div
-                          className="year-header"
-                          onClick={() => setExpandedYear(expandedYear === year ? null : year)}
-                          style={{ cursor: "pointer" }}
-                        >
-                          {year}
-                        </div>
-                        {/* Show posts only if the year is expanded */}
-                        {expandedYear === year && (
-                          <div className="mt-4">
-                            {newsData[year].map((post) => (
-                              <div
-                                key={post.id}
-                                className="pdf-row mb-3"
-                                onClick={() => updateContent(post.id)} // Load content on thumbnail click
-                              >
-                                <div className="pdf-title row">
-                                  {/* Post Thumbnail */}
-                                  <div className="col-md-3">
-                                    <Image
-                                      src={post.thumbnail.path}
-                                      alt={post.title}
-                                      width={50}
-                                      height={50}
-                                      className="img-thumbnail pointer"
-                                    />
+            ) : (
+              <div className="row">
+                {/* Left Column for Thumbnails */}
+                <div className="col-md-3">
+                  {Object.keys(newsData)
+                    .sort((a, b) => parseInt(b) - parseInt(a)) // Sort years in descending order
+                    .map((year) => (
+                      <div key={year}>
+                        {/* Year Header */}
+                        <div id={`year-${year}`} className="mt-3 mb-4">
+                          <div
+                            className="year-header"
+                            onClick={() => setExpandedYear(expandedYear === year ? null : year)}
+                            style={{ cursor: "pointer" }}
+                          >
+                            {year}
+                          </div>
+                          {/* Show posts only if the year is expanded */}
+                          {expandedYear === year && (
+                            <div className="mt-4">
+                              {newsData[year].map((post) => (
+                                <div
+                                  key={post.id}
+                                  className="pdf-row mb-3"
+                                  onClick={() => updateContent(post.id)} // Load content on thumbnail click
+                                >
+                                  <div className="pdf-title row">
+                                    {/* Post Thumbnail */}
+                                    <div className="col-md-3">
+                                      <Image
+                                        src={post.thumbnail.path}
+                                        alt={post.title}
+                                        width={50}
+                                        height={50}
+                                        className="img-thumbnail pointer"
+                                      />
+                                    </div>
+                                    {/* Post Title */}
+                                    <div className="col-md-9 pointer">{post.title}</div>
                                   </div>
-                                  {/* Post Title */}
-                                  <div className="col-md-9 pointer">{post.title}</div>
                                 </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-              </div>
-
-              {/* Right Column for Content */}
-              <div className="col-md-9">
-                <div className="mt-2">
-                  {loading ? (
-                    <div>Loading content...</div> // Display loading text or spinner
-                  ) : (
-                    <div>
-                      <div className="pb-2">
-                        <h2 className="text-primary-color">{selectedPost?.title}</h2>
-                      </div>
-                      <div
-                        id="contentDisplay"
-                        dangerouslySetInnerHTML={{ __html: selectedContent }}
-                      />
-                      {/* Displaying media with captions */}
-                      {selectedPost?.media?.map((mediaItem) => (
-                        <div key={mediaItem.id} className="media-item mb-4">
-                          {/* Image or Video */}
-                          <div className="media-content text-center">
-                            <a href={mediaItem.path} target="_blank" rel="noopener noreferrer">
-                              <img
-                                src={mediaItem.path}
-                                alt={mediaItem.caption || "Media"}
-                                className="img-fluid w-auto pointer" // Making it responsive and full width
-                                loading="lazy"
-                              />
-                            </a>
-                          </div>
-                          {/* Media Caption */}
-                          {mediaItem.caption && (
-                            <div className="media-caption text-center mt-2">
-                              <p>{mediaItem.caption}</p>
+                              ))}
                             </div>
                           )}
                         </div>
-                      ))}
-                    </div>
-                  )}
+                      </div>
+                    ))}
+                </div>
+
+                {/* Right Column for Content */}
+                <div className="col-md-9">
+                  <div className="mt-2">
+                    {loading ? (
+                      <div>Loading content...</div> // Display loading text or spinner
+                    ) : (
+                      <div>
+                        <div className="pb-2">
+                          <h2 className="text-primary-color">{selectedPost?.title}</h2>
+                        </div>
+                        <div
+                          id="contentDisplay"
+                          dangerouslySetInnerHTML={{ __html: selectedContent }}
+                        />
+                        {/* Displaying media with captions */}
+                        {selectedPost?.media?.map((mediaItem) => (
+                          <div key={mediaItem.id} className="media-item mb-4">
+                            {/* Image or Video */}
+                            <div className="media-content text-center">
+                              <a href={mediaItem.path} target="_blank" rel="noopener noreferrer">
+                                <img
+                                  src={mediaItem.path}
+                                  alt={mediaItem.caption || "Media"}
+                                  className="img-fluid w-auto pointer" // Making it responsive and full width
+                                  loading="lazy"
+                                />
+                              </a>
+                            </div>
+                            {/* Media Caption */}
+                            {mediaItem.caption && (
+                              <div className="media-caption text-center mt-2">
+                                <p>{mediaItem.caption}</p>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
       <Footer />

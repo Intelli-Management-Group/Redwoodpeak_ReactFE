@@ -24,21 +24,21 @@ const Visits = () => {
     fetchVisitData();
   }, []);
 
-   useEffect(() => {
-      if (newsData && Object.keys(newsData).length > 0) {
-        const latestYear = Math.max(...Object.keys(newsData).map((year) => parseInt(year, 10)));
-        setExpandedYear(latestYear.toString());
+  useEffect(() => {
+    if (newsData && Object.keys(newsData).length > 0) {
+      const latestYear = Math.max(...Object.keys(newsData).map((year) => parseInt(year, 10)));
+      setExpandedYear(latestYear.toString());
+    }
+  }, [newsData]);
+
+  useEffect(() => {
+    if (expandedYear && newsData[expandedYear]) {
+      const firstPost = newsData[expandedYear][0];
+      if (firstPost) {
+        updateContent(firstPost.id);
       }
-    }, [newsData]);
-    
-    useEffect(() => {
-      if (expandedYear && newsData[expandedYear]) {
-        const firstPost = newsData[expandedYear][0];
-        if (firstPost) {
-          updateContent(firstPost.id);
-        }
-      }
-    }, [expandedYear, newsData]);
+    }
+  }, [expandedYear, newsData]);
 
   const updateContent = (postId) => {
     setLoading(true);
@@ -93,124 +93,127 @@ const Visits = () => {
   };
 
   return (
-    <div>
+    <div className="page-wrapper">
       <HeaderComponents />
       <MetaTitle pageTitle={"Visits – Redwood Peak Limited"} />
-      <div>
-        <Image
-          src={NewsBanner}
-          className="w-100 bannerHeight"
-          alt="News Banner"
-        />
-      </div>
+      <div className="content-area">
 
-      <div className="container mb-5">
-        <div className="container-custom mt-1 mb-5 p-4">
-          {/*<h1 className="header-post-title-class">Visits</h1>*/}
-          {loading ? (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
-              <div className="spinner-border text-primary-color" role="status">
-                <span className="visually-hidden">Loading...</span>
+        <div>
+          <Image
+            src={NewsBanner}
+            className="w-100 bannerHeight"
+            alt="News Banner"
+          />
+        </div>
+
+        <div className="container mb-5">
+          <div className="container-custom mt-1 mb-5 p-4">
+            {/*<h1 className="header-post-title-class">Visits</h1>*/}
+            {loading ? (
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
+                <div className="spinner-border text-primary-color" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
               </div>
-            </div>
-          ) : (
-          <div className="row">
-            {/* Left Column for Year and Post Thumbnails */}
-            <div className="col-md-3">
-              {Object.keys(newsData)
-                .sort((a, b) => parseInt(b) - parseInt(a)) // Sort years in descending order
-                .map((year) => (
-                  <div key={year}>
-                    {/* Year Header */}
-                    <div
-                      className="year-header mt-3 mb-4"
-                      onClick={() =>
-                        setExpandedYear(expandedYear === year ? null : year)
-                      } // Toggle expanded year
-                      style={{ cursor: "pointer" }}
-                    >
-                      {year}
-                    </div>
-                    {expandedYear === year && ( // Only display posts for the expanded year
-                      <div className="mt-4">
-                        {newsData[year].map((post) => (
-                          <div
-                            key={post.id}
-                            className="pdf-row mb-3 pointer"
-                            onClick={() => updateContent(post.id)}
-                          >
-                            <div className="pdf-title row">
-                              {/* Post Thumbnail */}
-                              <div className="col-md-3">
-                                <Image
-                                  src={post.thumbnail.path}
-                                  alt={post.title}
-                                  width={50}
-                                  height={50}
-                                  className="img-thumbnail pointer"
-                                />
+            ) : (
+              <div className="row">
+                {/* Left Column for Year and Post Thumbnails */}
+                <div className="col-md-3">
+                  {Object.keys(newsData)
+                    .sort((a, b) => parseInt(b) - parseInt(a)) // Sort years in descending order
+                    .map((year) => (
+                      <div key={year}>
+                        {/* Year Header */}
+                        <div
+                          className="year-header mt-3 mb-4"
+                          onClick={() =>
+                            setExpandedYear(expandedYear === year ? null : year)
+                          } // Toggle expanded year
+                          style={{ cursor: "pointer" }}
+                        >
+                          {year}
+                        </div>
+                        {expandedYear === year && ( // Only display posts for the expanded year
+                          <div className="mt-4">
+                            {newsData[year].map((post) => (
+                              <div
+                                key={post.id}
+                                className="pdf-row mb-3 pointer"
+                                onClick={() => updateContent(post.id)}
+                              >
+                                <div className="pdf-title row">
+                                  {/* Post Thumbnail */}
+                                  <div className="col-md-3">
+                                    <Image
+                                      src={post.thumbnail.path}
+                                      alt={post.title}
+                                      width={50}
+                                      height={50}
+                                      className="img-thumbnail pointer"
+                                    />
+                                  </div>
+                                  {/* Post Title */}
+                                  <div className="col-md-9">{post.title}</div>
+                                </div>
                               </div>
-                              {/* Post Title */}
-                              <div className="col-md-9">{post.title}</div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                </div>
+
+                {/* Right Column for Content Display */}
+                <div className="col-md-9">
+                  <div className="mt-2">
+                    {loading ? (
+                      <div>Loading content...</div> // Loading Spinner or Text
+                    ) : (
+                      <div>
+                        {/* Post Title */}
+                        <div className="pb-2">
+                          <h2 className="text-primary-color">
+                            {selectedPost?.title}
+                          </h2>
+                        </div>
+
+                        {/* Post Content */}
+                        <div
+                          id="contentDisplay"
+                          dangerouslySetInnerHTML={{ __html: selectedContent }}
+                        />
+
+                        {/* Media with Captions */}
+                        {selectedPost?.media?.map((mediaItem) => (
+                          <div key={mediaItem.id} className="media-item mb-4">
+                            <div className="media-content text-center">
+                              <a
+                                href={mediaItem.path}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <img
+                                  src={mediaItem.path}
+                                  alt={mediaItem.caption || "Media"}
+                                  className="img-fluid w-auto pointer"
+                                  loading="lazy"
+                                />
+                              </a>
                             </div>
+                            {mediaItem.caption && (
+                              <div className="media-caption text-center mt-2">
+                                <p>{mediaItem.caption}</p>
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>
                     )}
                   </div>
-                ))}
-            </div>
-
-            {/* Right Column for Content Display */}
-            <div className="col-md-9">
-              <div className="mt-2">
-                {loading ? (
-                  <div>Loading content...</div> // Loading Spinner or Text
-                ) : (
-                  <div>
-                    {/* Post Title */}
-                    <div className="pb-2">
-                      <h2 className="text-primary-color">
-                        {selectedPost?.title}
-                      </h2>
-                    </div>
-
-                    {/* Post Content */}
-                    <div
-                      id="contentDisplay"
-                      dangerouslySetInnerHTML={{ __html: selectedContent }}
-                    />
-
-                    {/* Media with Captions */}
-                    {selectedPost?.media?.map((mediaItem) => (
-                      <div key={mediaItem.id} className="media-item mb-4">
-                        <div className="media-content text-center">
-                          <a
-                            href={mediaItem.path}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <img
-                              src={mediaItem.path}
-                              alt={mediaItem.caption || "Media"}
-                              className="img-fluid w-auto pointer"
-                              loading="lazy"
-                            />
-                          </a>
-                        </div>
-                        {mediaItem.caption && (
-                          <div className="media-caption text-center mt-2">
-                            <p>{mediaItem.caption}</p>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
+                </div>
               </div>
-            </div>
-          </div>
             )}
+          </div>
         </div>
       </div>
       <Footer />

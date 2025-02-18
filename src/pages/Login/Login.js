@@ -109,11 +109,13 @@ const Login = () => {
 
     return (
         <React.Fragment>
+            <div className="page-wrapper">
             <HeaderComponents />
             <MetaTitle pageTitle={"Login"} />
+            <div className="content-area">
 
             <div className="container">
-                <div className="container-custom mb-5 p-2 min-heights" style={{ minHeight: '75vh' }}>
+                <div className="container-custom mb-5 p-2 min-heights" style={{}}>
                     <div className="mt-4">
                         <div className="mt-5 m-3">
                             <form onSubmit={handleSubmit}>
@@ -200,9 +202,11 @@ const Login = () => {
                     </div>
                 </div>
             </div>
+            </div>
             <ToastContainer />
 
             <Footer />
+            </div>
         </React.Fragment>
     );
 };
