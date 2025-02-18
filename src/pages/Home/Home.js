@@ -61,10 +61,9 @@ const HomePage = () => {
     }, [location]);
 
     useEffect(() => {
-        getFetchOverView()
-        // getFetchNewsVisit()
-        getFetchNews("news");
-        getFetchVisit("visit");
+        getFetchOverView();
+        getFetchNews();
+        getFetchVisit();
 
 
     }, []);
@@ -114,13 +113,16 @@ const HomePage = () => {
         console.log("Learn more clicked!");
     };
 
-    const getFetchNews = async (category) => {
+    const getFetchNews = async () => {
         setIsLoading(true);
         try {
             const formData = new FormData();
-            formData.append("category", category);
-            const resp = await pagesServices.getPostList({ limit, page, documentType });
-
+            formData.append("category", "news");
+            const resp = await pagesServices.getPostList({
+                page: page,
+                limit: limit,
+                body: formData,
+            });
             if (resp?.status_code === 200) {
                 // console.log("only NEws Data",resp);
                 if (resp?.list?.data) {
@@ -140,10 +142,12 @@ const HomePage = () => {
 
     };
     const getFetchVisit = async (category) => {
+        console.log("getFetchVisit",category)
+
         setIsLoading(true);
         try {
             const formData = new FormData();
-            formData.append("category", category);
+            formData.append("category", "visit");
             const resp = await pagesServices.getPostList({
                 page: page,
                 limit: limit,
