@@ -232,7 +232,7 @@ const HedgeFundReports = () => {
                               .flat()
                               .sort((a, b) => new Date(b.created_at || b.file_name) - new Date(a.created_at || a.file_name))
                               .map((item, index) => (
-                                <div key={index} className="pdf-row p-3 ms-4">
+                                <div key={index} className="pdf-row p-3 ms-1">
                                   <div className="pdf-title">
                                     <span>
                                       <Image src={pdfIcon} alt="PDF icon" />
@@ -242,8 +242,12 @@ const HedgeFundReports = () => {
                                       target="_blank"
                                       rel="noopener noreferrer"
                                       style={{ textDecoration: "none", color: "inherit" }}
+                                      className='file-item-name'
                                     >
-                                      {(() => {
+                                      {item.file_name.split(".").slice(0, -1).join(".").length > 60
+                                        ? item.file_name.split(".").slice(0, -1).join(".").substring(0, 60) + "..."
+                                        : item.file_name.split(".").slice(0, -1).join(".")}
+                                      {/* {(() => {
                                         const targetName = "redwood peak china outlook";
                                         const file_name = item.file_name || "";
                                         const name = item.name || "";
@@ -262,7 +266,7 @@ const HedgeFundReports = () => {
                                           : fileNameWithoutExtension;
 
                                         return displayName.length > 60 ? displayName.substring(0, 60) + "..." : displayName;
-                                      })()}
+                                      })()} */}
 
                                     </a>
                                   </div>
