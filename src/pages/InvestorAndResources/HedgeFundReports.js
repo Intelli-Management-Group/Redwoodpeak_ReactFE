@@ -155,7 +155,7 @@ const HedgeFundReports = () => {
                                 return dateB - dateA; // Sort by date in descending order
                               })
                               .map((item, index) => (
-                                <div key={index} className="pdf-row p-3">
+                                <div key={index} className="pdf-row p-3 ms-4">
                                   <div className="pdf-title">
                                     <span>
                                       <Image src={pdfIcon} alt="PDF icon" />
@@ -232,7 +232,7 @@ const HedgeFundReports = () => {
                               .flat()
                               .sort((a, b) => new Date(b.created_at || b.file_name) - new Date(a.created_at || a.file_name))
                               .map((item, index) => (
-                                <div key={index} className="pdf-row p-3">
+                                <div key={index} className="pdf-row p-3 ms-4">
                                   <div className="pdf-title">
                                     <span>
                                       <Image src={pdfIcon} alt="PDF icon" />
