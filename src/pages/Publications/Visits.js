@@ -24,19 +24,21 @@ const Visits = () => {
     fetchVisitData();
   }, []);
 
-  useEffect(() => {
-    // Auto-select the first post from the latest year
-    if (newsData && Object.keys(newsData).length > 0) {
-      const latestYear = Math.max(
-        ...Object.keys(newsData).map((year) => parseInt(year, 10))
-      );
-      const firstPost = newsData[latestYear]?.[0];
-      setExpandedYear(String(latestYear)); // Expand the latest year by default
-      if (firstPost) {
-        updateContent(firstPost.id);
+   useEffect(() => {
+      if (newsData && Object.keys(newsData).length > 0) {
+        const latestYear = Math.max(...Object.keys(newsData).map((year) => parseInt(year, 10)));
+        setExpandedYear(latestYear.toString());
       }
-    }
-  }, [newsData]);
+    }, [newsData]);
+    
+    useEffect(() => {
+      if (expandedYear && newsData[expandedYear]) {
+        const firstPost = newsData[expandedYear][0];
+        if (firstPost) {
+          updateContent(firstPost.id);
+        }
+      }
+    }, [expandedYear, newsData]);
 
   const updateContent = (postId) => {
     setLoading(true);
