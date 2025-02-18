@@ -165,6 +165,7 @@ const HedgeFundReports = () => {
                                       target="_blank"
                                       rel="noopener noreferrer"
                                       style={{ textDecoration: "none", color: "inherit" }}
+                                      className='file-item-name'
                                     >
                                       {(() => {
                                         const targetName = "Redwood Peak Opportunities Master Fund Portfolio Summary";
@@ -298,6 +299,7 @@ const HedgeFundReports = () => {
                                               target="_blank"
                                               rel="noopener noreferrer"
                                               style={{ textDecoration: "none", color: "inherit" }}
+                                              className='file-item-name'
                                             >
                                               {(() => {
                                                 const targetNames = {
