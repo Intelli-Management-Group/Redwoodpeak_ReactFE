@@ -142,8 +142,6 @@ const HomePage = () => {
 
     };
     const getFetchVisit = async (category) => {
-        console.log("getFetchVisit",category)
-
         setIsLoading(true);
         try {
             const formData = new FormData();
@@ -173,54 +171,6 @@ const HomePage = () => {
 
     };
 
-    //Single Api in news Visit Data set
-    // const getFetchNewsVisit = async () => {
-    //     setIsLoading(true);
-    //     try {
-    //         const resp = await pagesServices.getPostList({ limit, page, documentType });
-    //         if (resp?.status_code === 200) {
-    //             console.log(resp);
-    //             if (resp?.list?.data) {
-    //                 function categorizePosts(posts) {
-    //                     // Step 1: Group by category
-    //                     const categorized = posts.reduce((acc, post) => {
-    //                         if (!acc[post.category]) {
-    //                             acc[post.category] = [];
-    //                         }
-    //                         acc[post.category].push(post);
-    //                         return acc;
-    //                     }, {});
-
-    //                     // Step 2: Select only the first 5 posts from each category
-    //                     for (const category in categorized) {
-    //                         categorized[category] = categorized[category].slice(0, 5); // Limit to 5 records
-    //                     }
-
-    //                     return categorized;
-    //                 }
-
-    //                 const result = categorizePosts(resp?.list?.data);
-    //                 setVisitData(result?.visit)
-    //                 setNewsData(result?.news)
-
-
-    //             } else {
-    //                 console.error("No data found in response.");
-    //                 notifyError("No data found. Please try again.");
-    //             }
-    //         } else {
-    //             // Handle non-200 status codes or unexpected responses
-    //             console.error("Failed to fetch data: ", resp?.message);
-    //             notifyError("Please try again.");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error fetching data:", error);
-    //         notifyError("An error occurred during fetching data. Please try again.");
-    //     } finally {
-    //         setIsLoading(false); // Set loading to false once the request is done
-    //     }
-
-    // };
     const getFetchOverView = async () => {
         setIsOverVirewLoading(true);
         try {
