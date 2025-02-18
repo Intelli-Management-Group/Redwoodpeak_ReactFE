@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import Image from '../ImagesComponets/ImagesComponets';
@@ -10,10 +10,24 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 const HeaderComponents = () => {
     const location = useLocation();
     const isAuthenticated = localStorage.getItem('userToken');
+    const userData = JSON.parse(localStorage.getItem('userData'))
+
     const navigate = useNavigate();
     const [openDropdown, setOpenDropdown] = useState(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useState(null);
+
+    useEffect(() => {
+        if (dropdownOpen) {
+            document.addEventListener("click", handleClickOutside);
+        } else {
+            document.removeEventListener("click", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [dropdownOpen]);
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -44,6 +58,9 @@ const HeaderComponents = () => {
         localStorage.removeItem('userToken');
         window.location.href = '/';
     }
+    const encodeToken = (token) => {
+        return btoa(token);
+    };
     // console.log(openDropdown, location)
     return (
         <Navbar expand="lg" className="container px-4 mx-sm-3 mx-md-4 mx-lg-5">
@@ -180,30 +197,25 @@ const HeaderComponents = () => {
                     </ul>
                 </Nav>
                 {isAuthenticated ? (
-                    <div className="dropdown" ref={dropdownRef}>
-                        <button className="ms-5 ps-5 dropbtn" onClick={toggleDropdown}>
-                            {/* <svg
-                            className="me-5 primary"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="35"
-                            height="35"
-                            onClick={handleDropdownToggle}
-                            >
-                            <path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                            </svg> */}
-                            <IconComponent icon={faUser} className="primaryColor fontAwsomeIconSize" onClick={handleDropdownToggle}/>
-
-                        </button>
-                            {dropdownOpen && (
-                              <div className="dropdown-content">
+                         <div className="dropdown" ref={dropdownRef}>
+                         <button className="ms-5 ps-5 dropbtn" onClick={toggleDropdown}>
+                             <IconComponent icon={faUser} className="primaryColor fontAwsomeIconSize" />
+                         </button>
+                         {dropdownOpen && (
+                             <div className="dropdown-content">
+                                 {(userData?.role === "admin" || userData?.role === "siteAdmin") && isAuthenticated && (
+                                     <a
+                                         className={`nav-link`}
+                                         href={`https://admin.jackychee.com/?token=${encodeToken(isAuthenticated)}`}
+                                         target="_blank"
+                                         rel="noopener noreferrer"
+                                     >Site Admin</a>
+                                 )}
                                  <a href="#" onClick={Profile}>Profile</a>
                                  <a href="#" onClick={handleLogout}>Logout</a>
-                              </div>
-                            )}
-                    </div>
-
-
+                             </div>
+                         )}
+                     </div>
                 ) : (
                     <>
                         <Button variant="primary" className="me-2 ms-3 w-auto login-register-btn" onClick={() => handleAuth("login")}>

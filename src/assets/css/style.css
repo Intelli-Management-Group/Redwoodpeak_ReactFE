@@ -127,6 +127,17 @@ li>a {
     outline: none !important;
     box-shadow: none !important;
 }
+.btn-secondarys {
+    color: #fff !important;
+    border-color: #6c757d !important;
+    background-color: #6c757d !important;
+    border-radius: 3px !important;
+    box-shadow: none !important;
+    font-size: 12px !important; 
+    padding: 3px 7px !important; /* Updated padding to x0.5 (7px) and y0.3 (3px) */
+    font-weight: 600;
+    line-height: 1;
+}
 
 .HeaderBGColor {
     background-color: #fff !important;
@@ -242,7 +253,7 @@ li>a {
 }
 
 .card-bg-img {
-    background: url('../images/banner1.jpg') center center no-repeat;
+    background: url('../images/redwood_feature.jpg') center center no-repeat;
     background-size: cover;
     display: flex;
     align-items: center;
@@ -258,7 +269,7 @@ li>a {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    /* background: rgba(0, 0, 0, 0.5); */
     z-index: 1;
 }
 
@@ -672,6 +683,17 @@ font-size: 0.9rem;
     max-height: 500px;
     object-fit: cover;
 }
+/* Approach Box */
+.aprroch-Box {
+    border: 2px solid var(--primary-color);
+    text-align: left;
+    font-weight: bold;
+    width: 300px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
 .dropbtn {
     background: none;
@@ -700,3 +722,23 @@ font-size: 0.9rem;
 .dropdown-content a:hover {
     background-color: #f1f1f1;
 }
+.aprroch-title {
+    padding-bottom: 5px;
+    font-size: 24px;
+}
+
+.aprroch-Box ul {
+    list-style: disc; 
+    padding-left: 20px;
+}
+
+
+.aprroch-Box ul ul {
+    list-style: none;
+    padding-left: 15px;
+}
+
+.aprroch-Box ul ul li::before {
+    content: "";
+}
+/* Approach Box */

@@ -22,56 +22,15 @@ import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
 import SimpleImageSlider from "react-simple-image-slider";
 import "../Home/Home.css"
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { faPhone, faEnvelope, faFax, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import IconComponent from '../Component/IconComponents/IconComponents';
-const outLookData = [{
-    "id": 74,
-    "name": "China Outlook Q1 2023.pdf",
-    "category": "application",
-    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-58c1f5987c817f17b55d4153c1aacfa0.pdf",
-    "size_in_kb": "97231",
-    "extension": "pdf",
-    "is_enabled": 1,
-    "created_by": 1
-},
-{
-    "id": 73,
-    "name": "China Outlook Q4 2022.pdf",
-    "category": "application",
-    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-bcf4ef7fe25972e784570cc4c53bd873.pdf",
-    "size_in_kb": "120676",
-    "extension": "pdf",
-    "is_enabled": 1,
-    "created_by": 1
-},
-{
-    "id": 75,
-    "name": "China Outlook Q3 2022.pdf",
-    "category": "application",
-    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-bcd983adacdd50c49a534c3e5d9d8bd6.pdf",
-    "size_in_kb": "110505",
-    "extension": "pdf",
-    "is_enabled": 1,
-    "created_by": 1
-}, {
-    "id": 76,
-    "name": "China Outlook Q2 2022.pdf",
-    "category": "application",
-    "path": "https://dev.jackychee.com/uploads/media/2024/12/laravel-88525464c0045b0c268c2d5b57c14e8a.pdf",
-    "size_in_kb": "100605",
-    "extension": "pdf",
-    "is_enabled": 1,
-    "created_by": 1
-}]
-
-// const images = [
-//     { url: Slide1 },
-//     { url: Slide2 },
-// ];
+import AuthenticationServices from '../../Services/AuthenticationServices';
+import axios from 'axios';
 
 const HomePage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const limit = 5;
     const page = 1;
@@ -79,55 +38,95 @@ const HomePage = () => {
 
     const documentType = "publications";
     const [isLoading, setIsLoading] = useState(true);
+    const [isOverVirewLoading, setIsOverVirewLoading] = useState(true);
     const [overViewData, setOverViewData] = useState([])
     const [showLoginAlert, setShowLoginAlert] = useState(false)
     const [visitData, setVisitData] = useState([])
     const [newsData, setNewsData] = useState([])
 
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const token = params.get('token');
+        if (token) {
+            try {
+                const decodedToken = atob(token);
+                if (decodedToken) {
+                    getTokenVerify(decodedToken)
+                }
+            } catch (error) {
+                console.error("Invalid token:", error);
+                notifyError("Invalid token in URL.");
+            }
+        }
+    }, [location]);
 
     useEffect(() => {
-        getFetchOverView()
-        getFetchNewsVisit()
+        getFetchOverView();
+        getFetchNews();
+        getFetchVisit();
+
 
     }, []);
 
+    const getTokenVerify = async (tokens) => {
+        try {
+            const resp = await AuthenticationServices.tokenVerify(tokens);
+            if (resp?.status_code === 200) {
+
+                localStorage.setItem("userToken", tokens);
+                localStorage.setItem("token", tokens);
+                localStorage.setItem('userData', JSON.stringify(resp.message));
+
+            } else {
+                notifyError(resp?.message || "Invalid email or password");
+            }
+        } catch (error) {
+            console.error("Token verification error:", error);
+            notifyError("An error occurred during token verification. Please try again.");
+        }
+    };
+
+    //id Through UserData Get 
+    const getUserDetila = async (id) => {
+        setIsLoading(true);
+        try {
+            const resp = await AuthenticationServices.getUserDetails(id);
+            if (resp?.status_code === 200) {
+                // console.log(resp);
+                if (resp?.data) {
+                    localStorage.setItem('userData', JSON.stringify(resp?.data));
+                } else {
+                    notifyError("No data found. Please try again.");
+                }
+            } else {
+                console.error("Failed to fetch data: ", resp?.message);
+                notifyError("Please try again.");
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            notifyError("An error occurred during fetching data. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
     const handleClick = () => {
         console.log("Learn more clicked!");
     };
 
-    const getFetchNewsVisit = async () => {
+    const getFetchNews = async () => {
         setIsLoading(true);
         try {
-            const resp = await pagesServices.getPostList({ limit, page, documentType });
+            const formData = new FormData();
+            formData.append("category", "news");
+            const resp = await pagesServices.getPostList({
+                page: page,
+                limit: limit,
+                body: formData,
+            });
             if (resp?.status_code === 200) {
-                console.log(resp);
+                // console.log("only NEws Data",resp);
                 if (resp?.list?.data) {
-                    function categorizePosts(posts) {
-                        // Step 1: Group by category
-                        const categorized = posts.reduce((acc, post) => {
-                            if (!acc[post.category]) {
-                                acc[post.category] = [];
-                            }
-                            acc[post.category].push(post);
-                            return acc;
-                        }, {});
-
-                        // Step 2: Select only the first 5 posts from each category
-                        for (const category in categorized) {
-                            categorized[category] = categorized[category].slice(0, 5); // Limit to 5 records
-                        }
-
-                        return categorized;
-                    }
-
-                    const result = categorizePosts(resp?.list?.data);
-                    setVisitData(result?.visit)
-                    setNewsData(result?.news)
-
-
-                } else {
-                    console.error("No data found in response.");
-                    notifyError("No data found. Please try again.");
+                    setNewsData(resp?.list?.data)
                 }
             } else {
                 // Handle non-200 status codes or unexpected responses
@@ -142,18 +141,22 @@ const HomePage = () => {
         }
 
     };
-    const getFetchOverView = async () => {
+    const getFetchVisit = async (category) => {
         setIsLoading(true);
         try {
-            const resp = await pagesServices.getPageList({ limit, page, documentType });
+            const formData = new FormData();
+            formData.append("category", "visit");
+            const resp = await pagesServices.getPostList({
+                page: page,
+                limit: limit,
+                body: formData,
+            });
             if (resp?.status_code === 200) {
-                console.log(resp);
+                console.log("only NEws Data", resp);
                 if (resp?.list?.data) {
-                    setOverViewData(resp?.list?.data || []);
-                } else {
-                    console.error("No data found in response.");
-                    notifyError("No data found. Please try again.");
+                    setVisitData(resp?.list?.data)
                 }
+
             } else {
                 // Handle non-200 status codes or unexpected responses
                 console.error("Failed to fetch data: ", resp?.message);
@@ -164,6 +167,35 @@ const HomePage = () => {
             notifyError("An error occurred during fetching data. Please try again.");
         } finally {
             setIsLoading(false); // Set loading to false once the request is done
+        }
+
+    };
+
+    const getFetchOverView = async () => {
+        setIsOverVirewLoading(true);
+        try {
+            const resp = await pagesServices.getPageList({ limit, page, documentType });
+            if (resp?.status_code === 200) {
+                console.log(resp);
+                if (resp?.list?.data) {
+                    setOverViewData(resp?.list?.data || []);
+                    setIsOverVirewLoading(false)
+                } else {
+                    console.error("No data found in response.");
+                    notifyError("No data found. Please try again.");
+                }
+            } else {
+                // Handle non-200 status codes or unexpected responses
+                setIsOverVirewLoading(false);
+                console.error("Failed to fetch data: ", resp?.message);
+                notifyError("Please try again.");
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            notifyError("An error occurred during fetching data. Please try again.");
+            setIsOverVirewLoading(false);
+        } finally {
+            setIsOverVirewLoading(false);
         }
 
     };
@@ -300,25 +332,55 @@ const HomePage = () => {
                                     <div>
                                         <h3 className="welcome-title-class">Our View</h3>
                                         <div className="mt-2 pt-1">
-                                            <ul className='ps-0' style={{ listStyle: 'none',display:'grid' }}>
-                                                {outLookData.map((item, index) => (
-                                                    <p
-                                                        className='p-0 text-left pointer file-item'
-                                                        key={index}
-                                                        onClick={() => handleOverViewClick(item)}
-                                                        style={{ textAlign: 'left' }}
-                                                    >
-                                                        <span className="pdf-icon">
-                                                            <Image src={pdfIcon} alt="PDF icon" />
-                                                        </span>
-                                                        <span className="file-item-name">
-                                                            {item.name?.split('.')?.slice(0, -1)?.join('.').length > 50
-                                                                ? item.name?.split('.')?.slice(0, -1)?.join('.')?.substring(0, 50) + "..."
-                                                                : item.name?.split('.')?.slice(0, -1)?.join('.')}
-                                                        </span>
+                                            <ul className='ps-0' style={{ listStyle: 'none', display: 'grid' }}>
+                                                {/* Conditional rendering for loading and empty data */}
+                                                {isOverVirewLoading ? (
+                                                    <p className='p-0 mt-2 text-left text-blue-500 font-semibold'>
+                                                        Loading overview data, please wait...
                                                     </p>
-                                                ))}
+                                                ) : overViewData?.length === 0 ? (
+                                                    <p className='p-0 mt-2 text-left text-red-500 font-semibold'>
+                                                        Oops! No data available at the moment. Please try again later.
+                                                    </p>
+                                                ) : (
+                                                    overViewData.slice(0, 4).map((item, index) => (
+                                                        <p
+                                                            className='p-0 text-left pointer file-item'
+                                                            key={index}
+                                                            onClick={() => handleOverViewClick(item)}
+                                                            style={{ textAlign: 'left' }}
+                                                        >
+                                                            <span className="pdf-icon">
+                                                                <Image src={pdfIcon} alt="PDF icon" />
+                                                            </span>
+                                                            <span className="file-item-name">
+                                                                {(() => {
+                                                                    const targetName = "redwood peak china outlook";
+                                                                    const file_name = item.file_name || "";
+                                                                    const name = item.name || "";
+
+                                                                    const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
+
+                                                                    const normalize = (str) => str.toLowerCase().replace(/-/g, " ").trim();
+                                                                    const normalizedFileName = normalize(fileNameWithoutExtension);
+                                                                    const normalizedName = normalize(name);
+
+                                                                    const shouldDisplayTargetName =
+                                                                        normalizedFileName.startsWith(targetName) || normalizedName.startsWith(targetName);
+
+                                                                    let displayName = shouldDisplayTargetName
+                                                                        ? (normalizedFileName.startsWith(targetName) ? fileNameWithoutExtension : name)
+                                                                        : fileNameWithoutExtension;
+
+                                                                    return displayName.length > 60 ? displayName.substring(0, 60) + "..." : displayName;
+                                                                })()}
+                                                            </span>
+
+                                                        </p>
+                                                    ))
+                                                )}
                                             </ul>
+
                                         </div>
 
                                     </div>
@@ -427,17 +489,46 @@ const HomePage = () => {
                             <div className="col-md-4">
                                 <h3 className="welcome-title-class">Latest News</h3>
                                 <div className="mt-3 pt-1">
+                                    {/* <ul className='ps-0'>
+                                        {newsData && newsData?.length === 0 && !isLoading ? (
+                                            <p className='p-0 mt-2 text-left contactSectionFonts'>
+                                                <span className=''>
+                                                    Oops! No data available at the moment.<br/> Please try again later.
+                                                </span>
+                                            </p>
+                                        ) : (
+                                            newsData && newsData.map((news, index) => {
+                                                return (
+                                                    <p className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts' key={index} onClick={() => handlePostClick("news")}>
+                                                        <span className='file-item-name'>
+                                                            {news?.title}
+                                                        </span>
+                                                    </p>
+                                                )
+                                            }))}
+                                    </ul> */}
                                     <ul className='ps-0'>
-                                        {newsData.map((news, index) => {
-                                            return (
-                                                <p className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts' key={index} onClick={() => handlePostClick("news")}>
-                                                    <span className='file-item-name'>
+                                        {isLoading ? (
+                                            <p className='p-0 mt-2 text-left contactSectionFonts'>
+                                                Loading news, please wait...
+                                            </p>
+                                        ) : newsData?.length === 0 ? (
+                                            <p className='p-0 mt-2 text-left contactSectionFonts'>
+                                                <span>
+                                                    Oops! No data available at the moment. <br /> Please try again later.
+                                                </span>
+                                            </p>
+                                        ) : (
+                                            newsData?.map((news, index) => (
+                                                <li key={index} className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts'>
+                                                    <span className='file-item-name' onClick={() => handlePostClick("news")}>
                                                         {news?.title}
                                                     </span>
-                                                </p>
-                                            )
-                                        })}
+                                                </li>
+                                            ))
+                                        )}
                                     </ul>
+
                                 </div>
                             </div>
 
@@ -445,16 +536,27 @@ const HomePage = () => {
                                 <h3 className="welcome-title-class">Our Visits</h3>
                                 <div className="mt-3 pt-1">
                                     <ul className='ps-0'>
-                                        {visitData.map((visit, index) => {
-                                            return (
-                                                <p className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts' key={index} onClick={() => handlePostClick("visit")}>
-                                                    <span className='file-item-name'>
+                                        {isLoading ? (
+                                            <p className='p-0 mt-2 text-left contactSectionFonts'>
+                                                Loading visit data, please wait...
+                                            </p>
+                                        ) : visitData?.length === 0 ? (
+                                            <p className='p-0 mt-2 text-left contactSectionFonts'>
+                                                <span>
+                                                    Oops! No data available at the moment. <br /> Please try again later.
+                                                </span>
+                                            </p>
+                                        ) : (
+                                            visitData.map((visit, index) => (
+                                                <li key={index} className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts'>
+                                                    <span className='file-item-name' onClick={() => handlePostClick("visit")}>
                                                         {visit?.title}
                                                     </span>
-                                                </p>
-                                            )
-                                        })}
+                                                </li>
+                                            ))
+                                        )}
                                     </ul>
+
                                 </div>
                             </div>
 

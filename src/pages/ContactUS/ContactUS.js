@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ContactUsBanner from "../../assets/banner_images/redwood_contact_us.jpg"
-import Maps from "../../assets/images/map.png"
+import Maps from "../../assets/images/rewood_location.png"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
 import Footer from "../Component/Footer/Footer";
@@ -83,7 +83,7 @@ const ContactUs = () => {
 
             {/*    </div>*/}
             {/*</div>*/}
-            <div className="row ml-0 mr-0">
+            <div className="row ml-0 mr-0" style={{marginLeft:2}}> 
                 <div className="mt-5 col-md-6">
                     <ul className="ps-0" style={{marginTop:"15%", marginLeft:"15%"}}>
                         <p>
@@ -126,7 +126,7 @@ const ContactUs = () => {
                     </ul>
 
                 </div>
-                <div className="col-md-6 ">
+                <div className="col-md-6">
                     <div id="map" className="mobileTopMargin">
                         <Image
                             src={Maps}

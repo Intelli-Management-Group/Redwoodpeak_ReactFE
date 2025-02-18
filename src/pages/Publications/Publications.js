@@ -18,9 +18,16 @@ const Publications = () => {
     fetchPublication()
   }, []);
   useEffect(() => {
-    const firstYear = Object.keys(data)
-      .sort((a, b) => parseInt(b) - parseInt(a))[0];
-    setVisibleYears([parseInt(firstYear)]);
+    // Only First Years Visible
+    // const firstYear = Object.keys(data)
+    //   .sort((a, b) => parseInt(b) - parseInt(a))[0];
+    // setVisibleYears([parseInt(firstYear)]);
+
+    //First & Second Years Visible
+    const years = Object.keys(data)
+      .sort((a, b) => parseInt(b) - parseInt(a));
+    const firstAndSecondYears = years.slice(0, 2).map(year => parseInt(year));
+    setVisibleYears(firstAndSecondYears);
   }, [data]);
 
   const toggleVisibility = (year) => {
@@ -54,7 +61,6 @@ const Publications = () => {
           notifyError("No data found. Please try again.");
         }
       } else {
-        // Handle non-200 status codes or unexpected responses
         console.error("Failed to fetch data: ", resp?.message);
         notifyError("Please try again.");
       }
@@ -62,7 +68,7 @@ const Publications = () => {
       console.error("Error fetching data:", error);
       notifyError("An error occurred during fetching data. Please try again.");
     } finally {
-      setIsLoading(false); // Set loading to false once the request is done
+      setIsLoading(false);
     }
 
   };
@@ -93,105 +99,84 @@ const Publications = () => {
               </div>
             </div>
           ) : (
-            <div>
-              {/* Render each year */}
-              {/* {Object.keys(data).map((year) => (
-                <div key={year} id={`year-${year}`}>
-                  <div
-                    className="year-header pt-1 pb-1"
-                    onClick={() => toggleVisibility(year)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {year}
-                  </div>
-
-                  {visibleYear === year && (
-                    <div className="ml-5">
-                      {data[year]
-                        .sort((a, b) => {
-                          const dateA = new Date(a.created_at || a.file_name);
-                          const dateB = new Date(b.created_at || b.file_name);
-                          return dateB - dateA;
-                        })
-                        .map((item, index) => {
-                          console.log(item)
-                          return (
-                            <div key={index} className="pdf-row p-3">
-                              <div className="pdf-title">
-                                <span>
-                                  <Image
-                                    src={pdfIcon}
-                                    alt="PDF icon"
-                                  />
-                                </span>
-
-                                <a
-                                  href={item.file_path}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  style={{ textDecoration: 'none', color: 'inherit' }}
-                                >
-                                  {item.file_name.split('.').slice(0, -1).join('.').length > 60
-                                    ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 60) + "..."
-                                    : item.file_name.split('.').slice(0, -1).join('.')}
-                                </a>
-                              </div>
-
-                            </div>
-                          )
-                        })}
-                    </div>
-                  )}
-                </div>
-              ))} */}
+            <div className="row">
               {Object.keys(data)
-                .sort((a, b) => parseInt(b) - parseInt(a)) // Sort years in descending order
-                .map((year) => (
-                  <div key={year} id={`year-${year}`}>
-                    <div
-                      className="year-header pt-1 pb-1"
-                      onClick={() => toggleVisibility(parseInt(year, 10))}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      {year}
-                    </div>
-
-                    {/* Conditionally render the PDFs for the year with transition effect */}
-                    {visibleYears.includes(parseInt(year, 10)) && (
-                      <div className="pdf-content ml-5">
-                        {data[year]
-                          .sort((a, b) => {
-                            const dateA = new Date(a.created_at || a.file_name);
-                            const dateB = new Date(b.created_at || b.file_name);
-                            return dateB - dateA; // Descending order of dates
-                          })
-                          .map((item, index) => (
-                            <div key={index} className="pdf-row p-3">
-                              <div className="pdf-title">
-                                <span>
-                                  <Image src={pdfIcon} alt="PDF icon" />
-                                </span>
-
-                                <a
-                                  href={item.file_path}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  style={{ textDecoration: 'none', color: 'inherit' }}
-                                >
-                                  {item.file_name.split('.').slice(0, -1).join('.').length > 60
-                                    ? item.file_name.split('.').slice(0, -1).join('.').substring(0, 60) + "..."
-                                    : item.file_name.split('.').slice(0, -1).join('.')}
-                                </a>
-                              </div>
-                            </div>
-                          ))}
+                .sort((a, b) => parseInt(b) - parseInt(a))
+                .map((year, index) => (
+                  <div key={year} className={`col-6 mb-4`}>
+                    <div id={`year-${year}`}>
+                      <div
+                        className="year-header pt-1 pb-1"
+                        onClick={() => toggleVisibility(parseInt(year, 10))}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        {year}
                       </div>
-                    )}
+
+                      {/* Conditionally render the PDFs for the year with transition effect */}
+                      {visibleYears.includes(parseInt(year, 10)) && (
+                        <div className="pdf-content ml-5">
+                          {data[year]
+                            .sort((a, b) => {
+                              const dateA = new Date(a.created_at || a.file_name);
+                              const dateB = new Date(b.created_at || b.file_name);
+                              return dateB - dateA;
+                            })
+                            .map((item, index) => (
+                              <div key={index} className="pdf-row p-3">
+                                <div className="pdf-title ms-4 ">
+                                  <span>
+                                    <Image src={pdfIcon} alt="PDF icon" />
+                                  </span>
+
+                                  <a
+                                    href={item.file_path}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ textDecoration: 'none', color: 'inherit' }}
+                                    className='file-item-name'
+                                  >
+                                    {(() => {
+                                      const targetName = "redwood peak china outlook";
+
+                                      const file_name = item.file_name;
+                                      const name = item.name;
+
+                                      const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
+
+                                      const normalize = (name) =>
+                                        name.toLowerCase()
+                                          .replace(/[-–]/g, " ")
+                                          .replace(/\s+/g, " ")
+                                          .trim();
+                                      const normalizedFileName = normalize(fileNameWithoutExtension);
+                                      const normalizedName = name ? normalize(name) : "";
+
+                                      const normalizedTargetName = normalize(targetName);
+
+                                      const shouldDisplayTargetName =
+                                        normalizedFileName.startsWith(normalizedTargetName) ||
+                                        normalizedName.startsWith(normalizedTargetName);
+
+                                      const displayName = shouldDisplayTargetName
+                                        ? (normalizedFileName.startsWith(normalizedTargetName) ? fileNameWithoutExtension : name)
+                                        : (fileNameWithoutExtension.length > 60
+                                          ? fileNameWithoutExtension.substring(0, 60) + "..."
+                                          : fileNameWithoutExtension);
+
+                                      return displayName;
+                                    })()}
+                                  </a>
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))}
             </div>
           )}
-
         </div>
       </div>
       <Footer />

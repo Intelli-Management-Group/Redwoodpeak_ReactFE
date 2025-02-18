@@ -90,7 +90,8 @@ const ForgotPassword = () => {
                                 </div>
 
                                 {/* Submit Button */}
-                                <div className="form-group row mb-0 mt-4">
+                                <div className="row">
+                                <div className="form-group mb-0 mt-4">
                                     <Button
                                         text={loading ? "Sending..." : "Send Reset Link"}
                                         onClick={handleSubmit}
@@ -98,6 +99,7 @@ const ForgotPassword = () => {
                                         disabled={loading}
                                         type="submit"
                                     />
+                                </div>
                                 </div>
                             </form>
                         </div>

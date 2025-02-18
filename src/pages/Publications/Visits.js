@@ -24,19 +24,21 @@ const Visits = () => {
     fetchVisitData();
   }, []);
 
-  useEffect(() => {
-    // Auto-select the first post from the latest year
-    if (newsData && Object.keys(newsData).length > 0) {
-      const latestYear = Math.max(
-        ...Object.keys(newsData).map((year) => parseInt(year, 10))
-      );
-      const firstPost = newsData[latestYear]?.[0];
-      setExpandedYear(String(latestYear)); // Expand the latest year by default
-      if (firstPost) {
-        updateContent(firstPost.id);
+   useEffect(() => {
+      if (newsData && Object.keys(newsData).length > 0) {
+        const latestYear = Math.max(...Object.keys(newsData).map((year) => parseInt(year, 10)));
+        setExpandedYear(latestYear.toString());
       }
-    }
-  }, [newsData]);
+    }, [newsData]);
+    
+    useEffect(() => {
+      if (expandedYear && newsData[expandedYear]) {
+        const firstPost = newsData[expandedYear][0];
+        if (firstPost) {
+          updateContent(firstPost.id);
+        }
+      }
+    }, [expandedYear, newsData]);
 
   const updateContent = (postId) => {
     setLoading(true);
@@ -57,6 +59,7 @@ const Visits = () => {
 
   const fetchVisitData = async () => {
     try {
+      setLoading(true)
       const formData = new FormData();
       formData.append("category", type);
 
@@ -76,6 +79,8 @@ const Visits = () => {
 
         const groupedData = groupByYear(resp.list.data);
         setNewsData(groupedData);
+        setLoading(false)
+
       } else {
         console.error("No data found in response.");
         notifyError("No data found. Please try again.");
@@ -83,6 +88,7 @@ const Visits = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
       notifyError("An error occurred during fetching data. Please try again.");
+      setLoading(false);
     }
   };
 
@@ -101,7 +107,13 @@ const Visits = () => {
       <div className="container mb-5">
         <div className="container-custom mt-1 mb-5 p-4">
           {/*<h1 className="header-post-title-class">Visits</h1>*/}
-
+          {loading ? (
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
+              <div className="spinner-border text-primary-color" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
           <div className="row">
             {/* Left Column for Year and Post Thumbnails */}
             <div className="col-md-3">
@@ -198,6 +210,7 @@ const Visits = () => {
               </div>
             </div>
           </div>
+            )}
         </div>
       </div>
       <Footer />

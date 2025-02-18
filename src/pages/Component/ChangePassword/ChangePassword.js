@@ -85,6 +85,7 @@ const ChangePassword = () => {
                                     <div className=" mb-0 pt-3 mt-2">
                                         <button  text="Change Password"
                                                  className="btn btn-primary"
+                                                 disabled
                                                  type="submit">
                                             Change Password
                                         </button>

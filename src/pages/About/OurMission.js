@@ -45,22 +45,22 @@ const OurMission = () => {
             </p>
 
             <p>
-              <span className="highlight-text">To serve the clients</span><br />
-              • To align our success with the objectives and success of our client<br />
-              • To place the interests of our clients first
+              <span className="highlight-text fw-bold">To serve the clients</span><br />
+              <span className="ms-3">• To align our success with the objectives and success of our client</span><br />
+              <span className="ms-3">• To place the interests of our clients first</span>
             </p>
 
             <p>
-              <span className="highlight-text">Respect for the individual</span><br />
-              • To deal fairly and honestly with our business partners and associates<br />
-              • To communicate openly and to be transparent with our partners, clients, and employees
+              <span className="highlight-text fw-bold">Respect for the individual</span><br />
+              <span className="ms-3">• To deal fairly and honestly with our business partners and associates</span><br />
+              <span className="ms-3">• To communicate openly and to be transparent with our partners, clients, and employees</span>
             </p>
 
             <p>
-              <span className="highlight-text">To strive for excellence</span><br />
-              • To measure performance contribution<br />
-              • To be a good corporate citizen by contributing to the community and making socially
-              responsible investments
+              <span className="highlight-text fw-bold">To strive for excellence</span><br />
+              <span className="ms-3">• To measure performance contribution</span><br />
+              <span className="ms-3">• To be a good corporate citizen by contributing to the community and making socially
+                responsible investments</span>
             </p>
           </div>
         </div>
