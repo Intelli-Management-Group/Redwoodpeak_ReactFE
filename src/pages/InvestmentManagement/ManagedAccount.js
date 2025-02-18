@@ -31,19 +31,19 @@ const ManagedAccount = () => {
                             Leveraging on our research and investment capabilities, we provide managed account services. We partner with our clients and customize the investment strategy to achieve their unique investment goals. Our platform allows us to offer high quality and tailored investment and advisory services. Investors have engaged us to manage a combination of these portfolios:
                         </p>
                         <ol>
-                            <li>
+                            <li className="ms-3">
                                 China Portfolio – A concentrated China-focused portfolio of up to 15
                                 high-quality companies which have long-term capital appreciation potential.
                             </li>
-                            <li>
+                            <li className="ms-3">
                                 Sequoia Portfolio – A concentrated global portfolio of up to 25 high-quality
                                 companies which have long-term capital appreciation potential.
                             </li>
-                            <li>
+                            <li className="ms-3">
                                 Sprout Portfolio – A&nbsp;diversified global portfolio of up to 30 high
                                 return small cap companies which have the potential for capital appreciation.
                             </li>
-                            <li>
+                            <li className="ms-3">
                                 Offshore Dividend Income Portfolio – A diversified global portfolio of up
                                 to 30 income producing, steady cash flow and dividend generating companies
                                 providing an average gross yield (before taxes) of&nbsp;greater than 5%.
