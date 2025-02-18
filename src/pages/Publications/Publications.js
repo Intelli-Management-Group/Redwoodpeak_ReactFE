@@ -167,7 +167,7 @@ const Publications = () => {
                           })
                           .map((item, index) => (
                             <div key={index} className="pdf-row p-3">
-                              <div className="pdf-title">
+                              <div className="pdf-title ms-3">
                                 <span>
                                   <Image src={pdfIcon} alt="PDF icon" />
                                 </span>
