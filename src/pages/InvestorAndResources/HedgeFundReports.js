@@ -121,7 +121,7 @@ const HedgeFundReports = () => {
             <div className="row" >
               {/* Left Column: Monthly Portfolio Summary */}
               <div className="col-md-6 col-sm-12" >
-                <div className="type-header pt-2 pb-1 text-primary-color ">
+                <div className="type-header pt-2 pb-1 text-primary-color fw-bold file-item-name">
                   Monthly Portfolio Summary
                 </div>
                 {Object.keys(data?.monthlyPortfolioSummary || {})
@@ -194,7 +194,7 @@ const HedgeFundReports = () => {
                                             ? fileNameWithoutExtension.substring(0, 60) + "..."
                                             : fileNameWithoutExtension);
 
-                                        return displayName;
+                                        return displayName?.substring(0, 60) + "...";
                                       })()}
 
                                     </a>
@@ -212,7 +212,7 @@ const HedgeFundReports = () => {
                 {reportTypes.map((type) => (
                   <div key={type}>
                     <div
-                      className="type-header pt-2 pb-2 text-primary-color"
+                      className="type-header pt-2 pb-2 text-primary-color fw-bold file-item-name"
                       onClick={() => toggleTypeVisibility(type)}
                       style={{ cursor: "pointer" }}
                     >
@@ -242,9 +242,27 @@ const HedgeFundReports = () => {
                                       rel="noopener noreferrer"
                                       style={{ textDecoration: "none", color: "inherit" }}
                                     >
-                                      {item.file_name.split(".").slice(0, -1).join(".").length > 60
-                                        ? item.file_name.split(".").slice(0, -1).join(".").substring(0, 60) + "..."
-                                        : item.file_name.split(".").slice(0, -1).join(".")}
+                                      {(() => {
+                                        const targetName = "redwood peak china outlook";
+                                        const file_name = item.file_name || "";
+                                        const name = item.name || "";
+
+                                        const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
+
+                                        const normalize = (str) => str.toLowerCase().replace(/-/g, " ").trim();
+                                        const normalizedFileName = normalize(fileNameWithoutExtension);
+                                        const normalizedName = normalize(name);
+
+                                        const shouldDisplayTargetName =
+                                          normalizedFileName.startsWith(targetName) || normalizedName.startsWith(targetName);
+
+                                        let displayName = shouldDisplayTargetName
+                                          ? (normalizedFileName.startsWith(targetName) ? fileNameWithoutExtension : name)
+                                          : fileNameWithoutExtension;
+
+                                        return displayName.length > 60 ? displayName.substring(0, 60) + "..." : displayName;
+                                      })()}
+
                                     </a>
                                   </div>
                                 </div>
@@ -283,10 +301,8 @@ const HedgeFundReports = () => {
                                             >
                                               {(() => {
                                                 const targetNames = {
-                                                  quarterlyPerformanceAnalysis:
-                                                    "Redwood Peak Opportunities Master Fund Performance Analysis",
-                                                  quarterlyShareholderLetter:
-                                                    "Redwood Peak Opportunities Master Fund Shareholders Letter",
+                                                  quarterlyPerformanceAnalysis: "Redwood Peak Opportunities Master Fund Performance Analysis",
+                                                  quarterlyShareholderLetter: "Redwood Peak Opportunities Master Fund Shareholders Letter",
                                                 };
 
                                                 const targetName = targetNames[item.hedge_fund_report_type] || "";
@@ -295,8 +311,8 @@ const HedgeFundReports = () => {
 
                                                 const fileNameWithoutExtension = file_name.split(".").slice(0, -1).join(".");
 
-                                                const normalize = (name) =>
-                                                  name
+                                                const normalize = (str) =>
+                                                  str
                                                     .toLowerCase()
                                                     .replace(/[-–]/g, " ")
                                                     .replace(/\s+/g, " ")
@@ -307,19 +323,15 @@ const HedgeFundReports = () => {
                                                 const normalizedTargetName = normalize(targetName);
 
                                                 const shouldDisplayTargetName =
-                                                  normalizedFileName.startsWith(normalizedTargetName) ||
-                                                  normalizedName.startsWith(normalizedTargetName);
+                                                  normalizedFileName.startsWith(normalizedTargetName) || normalizedName.startsWith(normalizedTargetName);
 
-                                                const displayName = shouldDisplayTargetName
-                                                  ? normalizedFileName.startsWith(normalizedTargetName)
-                                                    ? fileNameWithoutExtension
-                                                    : name
-                                                  : fileNameWithoutExtension.length > 60
-                                                    ? fileNameWithoutExtension.substring(0, 60) + "..."
-                                                    : fileNameWithoutExtension;
+                                                let displayName = shouldDisplayTargetName
+                                                  ? (normalizedFileName.startsWith(normalizedTargetName) ? fileNameWithoutExtension : name)
+                                                  : fileNameWithoutExtension;
 
-                                                return displayName || name || fileNameWithoutExtension;
+                                                return displayName.length > 60 ? displayName.substring(0, 60) + "..." : displayName;
                                               })()}
+
                                             </a>
                                           </div>
                                         </div>
