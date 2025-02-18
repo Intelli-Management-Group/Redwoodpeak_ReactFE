@@ -1,19 +1,46 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-
-
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import Image from '../ImagesComponets/ImagesComponets';
 import Logo from "../../../assets/images/logo.png"
-
+import IconComponent from "../IconComponents/IconComponents"
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 const HeaderComponents = () => {
     const location = useLocation();
     const isAuthenticated = localStorage.getItem('userToken');
     const userData = JSON.parse(localStorage.getItem('userData'))
+
     const navigate = useNavigate();
     const [openDropdown, setOpenDropdown] = useState(null);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useState(null);
+
+    useEffect(() => {
+        if (dropdownOpen) {
+            document.addEventListener("click", handleClickOutside);
+        } else {
+            document.removeEventListener("click", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [dropdownOpen]);
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+    };
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setDropdownOpen(false);
+        }
+    };
+
+
+
     const handleDropdownToggle = (dropdownName) => {
         setOpenDropdown((prev) => (prev === dropdownName ? null : dropdownName));
     };
@@ -24,15 +51,17 @@ const HeaderComponents = () => {
             navigate('/register');
         }
     }
+    const Profile = () => {
+        navigate('/Profile');
+    }
     const handleLogout = () => {
         localStorage.removeItem('userToken');
-        localStorage.removeItem('userData');
         window.location.href = '/';
     }
-    // console.log(openDropdown, location)
     const encodeToken = (token) => {
         return btoa(token);
     };
+    // console.log(openDropdown, location)
     return (
         <Navbar expand="lg" className="container px-4 mx-sm-3 mx-md-4 mx-lg-5">
             <Navbar.Brand href="/">
@@ -165,21 +194,28 @@ const HeaderComponents = () => {
                                 Contact Us
                             </Link>
                         </li>
-                        {(userData?.role === "admin" || userData?.role === "siteAdmin") && isAuthenticated &&
-                            <li className="nav-item">
-                                <a
-                                    className={`nav-link`}
-                                    // href={`http://localhost:3000/?token=${encodeToken(isAuthenticated)}`}
-                                    href={`https://admin.jackychee.com/?token=${encodeToken(isAuthenticated)}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >Site Admin</a>
-                            </li>
-                        }
                     </ul>
                 </Nav>
                 {isAuthenticated ? (
-                    <Button variant="primary" className="ms-5 w-auto login-register-btn" onClick={handleLogout}>Logout</Button>
+                         <div className="dropdown" ref={dropdownRef}>
+                         <button className="ms-5 ps-5 dropbtn" onClick={toggleDropdown}>
+                             <IconComponent icon={faUser} className="primaryColor fontAwsomeIconSize" />
+                         </button>
+                         {dropdownOpen && (
+                             <div className="dropdown-content">
+                                 {(userData?.role === "admin" || userData?.role === "siteAdmin") && isAuthenticated && (
+                                     <a
+                                         className={`nav-link`}
+                                         href={`https://admin.jackychee.com/?token=${encodeToken(isAuthenticated)}`}
+                                         target="_blank"
+                                         rel="noopener noreferrer"
+                                     >Site Admin</a>
+                                 )}
+                                 <a href="#" onClick={Profile}>Profile</a>
+                                 <a href="#" onClick={handleLogout}>Logout</a>
+                             </div>
+                         )}
+                     </div>
                 ) : (
                     <>
                         <Button variant="primary" className="me-2 ms-3 w-auto login-register-btn" onClick={() => handleAuth("login")}>
@@ -191,6 +227,7 @@ const HeaderComponents = () => {
                     </>
                 )}
             </Navbar.Collapse >
+
         </Navbar >
 
     );
