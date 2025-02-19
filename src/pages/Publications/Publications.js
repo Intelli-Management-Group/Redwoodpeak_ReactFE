@@ -23,7 +23,6 @@ const Publications = () => {
   }, []);
 
   useEffect(() => {
-    // Wait for the DOM to update and measure heights
     setTimeout(() => {
       if (leftColRef.current && rightColRef.current) {
         const leftHeight = leftColRef.current.clientHeight;
@@ -50,6 +49,10 @@ const Publications = () => {
           return acc;
         }, {});
         setData(publications);
+        const sortedYears = Object.keys(publications).sort((a, b) => parseInt(b) - parseInt(a));
+        if (sortedYears.length > 0) {
+          setVisibleYears([parseInt(sortedYears[0], 10)]);
+        }
       } else {
         notifyError("No data found. Please try again.");
       }
@@ -115,7 +118,6 @@ const Publications = () => {
                       ))}
                     </div>
 
-                    {/* RIGHT COLUMN */}
                     <div
                         ref={rightColRef}
                         style={{ minHeight: maxHeight ? `${maxHeight}px` : "auto" }}
