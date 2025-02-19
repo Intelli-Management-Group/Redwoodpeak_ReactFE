@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Component/Footer/Footer";
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
@@ -32,6 +32,10 @@ const Registration = () => {
   });
 
   const [errors, setErrors] = useState({});
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Handle form input changes
   const handleChange = (e) => {
