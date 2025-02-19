@@ -8,14 +8,17 @@ import News3 from "../../assets/images/news3.jpeg";
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
+import { useLocation } from 'react-router-dom';
 
 const Visits = () => {
   // State to track news data, currently displayed content, and expanded year
+  const location = useLocation();
   const [newsData, setNewsData] = useState([]);
   const [selectedContent, setSelectedContent] = useState("");
   const [selectedPost, setSelectedPost] = useState(null);
   const [expandedYear, setExpandedYear] = useState(null); // Track which year's content is expanded
   const [loading, setLoading] = useState(false);
+  const postId = location.state?.id;
 
   const type = "visit";
   const perPageRecords = 500;
@@ -31,14 +34,18 @@ const Visits = () => {
     }
   }, [newsData]);
 
-  useEffect(() => {
-    if (expandedYear && newsData[expandedYear]) {
-      const firstPost = newsData[expandedYear][0];
-      if (firstPost) {
-        updateContent(firstPost.id);
+    useEffect(() => {
+      if (newsData) {
+        if (postId) {
+          updateContent(postId); // If id exists, load that post
+        } else if (expandedYear && newsData[expandedYear]) {
+          const firstPost = newsData[expandedYear][0];
+          if (firstPost) {
+            updateContent(firstPost.id);
+          }
+        }
       }
-    }
-  }, [expandedYear, newsData]);
+    }, [newsData, expandedYear, postId]);
 
   const updateContent = (postId) => {
     setLoading(true);
