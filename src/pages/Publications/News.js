@@ -21,11 +21,11 @@ const News = () => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [expandedYear, setExpandedYear] = useState(null); // State to track expanded year
   const [loading, setLoading] = useState(false);
+  const [yearsSwitch, setYearsSwitch] = useState(false);
   const type = "news";
   const perPageRecords = 500;
   const postId = location.state?.id;
 
-  console.log(location.state?.id);
 
   useEffect(() => {
     fetchNewsData();
@@ -39,7 +39,7 @@ const News = () => {
   }, [newsData]);
   useEffect(() => {
     if (newsData) {
-      if (postId) {
+      if (postId && !yearsSwitch) {
         updateContent(postId);
         const selectedPost = Object.values(newsData)
           .flat()
@@ -48,17 +48,16 @@ const News = () => {
         if (selectedPost && selectedPost.year) {
           setExpandedYear(selectedPost.year.toString());
         }
-      } 
-      // else if (expandedYear && newsData[expandedYear]) {
-      //   const firstPost = newsData[expandedYear][0];
-      //   if (firstPost) {
-      //     updateContent(firstPost.id);
-      //   }
-      // }
+      } else if (expandedYear && newsData[expandedYear] && yearsSwitch) {
+        const firstPost = newsData[expandedYear][0];
+        if (firstPost) {
+          updateContent(firstPost.id);
+        }
+      }
     }
   }, [newsData, postId]);
     useEffect(() => {
-      if (expandedYear && newsData[expandedYear]) {
+      if (expandedYear && newsData[expandedYear] && yearsSwitch) {
         const firstPost = newsData[expandedYear][0];
         if (firstPost) {
           updateContent(firstPost.id);
@@ -105,7 +104,7 @@ const News = () => {
 
   const updateContent = (postId) => {
     setLoading(true);
-    window.scrollTo(0, 370);
+    window.scrollTo({ top: 370, behavior: 'smooth' });
 
     const selectedPost = Object.values(newsData)
       .flat()
@@ -150,7 +149,10 @@ const News = () => {
                         <div id={`year-${year}`} className="mt-3 mb-4">
                           <div
                             className="year-header"
-                            onClick={() => setExpandedYear(expandedYear === year ? null : year)}
+                            onClick={() => {
+                              setExpandedYear(expandedYear === year ? null : year);
+                              setYearsSwitch(true);
+                            }} 
                             style={{ cursor: "pointer" }}
                           >
                             {year}

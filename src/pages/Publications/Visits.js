@@ -18,6 +18,7 @@ const Visits = () => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [expandedYear, setExpandedYear] = useState(null); // Track which year's content is expanded
   const [loading, setLoading] = useState(false);
+  const [yearsSwitch, setYearsSwitch] = useState(false);
   const postId = location.state?.id;
 
   const type = "visit";
@@ -36,7 +37,7 @@ const Visits = () => {
 
   useEffect(() => {
     if (newsData) {
-      if (postId) {
+      if (postId && !yearsSwitch) {
         updateContent(postId);
         const selectedPost = Object.values(newsData)
           .flat()
@@ -45,17 +46,16 @@ const Visits = () => {
         if (selectedPost && selectedPost.year) {
           setExpandedYear(selectedPost.year.toString());
         }
-      } 
-      // else if (expandedYear && newsData[expandedYear]) {
-      //   const firstPost = newsData[expandedYear][0];
-      //   if (firstPost) {
-      //     updateContent(firstPost.id);
-      //   }
-      // }
+      } else if (expandedYear && newsData[expandedYear] && yearsSwitch) {
+        const firstPost = newsData[expandedYear][0];
+        if (firstPost) {
+          updateContent(firstPost.id);
+        }
+      }
     }
   }, [newsData, postId]);
   useEffect(() => {
-    if (expandedYear && newsData[expandedYear]) {
+    if (expandedYear && newsData[expandedYear] && yearsSwitch) {
       const firstPost = newsData[expandedYear][0];
       if (firstPost) {
         updateContent(firstPost.id);
@@ -65,7 +65,7 @@ const Visits = () => {
 
   const updateContent = (postId) => {
     setLoading(true);
-    window.scrollTo(0, 370);
+    window.scrollTo({ top: 370, behavior: 'smooth' });
     const selectedPost = Object.values(newsData)
       .flat()
       .find((post) => post.id === postId);
@@ -148,9 +148,10 @@ const Visits = () => {
                         {/* Year Header */}
                         <div
                           className="year-header mt-3 mb-4"
-                          onClick={() =>
-                            setExpandedYear(expandedYear === year ? null : year)
-                          } // Toggle expanded year
+                          onClick={() => {
+                            setExpandedYear(expandedYear === year ? null : year);
+                            setYearsSwitch(true);
+                          }} 
                           style={{ cursor: "pointer" }}
                         >
                           {year}
