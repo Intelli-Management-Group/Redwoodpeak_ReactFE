@@ -19,7 +19,6 @@ const OurApproach = () => {
             <HeaderComponents />
             <MetaTitle pageTitle={'Our Approach – Redwood Peak Limited'} />
             <div className="content-area">
-
                 <div>
                     <Image
                         src={OurMissionBanner}
@@ -127,6 +126,7 @@ const OurApproach = () => {
                     </div>
                 </div>
             </div>
+
             {/* Footer Component */}
             <Footer />
         </div>
