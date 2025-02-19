@@ -44,26 +44,28 @@ const OurMission = () => {
                 Our firm should be successful if we work hard to attain investment excellence and integrity
                 while placing the interests of our clients first.
               </p>
-
+            </div>
+            <div className="ms-3">
               <p>
                 <span className="highlight-text fw-bold">To serve the clients</span><br />
-                <span className="ms-3">• To align our success with the objectives and success of our client</span><br />
-                <span className="ms-3">• To place the interests of our clients first</span>
+                <span className="ms-3 list-items">To align our success with the objectives and success of our client</span><br />
+                <span className="ms-3 list-items">To place the interests of our clients first</span>
               </p>
 
               <p>
                 <span className="highlight-text fw-bold">Respect for the individual</span><br />
-                <span className="ms-3">• To deal fairly and honestly with our business partners and associates</span><br />
-                <span className="ms-3">• To communicate openly and to be transparent with our partners, clients, and employees</span>
+                <span className="ms-3 list-items">To deal fairly and honestly with our business partners and associates</span><br />
+                <span className="ms-3 list-items">To communicate openly and to be transparent with our partners, clients, and employees</span>
               </p>
 
               <p>
                 <span className="highlight-text fw-bold">To strive for excellence</span><br />
-                <span className="ms-3">• To measure performance contribution</span><br />
-                <span className="ms-3">• To be a good corporate citizen by contributing to the community and making socially
-                  responsible investments</span>
+                <span className="ms-3 list-items">To measure performance contribution</span><br />
+                <span className="ms-3 list-items">To be a good corporate citizen by contributing to the community and making socially responsible investments</span>
               </p>
             </div>
+
+
           </div>
         </div>
       </div>

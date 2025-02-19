@@ -205,18 +205,18 @@ const HomePage = () => {
 
         if (isAuthenticated) {
             // Open the PDF
-            window.open(item.path, '_blank');
+            window.open(item.file_path, '_blank');
         } else {
             console.log(showLoginAlert); // Should work now
             setShowLoginAlert(true); // Update the alert state
         }
     }
-    function handlePostClick(item) {
+    function handlePostClick(item,data) {
         if (isAuthenticated) {
             if (item === "news") {
-                navigate('/news');
+                navigate('/news', { state: { id: data.id } });
             } else {
-                navigate('/visits');
+                navigate('/visits',{state:{id:data.id}});
             }
         } else {
             setShowLoginAlert(true)
@@ -521,7 +521,7 @@ const HomePage = () => {
                                         ) : (
                                             newsData?.map((news, index) => (
                                                 <li key={index} className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts'>
-                                                    <span className='file-item-name' onClick={() => handlePostClick("news")}>
+                                                    <span className='file-item-name' onClick={() => handlePostClick("news",news)}>
                                                         {news?.title}
                                                     </span>
                                                 </li>
@@ -549,7 +549,7 @@ const HomePage = () => {
                                         ) : (
                                             visitData.map((visit, index) => (
                                                 <li key={index} className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts'>
-                                                    <span className='file-item-name' onClick={() => handlePostClick("visit")}>
+                                                    <span className='file-item-name' onClick={() => handlePostClick("visit",visit)}>
                                                         {visit?.title}
                                                     </span>
                                                 </li>

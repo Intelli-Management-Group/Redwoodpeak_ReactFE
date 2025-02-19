@@ -9,10 +9,13 @@ import News3 from "../../assets/images/news3.jpeg";
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
+import { useLocation } from 'react-router-dom';
 
 
 const News = () => {
   // State to track which content is currently displayed
+  const location = useLocation();
+  console.log(location.state?.id);
   const [newsData, setNewsData] = useState([]);
   const [selectedContent, setSelectedContent] = useState("");
   const [selectedPost, setSelectedPost] = useState(null);
@@ -20,6 +23,9 @@ const News = () => {
   const [loading, setLoading] = useState(false);
   const type = "news";
   const perPageRecords = 500;
+  const postId = location.state?.id;
+
+  console.log(location.state?.id);
 
   useEffect(() => {
     fetchNewsData();
@@ -31,15 +37,18 @@ const News = () => {
       setExpandedYear(latestYear.toString());
     }
   }, [newsData]);
-
   useEffect(() => {
-    if (expandedYear && newsData[expandedYear]) {
-      const firstPost = newsData[expandedYear][0];
-      if (firstPost) {
-        updateContent(firstPost.id);
+    if (newsData) {
+      if (postId) {
+        updateContent(postId); // If id exists, load that post
+      } else if (expandedYear && newsData[expandedYear]) {
+        const firstPost = newsData[expandedYear][0];
+        if (firstPost) {
+          updateContent(firstPost.id);
+        }
       }
     }
-  }, [expandedYear, newsData]);
+  }, [newsData, expandedYear, postId]);
 
   const fetchNewsData = async () => {
     try {
