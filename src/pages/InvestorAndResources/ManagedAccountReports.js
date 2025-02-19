@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Image from '../Component/ImagesComponets/ImagesComponets';
-import HedgeFundReportsnBanner from "../../assets/images/banner_investment_management.jpg"
+import HedgeFundReportsnBanner from "../../assets/banner_images/redwood_hedge_fund.jpg"
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import Footer from '../Component/Footer/Footer';
 import pdfIcon from "../../assets/images/pdf_icon1.png"
