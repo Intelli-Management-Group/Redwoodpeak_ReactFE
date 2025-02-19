@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Image from '../Component/ImagesComponets/ImagesComponets';
-import PublicationsnBanner from "../../assets/banner_images/redwood_publication.jpg"
+import PublicationsnBanner from "../../assets/banner_images/redwood_publication.jpg";
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import Footer from '../Component/Footer/Footer';
-import pdfIcon from "../../assets/images/pdf_icon1.png"
+import pdfIcon from "../../assets/images/pdf_icon1.png";
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
@@ -12,178 +12,151 @@ const Publications = () => {
   const [visibleYears, setVisibleYears] = useState([]);
   const documentType = "publications";
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState([])
-  useEffect(() => {
-    // console.log('component mounted');
-    fetchPublication()
-  }, []);
-  useEffect(() => {
-    // Only First Years Visible
-    // const firstYear = Object.keys(data)
-    //   .sort((a, b) => parseInt(b) - parseInt(a))[0];
-    // setVisibleYears([parseInt(firstYear)]);
+  const [data, setData] = useState({});
+  const [maxHeight, setMaxHeight] = useState(0);
 
-    //First & Second Years Visible
-    const years = Object.keys(data)
-      .sort((a, b) => parseInt(b) - parseInt(a));
-    const firstAndSecondYears = years.slice(0, 2).map(year => parseInt(year));
-    setVisibleYears(firstAndSecondYears);
-  }, [data]);
+  const leftColRef = useRef(null);
+  const rightColRef = useRef(null);
+
+  useEffect(() => {
+    fetchPublication();
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (leftColRef.current && rightColRef.current) {
+        const leftHeight = leftColRef.current.clientHeight;
+        const rightHeight = rightColRef.current.clientHeight;
+        setMaxHeight(Math.max(leftHeight, rightHeight));
+      }
+    }, 200);
+  }, [data, visibleYears]);
 
   const toggleVisibility = (year) => {
-    setVisibleYears((prevYears) => {
-      if (prevYears.includes(year)) {
-        return prevYears.filter((item) => item !== year);
-      } else {
-        return [...prevYears, year];
-      }
-    });
+    setVisibleYears((prevYears) =>
+        prevYears.includes(year) ? prevYears.filter((item) => item !== year) : [...prevYears, year]
+    );
   };
+
   const fetchPublication = async () => {
     setIsLoading(true);
     try {
       const resp = await pagesServices.getPageList({ documentType });
-      if (resp?.status_code === 200) {
-        console.log(resp);
-        if (resp?.list?.data) {
-          const publications = resp.list.data.reduce((acc, item) => {
-            if (!acc[item.year]) {
-              acc[item.year] = [];
-            }
-            acc[item.year].push(item);
-            return acc;
-          }, {});
-          setData(publications || []);
-          // const latestYear = Math.max(...Object.keys(publications).map((year) => parseInt(year)));
-          // setVisibleYears(latestYear)
-        } else {
-          console.error("No data found in response.");
-          notifyError("No data found. Please try again.");
+      if (resp?.status_code === 200 && resp?.list?.data) {
+        const publications = resp.list.data.reduce((acc, item) => {
+          if (!acc[item.year]) acc[item.year] = [];
+          acc[item.year].push(item);
+          return acc;
+        }, {});
+        setData(publications);
+        const sortedYears = Object.keys(publications).sort((a, b) => parseInt(b) - parseInt(a));
+        if (sortedYears.length > 0) {
+          setVisibleYears([parseInt(sortedYears[0], 10)]);
         }
       } else {
-        console.error("Failed to fetch data: ", resp?.message);
-        notifyError("Please try again.");
+        notifyError("No data found. Please try again.");
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
-      notifyError("An error occurred during fetching data. Please try again.");
+      notifyError("An error occurred while fetching data. Please try again.");
     } finally {
       setIsLoading(false);
     }
-
   };
 
+  const sortedYears = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
+  const leftYears = sortedYears.filter((_, index) => index % 2 === 0);
+  const rightYears = sortedYears.filter((_, index) => index % 2 !== 0);
+
   return (
-    <div className="page-wrapper">
-      <HeaderComponents />
-      <MetaTitle pageTitle={'Publications – Redwood Peak Limited'} />
-      <div className="content-area">
+      <div className="page-wrapper">
+        <HeaderComponents />
+        <MetaTitle pageTitle={'Publications – Redwood Peak Limited'} />
+        <div className="content-area">
+          <Image src={PublicationsnBanner} className="w-100 bannerHeight" alt="OverView Banner" />
 
-        <div>
-          <Image
-            src={PublicationsnBanner}
-            className="w-100 bannerHeight"
-            alt="OverView Banner"
-          />
-        </div>
-        <div className="container mb-5">
-          <div className="container-custom mt-1 mb-5 p-4">
-            {/*<h1 className="header-post-title-class" >*/}
-            {/*  Publications*/}
-            {/*</h1>*/}
-            {/* <h1 className="header-post-title-class" style={{ top: 0 }}>
-            Publications
-          </h1> */}
-            {isLoading ? (
-              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
-                <div className="spinner-border text-primary-color" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              </div>
-            ) : (
-              <div className="row">
-                {Object.keys(data)
-                  .sort((a, b) => parseInt(b) - parseInt(a))
-                  .map((year, index) => (
-                    <div key={year} className={`col-6 mb-4`}>
-                      <div id={`year-${year}`}>
-                        <div
-                          className="year-header pt-1 pb-1"
-                          onClick={() => toggleVisibility(parseInt(year, 10))}
-                          style={{ cursor: 'pointer' }}
-                        >
-                          {year}
-                        </div>
-
-                        {/* Conditionally render the PDFs for the year with transition effect */}
-                        {visibleYears.includes(parseInt(year, 10)) && (
-                          <div className="pdf-content ml-5">
-                            {data[year]
-                              .sort((a, b) => {
-                                const dateA = new Date(a.created_at || a.file_name);
-                                const dateB = new Date(b.created_at || b.file_name);
-                                return dateB - dateA;
-                              })
-                              .map((item, index) => (
-                                <div key={index} className="pdf-row p-3">
-                                  <div className="pdf-title ms-4 ">
-                                    <span>
-                                      <Image src={pdfIcon} alt="PDF icon" />
-                                    </span>
-
-                                    <a
-                                      href={item.file_path}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      style={{ textDecoration: 'none', color: 'inherit' }}
-                                      className='file-item-name'
-                                    >
-                                      {(() => {
-                                        const targetName = "redwood peak china outlook";
-
-                                        const file_name = item.file_name;
-                                        const name = item.name;
-
-                                        const fileNameWithoutExtension = file_name.split('.').slice(0, -1).join('.');
-
-                                        const normalize = (name) =>
-                                          name.toLowerCase()
-                                            .replace(/[-–]/g, " ")
-                                            .replace(/\s+/g, " ")
-                                            .trim();
-                                        const normalizedFileName = normalize(fileNameWithoutExtension);
-                                        const normalizedName = name ? normalize(name) : "";
-
-                                        const normalizedTargetName = normalize(targetName);
-
-                                        const shouldDisplayTargetName =
-                                          normalizedFileName.startsWith(normalizedTargetName) ||
-                                          normalizedName.startsWith(normalizedTargetName);
-
-                                        const displayName = shouldDisplayTargetName
-                                          ? (normalizedFileName.startsWith(normalizedTargetName) ? fileNameWithoutExtension : name)
-                                          : (fileNameWithoutExtension.length > 60
-                                            ? fileNameWithoutExtension.substring(0, 60) + "..."
-                                            : fileNameWithoutExtension);
-
-                                        return displayName;
-                                      })()}
-                                    </a>
-                                  </div>
-                                </div>
-                              ))}
-                          </div>
-                        )}
-                      </div>
+          <div className="container mb-5">
+            <div className="container-custom mt-1 mb-5 p-4">
+              {isLoading ? (
+                  <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
+                    <div className="spinner-border text-primary-color" role="status">
+                      <span className="visually-hidden">Loading...</span>
                     </div>
-                  ))}
-              </div>
-            )}
+                  </div>
+              ) : (
+                  <div className="row">
+                    {/* LEFT COLUMN */}
+                    <div
+                        ref={leftColRef}
+                        style={{ minHeight: maxHeight ? `${maxHeight}px` : "auto" }}
+                        className="col-6 mb-4"
+                    >
+                      {leftYears.map((year) => (
+                          <div key={year}>
+                            <div className="year-header pt-1 pb-1" onClick={() => toggleVisibility(parseInt(year, 10))} style={{ cursor: 'pointer' }}>
+                              {year}
+                            </div>
+
+                            {visibleYears.includes(parseInt(year, 10)) && (
+                                <div className="pdf-content ml-5">
+                                  {data[year]
+                                      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                                      .map((item, index) => (
+                                          <div key={index} className="pdf-row p-3">
+                                            <div className="pdf-title ms-4">
+                                  <span>
+                                    <Image src={pdfIcon} alt="PDF icon" />
+                                  </span>
+                                              <a href={item.file_path} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                {item.file_name.length > 60 ? item.file_name.substring(0, 60) + "..." : item.file_name}
+                                              </a>
+                                            </div>
+                                          </div>
+                                      ))}
+                                </div>
+                            )}
+                          </div>
+                      ))}
+                    </div>
+
+                    <div
+                        ref={rightColRef}
+                        style={{ minHeight: maxHeight ? `${maxHeight}px` : "auto" }}
+                        className="col-6 mb-4"
+                    >
+                      {rightYears.map((year) => (
+                          <div key={year}>
+                            <div className="year-header pt-1 pb-1" onClick={() => toggleVisibility(parseInt(year, 10))} style={{ cursor: 'pointer' }}>
+                              {year}
+                            </div>
+
+                            {visibleYears.includes(parseInt(year, 10)) && (
+                                <div className="pdf-content ml-5">
+                                  {data[year]
+                                      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                                      .map((item, index) => (
+                                          <div key={index} className="pdf-row p-3">
+                                            <div className="pdf-title ms-4">
+                                  <span>
+                                    <Image src={pdfIcon} alt="PDF icon" />
+                                  </span>
+                                              <a href={item.file_path} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                {item.file_name.length > 60 ? item.file_name.substring(0, 60) + "..." : item.file_name}
+                                              </a>
+                                            </div>
+                                          </div>
+                                      ))}
+                                </div>
+                            )}
+                          </div>
+                      ))}
+                    </div>
+                  </div>
+              )}
+            </div>
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
   );
 };
 
