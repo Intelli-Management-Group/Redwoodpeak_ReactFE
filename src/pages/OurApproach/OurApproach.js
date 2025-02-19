@@ -45,7 +45,7 @@ const OurApproach = () => {
                         <div className="container mt-5 mb-5">
                             <div className="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
                                 {/* Box 1 */}
-                                <div className="aprroch-Box p-4 p-md-1">
+                                <div className="aprroch-Box p-4">
                                     <div className="text-left">
                                         <div className="text-primary-color fw-bold aprroch-title">Sell Discipline</div>
                                         <ul>
