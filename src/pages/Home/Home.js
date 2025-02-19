@@ -205,7 +205,7 @@ const HomePage = () => {
 
         if (isAuthenticated) {
             // Open the PDF
-            window.open(item.path, '_blank');
+            window.open(item.file_path, '_blank');
         } else {
             console.log(showLoginAlert); // Should work now
             setShowLoginAlert(true); // Update the alert state
