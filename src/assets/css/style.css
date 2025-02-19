@@ -794,3 +794,9 @@ footer {
     margin-bottom: 0;
 }
 /*  */
+
+.list-items::before {
+    content: "• ";
+    color: black; /* You can change the color as needed */
+    font-weight: bold; /* You can change the font weight as needed */
+  }
