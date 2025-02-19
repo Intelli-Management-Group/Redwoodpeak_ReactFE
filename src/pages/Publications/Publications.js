@@ -34,7 +34,7 @@ const Publications = () => {
 
   const toggleVisibility = (year) => {
     setVisibleYears((prevYears) =>
-        prevYears.includes(year) ? prevYears.filter((item) => item !== year) : [...prevYears, year]
+      prevYears.includes(year) ? prevYears.filter((item) => item !== year) : [...prevYears, year]
     );
   };
 
@@ -68,95 +68,95 @@ const Publications = () => {
   const rightYears = sortedYears.filter((_, index) => index % 2 !== 0);
 
   return (
-      <div className="page-wrapper">
-        <HeaderComponents />
-        <MetaTitle pageTitle={'Publications – Redwood Peak Limited'} />
-        <div className="content-area">
-          <Image src={PublicationsnBanner} className="w-100 bannerHeight" alt="OverView Banner" />
+    <div className="page-wrapper">
+      <HeaderComponents />
+      <MetaTitle pageTitle={'Publications – Redwood Peak Limited'} />
+      <div className="content-area">
+        <Image src={PublicationsnBanner} className="w-100 bannerHeight" alt="OverView Banner" />
 
-          <div className="container mb-5">
-            <div className="container-custom mt-1 mb-5 p-4">
-              {isLoading ? (
-                  <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
-                    <div className="spinner-border text-primary-color" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
-                  </div>
-              ) : (
-                  <div className="row">
-                    {/* LEFT COLUMN */}
-                    <div
-                        ref={leftColRef}
-                        style={{ minHeight: maxHeight ? `${maxHeight}px` : "auto" }}
-                        className="col-6 mb-4"
-                    >
-                      {leftYears.map((year) => (
-                          <div key={year}>
-                            <div className="year-header pt-1 pb-1" onClick={() => toggleVisibility(parseInt(year, 10))} style={{ cursor: 'pointer' }}>
-                              {year}
-                            </div>
+        <div className="container mb-5">
+          <div className="container-custom mt-1 mb-5 p-4">
+            {isLoading ? (
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
+                <div className="spinner-border text-primary-color" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            ) : (
+              <div className="row">
+                {/* LEFT COLUMN */}
+                <div
+                  ref={leftColRef}
+                  style={{ minHeight: maxHeight ? `${maxHeight}px` : "auto" }}
+                  className="col-6 mb-4"
+                >
+                  {leftYears.map((year) => (
+                    <div key={year}>
+                      <div className="year-header pt-1 pb-1" onClick={() => toggleVisibility(parseInt(year, 10))} style={{ cursor: 'pointer' }}>
+                        {year}
+                      </div>
 
-                            {visibleYears.includes(parseInt(year, 10)) && (
-                                <div className="pdf-content ml-5">
-                                  {data[year]
-                                      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-                                      .map((item, index) => (
-                                          <div key={index} className="pdf-row p-3">
-                                            <div className="pdf-title ms-4">
+                      {visibleYears.includes(parseInt(year, 10)) && (
+                        <div className="pdf-content ml-5">
+                          {data[year]
+                            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                            .map((item, index) => (
+                              <div key={index} className="pdf-row p-3">
+                                <div className="pdf-title ms-4">
                                   <span>
                                     <Image src={pdfIcon} alt="PDF icon" />
                                   </span>
-                                              <a href={item.file_path} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
-                                                {item.file_name.length > 60 ? item.file_name.substring(0, 60) + "..." : item.file_name}
-                                              </a>
-                                            </div>
-                                          </div>
-                                      ))}
+                                  <a href={item.file_path} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    {item.file_name.length > 60 ? item.file_name.substring(0, 60) + "..." : item.file_name}
+                                  </a>
                                 </div>
-                            )}
-                          </div>
-                      ))}
+                              </div>
+                            ))}
+                        </div>
+                      )}
                     </div>
+                  ))}
+                </div>
 
-                    <div
-                        ref={rightColRef}
-                        style={{ minHeight: maxHeight ? `${maxHeight}px` : "auto" }}
-                        className="col-6 mb-4"
-                    >
-                      {rightYears.map((year) => (
-                          <div key={year}>
-                            <div className="year-header pt-1 pb-1" onClick={() => toggleVisibility(parseInt(year, 10))} style={{ cursor: 'pointer' }}>
-                              {year}
-                            </div>
+                <div
+                  ref={rightColRef}
+                  style={{ minHeight: maxHeight ? `${maxHeight}px` : "auto" }}
+                  className="col-6 mb-4"
+                >
+                  {rightYears.map((year) => (
+                    <div key={year}>
+                      <div className="year-header pt-1 pb-1" onClick={() => toggleVisibility(parseInt(year, 10))} style={{ cursor: 'pointer' }}>
+                        {year}
+                      </div>
 
-                            {visibleYears.includes(parseInt(year, 10)) && (
-                                <div className="pdf-content ml-5">
-                                  {data[year]
-                                      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-                                      .map((item, index) => (
-                                          <div key={index} className="pdf-row p-3">
-                                            <div className="pdf-title ms-4">
+                      {visibleYears.includes(parseInt(year, 10)) && (
+                        <div className="pdf-content ml-5">
+                          {data[year]
+                            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                            .map((item, index) => (
+                              <div key={index} className="pdf-row p-3">
+                                <div className="pdf-title ms-4">
                                   <span>
                                     <Image src={pdfIcon} alt="PDF icon" />
                                   </span>
-                                              <a href={item.file_path} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
-                                                {item.file_name.length > 60 ? item.file_name.substring(0, 60) + "..." : item.file_name}
-                                              </a>
-                                            </div>
-                                          </div>
-                                      ))}
+                                  <a href={item.file_path} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    {item.file_name.length > 60 ? item.file_name.substring(0, 60) + "..." : item.file_name}
+                                  </a>
                                 </div>
-                            )}
-                          </div>
-                      ))}
+                              </div>
+                            ))}
+                        </div>
+                      )}
                     </div>
-                  </div>
-              )}
-            </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        <Footer />
       </div>
+      <Footer />
+    </div>
   );
 };
 

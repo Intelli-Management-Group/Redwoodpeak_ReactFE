@@ -859,3 +859,29 @@ footer {
     color: black; /* You can change the color as needed */
     font-weight: bold; /* You can change the font weight as needed */
   }
+
+  /* Tabs For HegeFunde Reports */
+  .custom-tabs .custom-tab-link {
+    color: #6c757d;
+    border-radius: 8px;
+    padding: 10px 15px;
+    /* transition: all 0.3s; */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid var(--primary-color);
+    margin:3px;
+  }
+  
+  .custom-tabs .custom-tab-link.active {
+    background-color: var(--primary-color);
+    color: #ffffff !important;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-tabs .custom-tab-link:hover {
+    background-color: var(--primary-color);
+    color: #ffffff !important;
+  }
+  
