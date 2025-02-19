@@ -35,6 +35,9 @@ const News = () => {
     if (newsData && Object.keys(newsData).length > 0) {
       const latestYear = Math.max(...Object.keys(newsData).map((year) => parseInt(year, 10)));
       setExpandedYear(latestYear.toString());
+      if(!postId){
+        setYearsSwitch(true)
+      }
     }
   }, [newsData]);
   useEffect(() => {
