@@ -767,12 +767,16 @@ footer {
     content: "";
 }
 .aprroch-Box li{
-    color: #6e7172;
+    /* color: #6e7172; */
+    font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
 }
 
 @media (min-width: 768px) and (max-width: 900px) {
     .aprroch-Box li{
-        font-size: 10px;
+        font-size: 11px;
+        font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
     }
     .aprroch-title {
         padding-bottom: 5px;
@@ -783,7 +787,7 @@ footer {
     }
     .aprroch-Box{
         width: 500px;
-        height: 270px;
+        height: 300px;
         padding: 0.5rem!important;
     }
 
@@ -791,7 +795,9 @@ footer {
 @media (min-width: 901px) and (max-width: 1100px) {
     .aprroch-Box li{
         font-size: 10px;
-        color: #6e7172;
+        /* color: #6e7172; */
+        font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
     }
     .aprroch-title {
         padding-bottom: 5px;
@@ -810,6 +816,8 @@ footer {
 @media (min-width: 1100px) and (max-width: 1258px) {
     .aprroch-Box li{
         font-size: 12px;
+        font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
     }
     .aprroch-title {
         padding-bottom: 5px;
