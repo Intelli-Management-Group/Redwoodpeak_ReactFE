@@ -34,23 +34,38 @@ const Visits = () => {
     }
   }, [newsData]);
 
-    useEffect(() => {
-      if (newsData) {
-        if (postId) {
-          updateContent(postId); // If id exists, load that post
-        } else if (expandedYear && newsData[expandedYear]) {
-          const firstPost = newsData[expandedYear][0];
-          if (firstPost) {
-            updateContent(firstPost.id);
-          }
+  useEffect(() => {
+    if (newsData) {
+      if (postId) {
+        updateContent(postId);
+        const selectedPost = Object.values(newsData)
+          .flat()
+          .find((post) => post.id === postId);
+
+        if (selectedPost && selectedPost.year) {
+          setExpandedYear(selectedPost.year.toString());
         }
+      } 
+      // else if (expandedYear && newsData[expandedYear]) {
+      //   const firstPost = newsData[expandedYear][0];
+      //   if (firstPost) {
+      //     updateContent(firstPost.id);
+      //   }
+      // }
+    }
+  }, [newsData, postId]);
+  useEffect(() => {
+    if (expandedYear && newsData[expandedYear]) {
+      const firstPost = newsData[expandedYear][0];
+      if (firstPost) {
+        updateContent(firstPost.id);
       }
-    }, [newsData, expandedYear, postId]);
+    }
+  }, [expandedYear])
 
   const updateContent = (postId) => {
     setLoading(true);
     window.scrollTo(0, 370);
-
     const selectedPost = Object.values(newsData)
       .flat()
       .find((post) => post.id === postId);
