@@ -102,72 +102,85 @@ const HedgeFundReports = () => {
     ))
   );
   const splitDataInColumns = (type) => {
+    console.log(type)
     const leftColumn = [];
     const rightColumn = [];
   
-    if (type === "fundDocumentation") {
-      // Render all items directly for "fundDocumentation" without year grouping
-      const allItems = Object.values(data[type] || {}).flat();
-      
-      allItems.forEach((item, index) => {
+    Object.keys(data[type] || {})
+      .sort((a, b) => parseInt(b) - parseInt(a))
+      .forEach((year) => {
+        
+        const yearData = data[type][year] || [];
+        const midpoint = Math.ceil(yearData.length / 2);
+
         const content = (
-          <div key={index} className="pdf-row p-2">
-            <div className="pdf-title d-flex">
-              <span>
-                <Image src={pdfIcon} alt="PDF icon" />
-              </span>
-              <a
-                href={item.file_path}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ textDecoration: "none", color: "inherit" }}
-                className="file-item-name"
-              >
-                {item.file_name.length > 60 ? item.file_name.substring(0, 60) + "..." : item.file_name}
-              </a>
-            </div>
-          </div>
-        );
-  
-        if (index % 2 === 0) {
-          leftColumn.push(content);
-        } else {
-          rightColumn.push(content);
-        }
-      });
-  
-    } else {
-      Object.keys(data[type] || {})
-        .sort((a, b) => parseInt(b) - parseInt(a))
-        .forEach((year, index) => {
-          const content = (
-            <div key={year}>
+          <div key={year} className="year-row">
+
+            <div className="year-header pt-1 pb-1">
               <div
-                className="year-header pt-1 pb-1"
                 onClick={() => toggleTypeYearVisibility(year)}
                 style={{ cursor: "pointer", fontWeight: "bold" }}
               >
                 {year}
               </div>
-              {visibleTypeYears[year] && (
-                <div className="ms-3">
-                  {renderPDFLinks(data[type][year])}
-                </div>
-              )}
             </div>
-          );
   
-          if (index % 2 === 0) {
-            leftColumn.push(content);
-          } else {
-            rightColumn.push(content);
-          }
-        });
-    }
+            {visibleTypeYears[year] && (
+              <div className="row">
+                <div className="pdf-column left-column col-md-6">
+                  {yearData.slice(0, midpoint).map((item, index) => (
+                    <div key={index} className="pdf-row p-2">
+                      <div className="pdf-title d-flex">
+                        <span>
+                          <Image src={pdfIcon} alt="PDF icon" />
+                        </span>
+                        <a
+                          href={item.file_path}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ textDecoration: "none", color: "inherit" }}
+                          className="file-item-name"
+                        >
+                          {item.file_name.length > 60
+                            ? item.file_name.substring(0, 60) + "..."
+                            : item.file_name}
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                  <div className="pdf-column right-column col-md-6">
+                  {yearData.slice(midpoint).map((item, index) => (
+                    <div key={index} className="pdf-row p-2">
+                      <div className="pdf-title d-flex">
+                        <span>
+                          <Image src={pdfIcon} alt="PDF icon" />
+                        </span>
+                        <a
+                          href={item.file_path}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ textDecoration: "none", color: "inherit" }}
+                          className="file-item-name"
+                        >
+                          {item.file_name.length > 60
+                            ? item.file_name.substring(0, 60) + "..."
+                            : item.file_name}
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        );
   
-    return { leftColumn, rightColumn };
+        leftColumn.push(content);
+      });
+  
+    return { leftColumn, rightColumn: [] };
   };
-  
   return (
     <div className="page-wrapper">
       <HeaderComponents />
@@ -189,10 +202,9 @@ const HedgeFundReports = () => {
             ) : (
               <Tab.Container activeKey={activeTab} onSelect={(k) => setActiveTab(k)}>
                 <Nav variant="" className="mb-4 custom-tabs">
-                  {reportTypes.map(({ key, label,  }) => (
+                  {reportTypes.map(({ key, label }) => (
                     <Nav.Item key={key}>
                       <Nav.Link eventKey={key} className="custom-tab-link">
-                        {/* <span className="tab-icon me-2">{icon}</span>  */}
                         {label}
                       </Nav.Link>
                     </Nav.Item>
@@ -201,15 +213,17 @@ const HedgeFundReports = () => {
 
                 <Tab.Content>
                   {reportTypes.map(({ key }) => {
-                    const { leftColumn, rightColumn } = splitDataInColumns(key);
+                    const { leftColumn } = splitDataInColumns(key);
                     return (
                       <Tab.Pane eventKey={key} key={key}>
                         <div className="row">
-                          <div ref={leftColRef} style={{ minHeight: `${maxHeight}px` }} className="col-md-6">
+                          {/* Left column containing year header and the first half of data */}
+                          <div
+                            ref={leftColRef}
+                            style={{ minHeight: `${maxHeight}px` }}
+                            className="col-md-12"
+                          >
                             {leftColumn}
-                          </div>
-                          <div ref={rightColRef} style={{ minHeight: `${maxHeight}px` }} className="col-md-6">
-                            {rightColumn}
                           </div>
                         </div>
                       </Tab.Pane>
