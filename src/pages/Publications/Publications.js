@@ -64,8 +64,6 @@ const Publications = () => {
   };
 
   const sortedYears = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
-  const leftYears = sortedYears.filter((_, index) => index % 2 === 0);
-  const rightYears = sortedYears.filter((_, index) => index % 2 !== 0);
 
   return (
     <div className="page-wrapper">
@@ -84,72 +82,63 @@ const Publications = () => {
               </div>
             ) : (
               <div className="row">
-                {/* LEFT COLUMN */}
-                <div
-                  ref={leftColRef}
-                  style={{ minHeight: maxHeight ? `${maxHeight}px` : "auto" }}
-                  className="col-6 mb-4"
-                >
-                  {leftYears.map((year) => (
-                    <div key={year}>
-                      <div className="year-header pt-1 pb-1" onClick={() => toggleVisibility(parseInt(year, 10))} style={{ cursor: 'pointer' }}>
+                {sortedYears.map((year) => (
+                  <div key={year} className="col-12 mb-1">
+                    <div className="year-header pt-1 pb-1" >
+                      <span onClick={() => toggleVisibility(parseInt(year, 10))} style={{ cursor: 'pointer', fontWeight: 'bold' }}>
                         {year}
-                      </div>
-
-                      {visibleYears.includes(parseInt(year, 10)) && (
-                        <div className="pdf-content ml-5">
+                      </span>
+                    </div>
+                    {visibleYears.includes(parseInt(year, 10)) && (
+                      <div className="row">
+                        <div
+                          ref={leftColRef}
+                          // style={{ minHeight: maxHeight ? `${maxHeight}px` : "auto" }}
+                          className="col-md-6"
+                        >
                           {data[year]
+                            .slice(0, Math.ceil(data[year].length / 2))
                             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
                             .map((item, index) => (
                               <div key={index} className="pdf-row p-3">
-                                <div className="pdf-title ms-4">
+                                {/* ms-4  //left Indent*/}
+                                <div className="pdf-title">
                                   <span>
                                     <Image src={pdfIcon} alt="PDF icon" />
                                   </span>
-                                  <a href={item.file_path} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                  <a href={item.file_path} target="_blank" rel="noopener noreferrer" className="file-item-name" style={{ textDecoration: 'none', color: 'inherit' }}>
                                     {item.file_name.length > 60 ? item.file_name.substring(0, 60) + "..." : item.file_name}
                                   </a>
                                 </div>
                               </div>
                             ))}
                         </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                <div
-                  ref={rightColRef}
-                  style={{ minHeight: maxHeight ? `${maxHeight}px` : "auto" }}
-                  className="col-6 mb-4"
-                >
-                  {rightYears.map((year) => (
-                    <div key={year}>
-                      <div className="year-header pt-1 pb-1" onClick={() => toggleVisibility(parseInt(year, 10))} style={{ cursor: 'pointer' }}>
-                        {year}
-                      </div>
-
-                      {visibleYears.includes(parseInt(year, 10)) && (
-                        <div className="pdf-content ml-5">
+                        <div
+                          ref={rightColRef}
+                          // style={{ minHeight: maxHeight ? `${maxHeight}px` : "auto" }}
+                          className="col-md-6"
+                        >
                           {data[year]
+                            .slice(Math.ceil(data[year].length / 2))
                             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
                             .map((item, index) => (
                               <div key={index} className="pdf-row p-3">
-                                <div className="pdf-title ms-4">
+                                {/* ms-4  //left Indent*/}
+                                <div className="pdf-title">
                                   <span>
                                     <Image src={pdfIcon} alt="PDF icon" />
                                   </span>
-                                  <a href={item.file_path} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                  <a href={item.file_path} target="_blank" rel="noopener noreferrer" className="file-item-name" style={{ textDecoration: 'none', color: 'inherit' }}>
                                     {item.file_name.length > 60 ? item.file_name.substring(0, 60) + "..." : item.file_name}
                                   </a>
                                 </div>
                               </div>
                             ))}
                         </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             )}
           </div>
