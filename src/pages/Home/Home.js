@@ -22,6 +22,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { faPhone, faEnvelope, faFax, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import IconComponent from '../Component/IconComponents/IconComponents';
 import AuthenticationServices from '../../Services/AuthenticationServices';
+import moment from 'moment';
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -198,6 +199,9 @@ const HomePage = () => {
 
     const handleClose = () => setShowLoginAlert(false);
 
+    const formatDate = (date) => {
+        return moment(date).format('DD MMMM YYYY, hh:mm A');
+      };
     const settings = {
         dots: true,
         infinite: true,
@@ -252,7 +256,7 @@ const HomePage = () => {
                                         newsData.slice(0, 1).map((news, index) => (
                                             <React.Fragment key={index}>
                                                 <div>
-                                                    <h5 className="card-title cards-titles">{news?.date}</h5>
+                                                    <h5 className="card-title cards-titles" style={{fontSize:16}}>{formatDate(news?.created_at)}</h5>
                                                     <h2 className="cards-headings text-white">{news?.title}</h2>
                                                 </div>
                                                 <div className="p-0 pt-3">
