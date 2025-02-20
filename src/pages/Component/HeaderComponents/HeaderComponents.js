@@ -65,7 +65,7 @@ const HeaderComponents = () => {
 
     const handleRedirectWithToken = () => {
         const token = encodeToken(isAuthenticated);
-        const targetDomain = "http://localhost:3001/";
+        const targetDomain = "https://admin.jackychee.com/";
 
         // Open new window
         const newWindow = window.open(targetDomain, "_blank");
