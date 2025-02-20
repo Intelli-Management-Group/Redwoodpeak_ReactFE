@@ -63,7 +63,7 @@ const HeaderComponents = () => {
     };
     // console.log(openDropdown, location)
     return (
-        <Navbar expand="lg" className="container px-4 mx-sm-3 mx-md-4 mx-lg-5">
+        <Navbar expand="xl" className="container px-4 mx-sm-3 mx-md-4 mx-lg-5">
             <Navbar.Brand href="/">
                 <Image
                     src={Logo}
@@ -71,7 +71,7 @@ const HeaderComponents = () => {
                     className=""
                 />
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="navbarSupportedContent" />
+            <Navbar.Toggle aria-controls="navbarSupportedContent" className="ms-auto me-lg-5 me-sm-2"/>
             <Navbar.Collapse id="navbarSupportedContent">
                 <Nav className="d-flex justify-content-between ps-md-5">
                     <ul className="navbar-nav mr-auto">
