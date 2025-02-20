@@ -100,7 +100,7 @@ const Publications = () => {
                             .slice(0, Math.ceil(data[year].length / 2))
                             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
                             .map((item, index) => (
-                              <div key={index} className="pdf-row p-3">
+                              <div key={index} className="pdf-row p-2">
                                 {/* ms-4  //left Indent*/}
                                 <div className="pdf-title">
                                   <span>
@@ -122,7 +122,7 @@ const Publications = () => {
                             .slice(Math.ceil(data[year].length / 2))
                             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
                             .map((item, index) => (
-                              <div key={index} className="pdf-row p-3">
+                              <div key={index} className="pdf-row p-2">
                                 {/* ms-4  //left Indent*/}
                                 <div className="pdf-title">
                                   <span>
