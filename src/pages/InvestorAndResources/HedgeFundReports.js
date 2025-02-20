@@ -105,11 +105,11 @@ const HedgeFundReports = () => {
     console.log(type)
     const leftColumn = [];
     const rightColumn = [];
-  
+
     Object.keys(data[type] || {})
       .sort((a, b) => parseInt(b) - parseInt(a))
       .forEach((year) => {
-        
+
         const yearData = data[type][year] || [];
         const midpoint = Math.ceil(yearData.length / 2);
 
@@ -117,14 +117,15 @@ const HedgeFundReports = () => {
           <div key={year} className="year-row">
 
             <div className="year-header pt-1 pb-1">
-              <div
-                onClick={() => toggleTypeYearVisibility(year)}
-                style={{ cursor: "pointer", fontWeight: "bold" }}
-              >
-                {year}
+              <div>
+                <span onClick={() => toggleTypeYearVisibility(year)}
+                  style={{ cursor: "pointer", fontWeight: "bold" }}>
+                  {year}
+                </span>
+
               </div>
             </div>
-  
+
             {visibleTypeYears[year] && (
               <div className="row">
                 <div className="pdf-column left-column col-md-6">
@@ -149,7 +150,7 @@ const HedgeFundReports = () => {
                     </div>
                   ))}
                 </div>
-                  <div className="pdf-column right-column col-md-6">
+                <div className="pdf-column right-column col-md-6">
                   {yearData.slice(midpoint).map((item, index) => (
                     <div key={index} className="pdf-row p-2">
                       <div className="pdf-title d-flex">
@@ -175,10 +176,10 @@ const HedgeFundReports = () => {
             )}
           </div>
         );
-  
+
         leftColumn.push(content);
       });
-  
+
     return { leftColumn, rightColumn: [] };
   };
   return (
