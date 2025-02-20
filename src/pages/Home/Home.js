@@ -238,20 +238,33 @@ const HomePage = () => {
                         <div className="col-md-12 col-lg-4 pr-0 pl-0 p-0">
                             <div className="card p-5 h-100 primaryBGColor">
                                 <div className="d-flex flex-column justify-content-between h-100">
-                                    <div>
-                                        <h5 className="card-title cards-titles">22 OCTOBER 2023, 08.00 PM EDT</h5>
-                                        <h2 className="cards-headings text-white">
-                                            Smart investing strategies:<br /> building wealth for the future
-                                        </h2>
-                                    </div>
-                                    <div className="p-0 pt-3">
-                                        <Button
-                                            text="Learn More"
-                                            onClick={handleClick}
-                                            className="cs-btn-primary"
-                                            style={{}}
-                                        />
-                                    </div>
+                                    {isLoading ? (
+                                        <p className="p-0 mt-5 text-left contactSectionFonts text-white">
+                                            Loading please wait...
+                                        </p>
+                                    ) : newsData?.length === 0 ? (
+                                        <p className="p-0 mt-5 text-left contactSectionFonts text-white">
+                                            <span>
+                                                Oops! No data available at the moment. <br /> Please try again later.
+                                            </span>
+                                        </p>
+                                    )  : (
+                                        newsData.slice(0, 1).map((news, index) => (
+                                            <React.Fragment key={index}>
+                                                <div>
+                                                    <h5 className="card-title cards-titles">{news?.date}</h5>
+                                                    <h2 className="cards-headings text-white">{news?.title}</h2>
+                                                </div>
+                                                <div className="p-0 pt-3">
+                                                    <Button
+                                                        text="Describe News"
+                                                        onClick={() => handlePostClick("news", news)}
+                                                        className="cs-btn-primary"
+                                                    />
+                                                </div>
+                                            </React.Fragment>
+                                        ))
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -364,6 +377,7 @@ const HomePage = () => {
                                             text="Learn More"
                                             onClick={handleClick}
                                             className="btn-primary"
+                                            disabled={true}
                                         />
                                     </div>
                                 </div>
@@ -390,6 +404,7 @@ const HomePage = () => {
                                             text="Learn More"
                                             onClick={handleClick}
                                             className="btn-primary"
+                                            disabled={true}
                                         />
                                     </div>
                                 </div>
@@ -416,6 +431,7 @@ const HomePage = () => {
                                             text="Learn More"
                                             onClick={handleClick}
                                             className="btn-primary"
+                                            disabled={true}
                                         />
                                     </div>
                                 </div>
