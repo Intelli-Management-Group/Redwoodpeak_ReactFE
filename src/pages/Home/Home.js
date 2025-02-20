@@ -12,21 +12,16 @@ import Footer from '../Component/Footer/Footer';
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
-
-
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 import DisclaimerModal from '../Component/DisclimerModal/DisclimerModal';
 import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
-import SimpleImageSlider from "react-simple-image-slider";
 import "../Home/Home.css"
 import { useLocation, useNavigate } from 'react-router-dom';
 import { faPhone, faEnvelope, faFax, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import IconComponent from '../Component/IconComponents/IconComponents';
 import AuthenticationServices from '../../Services/AuthenticationServices';
-import axios from 'axios';
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -64,8 +59,6 @@ const HomePage = () => {
         getFetchOverView();
         getFetchNews();
         getFetchVisit();
-
-
     }, []);
 
     const getTokenVerify = async (tokens) => {
@@ -86,29 +79,6 @@ const HomePage = () => {
         }
     };
 
-    //id Through UserData Get 
-    const getUserDetila = async (id) => {
-        setIsLoading(true);
-        try {
-            const resp = await AuthenticationServices.getUserDetails(id);
-            if (resp?.status_code === 200) {
-                // console.log(resp);
-                if (resp?.data) {
-                    localStorage.setItem('userData', JSON.stringify(resp?.data));
-                } else {
-                    notifyError("No data found. Please try again.");
-                }
-            } else {
-                console.error("Failed to fetch data: ", resp?.message);
-                notifyError("Please try again.");
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            notifyError("An error occurred during fetching data. Please try again.");
-        } finally {
-            setIsLoading(false);
-        }
-    };
     const handleClick = () => {
         console.log("Learn more clicked!");
     };
@@ -124,12 +94,10 @@ const HomePage = () => {
                 body: formData,
             });
             if (resp?.status_code === 200) {
-                // console.log("only NEws Data",resp);
                 if (resp?.list?.data) {
                     setNewsData(resp?.list?.data)
                 }
             } else {
-                // Handle non-200 status codes or unexpected responses
                 console.error("Failed to fetch data: ", resp?.message);
                 notifyError("Please try again.");
             }
@@ -137,7 +105,7 @@ const HomePage = () => {
             console.error("Error fetching data:", error);
             notifyError("An error occurred during fetching data. Please try again.");
         } finally {
-            setIsLoading(false); // Set loading to false once the request is done
+            setIsLoading(false);
         }
 
     };
@@ -158,7 +126,6 @@ const HomePage = () => {
                 }
 
             } else {
-                // Handle non-200 status codes or unexpected responses
                 console.error("Failed to fetch data: ", resp?.message);
                 notifyError("Please try again.");
             }
@@ -166,7 +133,7 @@ const HomePage = () => {
             console.error("Error fetching data:", error);
             notifyError("An error occurred during fetching data. Please try again.");
         } finally {
-            setIsLoading(false); // Set loading to false once the request is done
+            setIsLoading(false);
         }
 
     };
@@ -185,7 +152,6 @@ const HomePage = () => {
                     notifyError("No data found. Please try again.");
                 }
             } else {
-                // Handle non-200 status codes or unexpected responses
                 setIsOverVirewLoading(false);
                 console.error("Failed to fetch data: ", resp?.message);
                 notifyError("Please try again.");
@@ -200,23 +166,22 @@ const HomePage = () => {
 
     };
     function handleOverViewClick(item) {
-        console.log(item); // Logs the clicked item
-        console.log(isAuthenticated); // Logs the authentication status
+        // console.log(item);
+        // console.log(isAuthenticated);
 
         if (isAuthenticated) {
-            // Open the PDF
             window.open(item.file_path, '_blank');
         } else {
-            console.log(showLoginAlert); // Should work now
-            setShowLoginAlert(true); // Update the alert state
+            console.log(showLoginAlert);
+            setShowLoginAlert(true);
         }
     }
-    function handlePostClick(item,data) {
+    function handlePostClick(item, data) {
         if (isAuthenticated) {
             if (item === "news") {
                 navigate('/news', { state: { id: data.id } });
             } else {
-                navigate('/visits',{state:{id:data.id}});
+                navigate('/visits', { state: { id: data.id } });
             }
         } else {
             setShowLoginAlert(true)
@@ -234,44 +199,19 @@ const HomePage = () => {
     const handleClose = () => setShowLoginAlert(false);
 
     const settings = {
-        dots: true, // Enable dots below the slider
-        infinite: true, // Loop through slides infinitely
-        speed: 500, // Transition speed in ms
-        slidesToShow: 1, // Number of slides to show
-        slidesToScroll: 1, // Number of slides to scroll at a time
-        autoplay: true, // Enable autoplay
-        autoplaySpeed: 3000, // Autoplay interval in ms
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
     };
     return (
         <React.Fragment>
             <div style={{ overflow: 'hidden' }}>
                 <HeaderComponents />
                 <MetaTitle pageTitle={"Redwood Peak Limited – Hong Kong based asset manager focused on fund & separate account management"} />
-
-                {/* <div className='' style={{ width: '100%', overflow: 'hidden' }}>
-                    <Slider {...settings}>
-                        <div style={{ height: '200px', position: 'relative' }}>
-                            <img
-                                src={Slide1}
-                                alt="Slide 1"
-                                style={{
-                                    width: '100%',
-                                    height: '300px',
-                                    objectFit: 'cover',
-                                }}
-                            />
-                        </div>
-                    </Slider>
-                </div> */}
-                {/*<div>*/}
-                {/*    <SimpleImageSlider*/}
-                {/*        width={'100%'}*/}
-                {/*        height={500}*/}
-                {/*        images={images}*/}
-                {/*        showBullets={true}*/}
-                {/*        showNavs={true}*/}
-                {/*    />*/}
-                {/*</div>*/}
                 <div style={{ width: "100%", lineHeight: "0px" }}>
                     <Slider {...settings}>
                         <div className="slide">
@@ -489,24 +429,6 @@ const HomePage = () => {
                             <div className="col-md-4">
                                 <h3 className="welcome-title-class">Latest News</h3>
                                 <div className="mt-3 pt-1">
-                                    {/* <ul className='ps-0'>
-                                        {newsData && newsData?.length === 0 && !isLoading ? (
-                                            <p className='p-0 mt-2 text-left contactSectionFonts'>
-                                                <span className=''>
-                                                    Oops! No data available at the moment.<br/> Please try again later.
-                                                </span>
-                                            </p>
-                                        ) : (
-                                            newsData && newsData.map((news, index) => {
-                                                return (
-                                                    <p className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts' key={index} onClick={() => handlePostClick("news")}>
-                                                        <span className='file-item-name'>
-                                                            {news?.title}
-                                                        </span>
-                                                    </p>
-                                                )
-                                            }))}
-                                    </ul> */}
                                     <ul className='ps-0'>
                                         {isLoading ? (
                                             <p className='p-0 mt-2 text-left contactSectionFonts'>
@@ -521,7 +443,7 @@ const HomePage = () => {
                                         ) : (
                                             newsData?.map((news, index) => (
                                                 <li key={index} className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts'>
-                                                    <span className='file-item-name' onClick={() => handlePostClick("news",news)}>
+                                                    <span className='file-item-name' onClick={() => handlePostClick("news", news)}>
                                                         {news?.title}
                                                     </span>
                                                 </li>
@@ -549,7 +471,7 @@ const HomePage = () => {
                                         ) : (
                                             visitData.map((visit, index) => (
                                                 <li key={index} className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts'>
-                                                    <span className='file-item-name' onClick={() => handlePostClick("visit",visit)}>
+                                                    <span className='file-item-name' onClick={() => handlePostClick("visit", visit)}>
                                                         {visit?.title}
                                                     </span>
                                                 </li>
