@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Footer from '../Component/Footer/Footer';
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
-import OurMissionBanner from "../../assets/banner_images/redwood_our_approach.jpg"
+import OurMissionBanner from "../../assets/images/redwood_our_approach.jpg"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
 import RiskManagement from "../../assets/banner_images/redwood_risk_management.png"
