@@ -55,7 +55,7 @@ const HomePage = () => {
     //         }
     //         const currentDomain = window.location.origin;
     //         console.log("Current domain:", currentDomain);
-            
+
     //         if (event.origin === currentDomain && token) {
     //             const decodedToken = atob(token);
     //             if (decodedToken) {
@@ -82,7 +82,7 @@ const HomePage = () => {
     // useEffect(() => {
     //     prevLocation.current = location; // Update the previous location
     // }, [location]);
-    
+
 
     useEffect(() => {
         // console.log("Current location:", location);
@@ -98,7 +98,7 @@ const HomePage = () => {
                 if (decodedToken) {
                     getTokenVerify(decodedToken);
                 }
-            }else{
+            } else {
                 setTokenLoading(false)
             }
             setTimeout(() => {
@@ -343,7 +343,7 @@ const HomePage = () => {
                                                     </div>
                                                     <div className="p-0 pt-3">
                                                         <Button
-                                                            text="Describe News"
+                                                            text="Learn More"
                                                             onClick={() => handlePostClick("news", news)}
                                                             className="cs-btn-primary"
                                                         />
@@ -370,7 +370,7 @@ const HomePage = () => {
                                     <div className="d-flex flex-row justify-content-between h-100">
                                         <div>
                                             <h3 className="welcome-title-class">Our View</h3>
-                                            <div className="mt-2 pt-1">
+                                            <div className="mt-2 pt-2">
                                                 <ul className='ps-0' style={{ listStyle: 'none', display: 'grid' }}>
                                                     {/* Conditional rendering for loading and empty data */}
                                                     {isOverVirewLoading ? (
@@ -384,16 +384,17 @@ const HomePage = () => {
                                                     ) : (
                                                         overViewData.slice(0, 4).map((item, index) => (
                                                             <p
-                                                                className='p-0 text-left pointer file-item'
+                                                                className='p-0 text-left d-flex pdf-row'
                                                                 key={index}
-                                                                onClick={() => handleOverViewClick(item)}
+                                                                
                                                                 style={{ textAlign: 'left' }}
                                                             >
                                                                 <span className="pdf-icon">
                                                                     <Image src={pdfIcon} alt="PDF icon" />
                                                                 </span>
-                                                                <span className="file-item-name">
-                                                                    {(() => {
+                                                                <span className="file-item-name pointer file-item" onClick={() => handleOverViewClick(item)}>
+                                                                   {item?.name ? item?.name : item?.file_name}
+                                                                    {/* {(() => {
                                                                         const targetName = "redwood peak china outlook";
                                                                         const file_name = item.file_name || "";
                                                                         const name = item.name || "";
@@ -412,7 +413,7 @@ const HomePage = () => {
                                                                             : fileNameWithoutExtension;
 
                                                                         return displayName.length > 60 ? displayName.substring(0, 60) + "..." : displayName;
-                                                                    })()}
+                                                                    })()} */}
                                                                 </span>
 
                                                             </p>
@@ -458,15 +459,15 @@ const HomePage = () => {
                                                 At Redwood Peak, we specialize in providing bespoke wealth and fund management solutions for high-net-worth individuals, family offices, and institutions. We design custom portfolios that are specifically crafted to meet your unique financial goals, with a focus on long-term growth and prudent risk management.
                                             </p>
                                         </div>
-                                        <div className="tilesCard-footer text-left">
+                                        {/* <div className="tilesCard-footer text-left">
                                             <Button
                                                 text="Learn More"
                                                 onClick={handleClick}
                                                 className="btn-primary"
                                                 disabled={true}
                                             />
-                                        </div>
-                                    </div>
+                                        </div>*/}
+                                    </div> 
                                 </div>
 
                                 {/* Card 2 */}
@@ -485,14 +486,14 @@ const HomePage = () => {
                                                 With over 45 years of combined investment experience, we prioritize transparency and integrity in every partnership. Our extensive local network provides valuable insights, empowering us to make informed investment decisions. We place your interests at the forefront, ensuring our success is fully aligned with your objectives.
                                             </p>
                                         </div>
-                                        <div className="tilesCard-footer text-left">
+                                        {/* <div className="tilesCard-footer text-left">
                                             <Button
                                                 text="Learn More"
                                                 onClick={handleClick}
                                                 className="btn-primary"
                                                 disabled={true}
                                             />
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
 
@@ -512,14 +513,14 @@ const HomePage = () => {
                                                 We offer flexible and sophisticated investment vehicles tailored to your specific needs. Our hedge fund and managed account platforms provide access to transparent performance tracking, giving you confidence in your investments. Additionally, our operations are regulated by the Hong Kong Securities and Futures Commission, ensuring regulatory oversight and peace of mind.
                                             </p>
                                         </div>
-                                        <div className="tilesCard-footer text-left">
+                                        {/* <div className="tilesCard-footer text-left">
                                             <Button
                                                 text="Learn More"
                                                 onClick={handleClick}
                                                 className="btn-primary"
                                                 disabled={true}
                                             />
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
