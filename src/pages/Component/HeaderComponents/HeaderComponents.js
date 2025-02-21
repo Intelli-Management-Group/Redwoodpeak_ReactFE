@@ -1,36 +1,30 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import Image from '../ImagesComponets/ImagesComponets';
-import Logo from "../../../assets/images/logo.png"
-import IconComponent from "../IconComponents/IconComponents"
+import Logo from "../../../assets/images/logo.png";
+import IconComponent from "../IconComponents/IconComponents";
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 const HeaderComponents = () => {
     const location = useLocation();
-    const isAuthenticated = localStorage.getItem('userToken');
-    const userData = JSON.parse(localStorage.getItem('userData'))
-
     const navigate = useNavigate();
+    const isAuthenticated = localStorage.getItem('userToken');
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
     const [openDropdown, setOpenDropdown] = useState(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const dropdownRef = useState(null);
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
-        if (dropdownOpen) {
-            document.addEventListener("click", handleClickOutside);
-        } else {
-            document.removeEventListener("click", handleClickOutside);
-        }
+        document.addEventListener("click", handleClickOutside);
+        return () => document.removeEventListener("click", handleClickOutside);
+    }, []);
 
-        return () => {
-            document.removeEventListener("click", handleClickOutside);
-        };
-    }, [dropdownOpen]);
-
-    const toggleDropdown = () => {
-        setDropdownOpen(!dropdownOpen);
+    const toggleDropdown = (e) => {
+        e.stopPropagation(); // Prevent immediate closing
+        setDropdownOpen((prev) => !prev); // Toggle dropdown
+        setOpenDropdown(null); // Close other dropdowns
     };
 
     const handleClickOutside = (event) => {
@@ -39,87 +33,55 @@ const HeaderComponents = () => {
         }
     };
 
-
-
     const handleDropdownToggle = (dropdownName) => {
         setOpenDropdown((prev) => (prev === dropdownName ? null : dropdownName));
     };
+
     const handleAuth = (actionType) => {
-        if (actionType === "login") {
-            navigate('/login');
-        } else if (actionType === "signIn") {
-            navigate('/register');
-        }
-    }
-    const Profile = () => {
-        navigate('/Profile');
-    }
+        navigate(actionType === "login" ? '/login' : '/register');
+    };
+
     const handleLogout = () => {
         localStorage.removeItem('userToken');
         window.location.href = '/';
-    }
-    const encodeToken = (token) => {
-        return btoa(token);
     };
-    // console.log(openDropdown, location)
+
+    const encodeToken = (token) => btoa(token);
 
     const handleRedirectWithToken = () => {
         const token = encodeToken(isAuthenticated);
         const targetDomain = "https://admin.jackychee.com/";
-
-        // Open new window
         const newWindow = window.open(targetDomain, "_blank");
-
-        // Wait for window to load and send message
-        setTimeout(() => {
-            newWindow.postMessage({ token }, targetDomain);
-        }, 2000); // Adjust timing if needed
+        setTimeout(() => newWindow.postMessage({ token }, targetDomain), 2000);
     };
-
-    // Refirect with PostMessage
-    // const handleRedirectWithToken = () => {
-    //     const token = encodeToken(isAuthenticated);
-
-    //     window.postMessage(
-    //       { token:token }, 
-    //       'http://localhost:3001'
-    //     );
-
-    //     window.location.href = 'http://localhost:3001';
-    //   };
-
-    //   Redirect With iFrame 
-    // const handleRedirectWithToken = () => {
-    //     console.log("call");
-    //     const iframe = document.createElement('iframe');
-    //     iframe.src = "http://localhost:3001"; // Admin panel URL
-    //     iframe.style.display = 'none'; // Hide the iframe
-    //     document.body.appendChild(iframe);
-
-    //     iframe.onload = () => {
-    //       // Send token to the admin panel using postMessage
-    //       iframe.contentWindow.postMessage(
-    //         { token: encodeToken(isAuthenticated) },
-    //         'http://localhost:3001' // Ensure this matches the admin panel domain
-    //       );
-
-    //       // Redirect to the admin panel
-    //       window.location.href = iframe.src;  // Redirect to admin panel after posting the message
-    //     };
-    //   };
-
-
 
     return (
         <Navbar expand="xl" className="container px-4 mx-sm-3 mx-md-4 mx-lg-5">
             <Navbar.Brand href="/">
-                <Image
-                    src={Logo}
-                    alt="Logo"
-                    className=""
-                />
+                <Image src={Logo} alt="Logo" />
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="navbarSupportedContent" className="ms-auto me-lg-5 me-sm-2" />
+
+            <div className="d-flex align-items-center">
+                <Navbar.Toggle aria-controls="navbarSupportedContent" className="me-2" />
+
+                {isAuthenticated && (
+                    <div className="dropdown d-xl-none ms-2" ref={dropdownRef}>
+                        <button className="dropbtn pe-2 border-0 bg-transparent" onClick={toggleDropdown}>
+                            <IconComponent icon={faUser} className="primaryColor fontAwsomeIconSize" />
+                        </button>
+                        {dropdownOpen && (
+                            <div className="dropdown-content mt-3">
+                                {(userData?.role === "admin" || userData?.role === "siteAdmin") && (
+                                    <a href="#" onClick={handleRedirectWithToken}>Site Admin</a>
+                                )}
+                                <a href="#" onClick={() => navigate('/profile')}>Profile</a>
+                                <a href="#" onClick={handleLogout}>Logout</a>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+
             <Navbar.Collapse id="navbarSupportedContent">
                 <Nav className="d-flex justify-content-between ps-md-5">
                     <ul className="navbar-nav mr-auto">
@@ -244,35 +206,40 @@ const HeaderComponents = () => {
                         </li>
                     </ul>
                 </Nav>
-                {isAuthenticated ? (
-                    <div className="dropdown" ref={dropdownRef}>
-                        <button className="ms-5 ps-5 dropbtn" onClick={toggleDropdown}>
-                            <IconComponent icon={faUser} className="primaryColor fontAwsomeIconSize" />
-                        </button>
-                        {dropdownOpen && (
-                            <div className="dropdown-content">
-                                {(userData?.role === "admin" || userData?.role === "siteAdmin") && isAuthenticated && (
-                                    <a href='#' onClick={handleRedirectWithToken}>Site Admin</a> 
-                                )}
-                                <a href="#" onClick={Profile}>Profile</a>
-                                <a href="#" onClick={handleLogout}>Logout</a>
-                            </div>
-                        )}
-                    </div>
-                ) : (
-                    <>
-                        <Button variant="primary" className="me-2 ms-3 w-auto login-register-btn" onClick={() => handleAuth("login")}>
-                            Log In
-                        </Button>
-                        <Button variant="primary" className="w-auto login-register-btn" onClick={() => handleAuth("signIn")}>
-                            Register
-                        </Button>
-                    </>
-                )}
-            </Navbar.Collapse >
+            </Navbar.Collapse>
 
-        </Navbar >
-
+            {isAuthenticated ? (
+                <div className="dropdown d-none d-xl-flex ms-3" ref={dropdownRef}>
+                    <button className="dropbtn pe-5 me-5 border-0 bg-transparent" onClick={toggleDropdown}>
+                        <IconComponent icon={faUser} className="primaryColor fontAwsomeIconSize" />
+                    </button>
+                    {dropdownOpen && (
+                        <div className="dropdown-content" style={{
+                            position: "absolute",
+                            top: "30px",
+                            right: "80px",
+                            backgroundColor: "#fff",
+                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                            borderRadius: "5px",
+                            zIndex: 1000,
+                            width: "150px",
+                            padding: "5px 0",
+                        }}>
+                            {(userData?.role === "admin" || userData?.role === "siteAdmin") && (
+                                <a href="#" onClick={handleRedirectWithToken}>Site Admin</a>
+                            )}
+                            <a href="#" onClick={() => navigate('/profile')}>Profile</a>
+                            <a href="#" onClick={handleLogout}>Logout</a>
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <>
+                    <Button variant="primary" className="me-2 ms-3" onClick={() => handleAuth("login")}>Log In</Button>
+                    <Button variant="primary" onClick={() => handleAuth("signIn")}>Register</Button>
+                </>
+            )}
+        </Navbar>
     );
 };
 
