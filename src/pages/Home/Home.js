@@ -370,7 +370,7 @@ const HomePage = () => {
                                     <div className="d-flex flex-row justify-content-between h-100">
                                         <div>
                                             <h3 className="welcome-title-class">Our View</h3>
-                                            <div className="mt-2 pt-1">
+                                            <div className="mt-2 pt-2">
                                                 <ul className='ps-0' style={{ listStyle: 'none', display: 'grid' }}>
                                                     {/* Conditional rendering for loading and empty data */}
                                                     {isOverVirewLoading ? (
@@ -384,16 +384,17 @@ const HomePage = () => {
                                                     ) : (
                                                         overViewData.slice(0, 4).map((item, index) => (
                                                             <p
-                                                                className='p-0 text-left pointer file-item'
+                                                                className='p-0 text-left d-flex pdf-row'
                                                                 key={index}
-                                                                onClick={() => handleOverViewClick(item)}
+                                                                
                                                                 style={{ textAlign: 'left' }}
                                                             >
                                                                 <span className="pdf-icon">
                                                                     <Image src={pdfIcon} alt="PDF icon" />
                                                                 </span>
-                                                                <span className="file-item-name">
-                                                                    {(() => {
+                                                                <span className="file-item-name pointer file-item" onClick={() => handleOverViewClick(item)}>
+                                                                   {item?.name ? item?.name : item?.file_name}
+                                                                    {/* {(() => {
                                                                         const targetName = "redwood peak china outlook";
                                                                         const file_name = item.file_name || "";
                                                                         const name = item.name || "";
@@ -412,7 +413,7 @@ const HomePage = () => {
                                                                             : fileNameWithoutExtension;
 
                                                                         return displayName.length > 60 ? displayName.substring(0, 60) + "..." : displayName;
-                                                                    })()}
+                                                                    })()} */}
                                                                 </span>
 
                                                             </p>
