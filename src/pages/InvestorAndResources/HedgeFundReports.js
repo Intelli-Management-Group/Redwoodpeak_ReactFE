@@ -81,26 +81,6 @@ const HedgeFundReports = () => {
     }
   };
 
-  const renderPDFLinks = (items) => (
-    items.map((item, index) => (
-      <div key={index} className="pdf-row p-2">
-        <div className="pdf-title d-flex">
-          <span>
-            <Image src={pdfIcon} alt="PDF icon" />
-          </span>
-          <a
-            href={item.file_path}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: "none", color: "inherit" }}
-            className="file-item-name"
-          >
-            {item.file_name.length > 60 ? item.file_name.substring(0, 60) + "..." : item.file_name}
-          </a>
-        </div>
-      </div>
-    ))
-  );
   const splitDataInColumns = (type) => {
     console.log(type)
     const leftColumn = [];
@@ -133,18 +113,19 @@ const HedgeFundReports = () => {
                     <div key={index} className="pdf-row p-2">
                       <div className="pdf-title d-flex">
                         <span>
-                          <Image src={pdfIcon} alt="PDF icon" />
+                          <Image src={pdfIcon} alt="PDF icon" style={{height:20,width:25}} />
                         </span>
                         <a
                           href={item.file_path}
                           target="_blank"
                           rel="noopener noreferrer"
-                          style={{ textDecoration: "none", color: "inherit" }}
+                          style={{ textDecoration: "none", color: "inherit", fontSize:14 }}
                           className="file-item-name"
                         >
-                          {item.file_name.length > 60
+                          {item.name ? item.name : item.file_name}
+                          {/* {item.file_name.length > 60
                             ? item.file_name.substring(0, 60) + "..."
-                            : item.file_name}
+                            : item.file_name} */}
                         </a>
                       </div>
                     </div>
@@ -155,18 +136,19 @@ const HedgeFundReports = () => {
                     <div key={index} className="pdf-row p-2">
                       <div className="pdf-title d-flex">
                         <span>
-                          <Image src={pdfIcon} alt="PDF icon" />
+                          <Image src={pdfIcon} alt="PDF icon" style={{height:20,width:25}}/>
                         </span>
                         <a
                           href={item.file_path}
                           target="_blank"
                           rel="noopener noreferrer"
-                          style={{ textDecoration: "none", color: "inherit" }}
+                          style={{ textDecoration: "none", color: "inherit", fontSize:14}}
                           className="file-item-name"
                         >
-                          {item.file_name.length > 60
+                          {item.name ? item.name : item.file_name}
+                          {/* {item.file_name.length > 60
                             ? item.file_name.substring(0, 60) + "..."
-                            : item.file_name}
+                            : item.file_name} */}
                         </a>
                       </div>
                     </div>
