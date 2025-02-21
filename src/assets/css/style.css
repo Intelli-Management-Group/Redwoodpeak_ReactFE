@@ -12,10 +12,13 @@
     font-family: 'Open Sans';
     src: url('../fonts/openSans.woff2') format('woff2');
 }
-html, body {
-    height: 100%;  
+
+html,
+body {
+    height: 100%;
     margin: 0;
 }
+
 body {
     /* background-color: #380000; */
     color: #666666;
@@ -592,6 +595,7 @@ footer {
 }
 
 .file-item-name {
+    word-break: break-word;
     position: relative;
     display: inline-block;
 }
@@ -610,9 +614,16 @@ footer {
 .file-item-name:hover::after {
     width: 100%;
 }
-
+.pdf-title {
+    display: flex;
+    /* flex-wrap: wrap; */
+    align-items: center;
+    gap: 8px;
+  }
 .pdf-icon {
     margin-right: 8px;
+    display: flex;
+    align-items: center;
 }
 
 .news-item-name {
@@ -766,51 +777,60 @@ footer {
 .aprroch-Box ul ul li::before {
     content: "";
 }
-.aprroch-Box li{
+
+.aprroch-Box li {
     /* color: #6e7172; */
     font-weight: 400;
     font-family: 'Open Sans', sans-serif;
 }
 
 @media (min-width: 768px) and (max-width: 900px) {
-    .aprroch-Box li{
+    .aprroch-Box li {
         font-size: 11px;
         font-weight: 400;
-    font-family: 'Open Sans', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
+
     .aprroch-title {
         padding-bottom: 5px;
         font-size: 17px;
     }
-    .aprroch-Box ul{
+
+    .aprroch-Box ul {
         padding-left: 14px;
     }
-    .aprroch-Box{
+
+    .aprroch-Box {
         width: 500px;
         height: 300px;
-        padding: 0.5rem!important;
+        padding: 0.5rem !important;
     }
 
 }
+
 @media (min-width: 901px) and (max-width: 1100px) {
-    .aprroch-Box li{
+    .aprroch-Box li {
         font-size: 10px;
         /* color: #6e7172; */
         font-weight: 400;
-    font-family: 'Open Sans', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
+
     .aprroch-title {
         padding-bottom: 5px;
         font-size: 17px;
     }
-    .aprroch-Box ul{
+
+    .aprroch-Box ul {
         padding-left: 14px;
     }
-    .aprroch-Box{
+
+    .aprroch-Box {
         width: 450px;
         height: 208px;
-        padding: 0.5rem!important;
+        padding: 0.5rem !important;
     }
+
     .custom-tabs .custom-tab-link {
         padding: 5px 10px !important;
         margin: 2px !important;
@@ -818,16 +838,19 @@ footer {
     }
 
 }
+
 @media (min-width: 1100px) and (max-width: 1258px) {
-    .aprroch-Box li{
+    .aprroch-Box li {
         font-size: 12px;
         font-weight: 400;
-    font-family: 'Open Sans', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
+
     .aprroch-title {
         padding-bottom: 5px;
         font-size: 20px;
     }
+
     .custom-tabs .custom-tab-link {
         padding: 5px 10px !important;
         margin: 2px !important;
@@ -846,7 +869,7 @@ footer {
 }
 
 .content-area {
-    flex-grow: 1;  
+    flex-grow: 1;
     padding-bottom: 45px;
 }
 
@@ -862,16 +885,19 @@ footer {
     padding-bottom: 0;
     margin-bottom: 0;
 }
+
 /*  */
 
 .list-items::before {
     content: "• ";
-    color: black; /* You can change the color as needed */
-    font-weight: bold; /* You can change the font weight as needed */
-  }
+    color: black;
+    /* You can change the color as needed */
+    font-weight: bold;
+    /* You can change the font weight as needed */
+}
 
-  /* Tabs For HegeFunde Reports */
-  .custom-tabs .custom-tab-link {
+/* Tabs For HegeFunde Reports */
+.custom-tabs .custom-tab-link {
     color: #6c757d;
     border-radius: 8px;
     padding: 10px 15px;
@@ -880,40 +906,40 @@ footer {
     align-items: center;
     gap: 5px;
     border: 1px solid var(--primary-color);
-    margin:3px;
-  }
-  
-  .custom-tabs .custom-tab-link.active {
+    margin: 3px;
+}
+
+.custom-tabs .custom-tab-link.active {
     background-color: var(--primary-color);
     color: #ffffff !important;
     font-weight: bold;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .custom-tabs .custom-tab-link:hover {
+}
+
+.custom-tabs .custom-tab-link:hover {
     background-color: var(--primary-color);
     color: #ffffff !important;
-  }
-  
-   /* loading-animation  */
-   .logo-containerss {
+}
+
+/* loading-animation  */
+.logo-containerss {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
     text-align: center;
-  }
-  
-  .bouncing-dots {
+}
+
+.bouncing-dots {
     font-size: 1.5rem;
     font-weight: 500;
     color: #511515;
     display: inline-block;
     margin-top: 10px;
-  }
-  
-  .bouncing-dots span {
+}
+
+.bouncing-dots span {
     display: inline-block;
     width: 10px;
     height: 10px;
@@ -921,25 +947,28 @@ footer {
     background-color: #511515;
     border-radius: 50%;
     animation: bounce 1.5s infinite ease-in-out;
-  }
-  
-  .bouncing-dots span:nth-child(1) {
+}
+
+.bouncing-dots span:nth-child(1) {
     animation-delay: 0s;
-  }
-  
-  .bouncing-dots span:nth-child(2) {
+}
+
+.bouncing-dots span:nth-child(2) {
     animation-delay: 0.2s;
-  }
-  
-  .bouncing-dots span:nth-child(3) {
+}
+
+.bouncing-dots span:nth-child(3) {
     animation-delay: 0.4s;
-  }
-  
-  @keyframes bounce {
-    0%, 100% {
-      transform: translateY(0);
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
     }
+
     50% {
-      transform: translateY(-10px);
+        transform: translateY(-10px);
     }
-  }
+}
