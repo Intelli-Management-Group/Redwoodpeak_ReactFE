@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import Image from '../ImagesComponets/ImagesComponets';
@@ -8,32 +8,25 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 const HeaderComponents = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const isAuthenticated = localStorage.getItem('userToken');
     const userData = JSON.parse(localStorage.getItem('userData'));
 
-    const navigate = useNavigate();
     const [openDropdown, setOpenDropdown] = useState(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const dropdownRef = useState(null);
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
-        if (dropdownOpen) {
-            document.addEventListener("click", handleClickOutside);
-        } else {
-            document.removeEventListener("click", handleClickOutside);
-        }
+        document.addEventListener("click", handleClickOutside);
+        return () => document.removeEventListener("click", handleClickOutside);
+    }, []);
 
-        return () => {
-            document.removeEventListener("click", handleClickOutside);
-        };
-    }, [dropdownOpen]);
+    const toggleDropdown = (e) => {
+        e.stopPropagation(); // Prevent immediate closing
+        setDropdownOpen((prev) => !prev); // Toggle dropdown
+        setOpenDropdown(null); // Close other dropdowns
+    };
 
-    const toggleDropdown = () => {
-        setDropdownOpen(!dropdownOpen);
-    };
-    const Profile = () => {
-        navigate('/Profile');
-    };
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
             setDropdownOpen(false);
@@ -45,11 +38,7 @@ const HeaderComponents = () => {
     };
 
     const handleAuth = (actionType) => {
-        if (actionType === "login") {
-            navigate('/login');
-        } else if (actionType === "signIn") {
-            navigate('/register');
-        }
+        navigate(actionType === "login" ? '/login' : '/register');
     };
 
     const handleLogout = () => {
@@ -57,43 +46,35 @@ const HeaderComponents = () => {
         window.location.href = '/';
     };
 
-    const encodeToken = (token) => {
-        return btoa(token);
-    };
+    const encodeToken = (token) => btoa(token);
 
     const handleRedirectWithToken = () => {
         const token = encodeToken(isAuthenticated);
         const targetDomain = "https://admin.jackychee.com/";
-
         const newWindow = window.open(targetDomain, "_blank");
-
-        setTimeout(() => {
-            newWindow.postMessage({ token }, targetDomain);
-        }, 2000);
+        setTimeout(() => newWindow.postMessage({ token }, targetDomain), 2000);
     };
 
     return (
         <Navbar expand="xl" className="container px-4 mx-sm-3 mx-md-4 mx-lg-5">
             <Navbar.Brand href="/">
-                <Image src={Logo} alt="Logo" className="" />
+                <Image src={Logo} alt="Logo" />
             </Navbar.Brand>
 
-            {/* Wrapper for Menu Button & User Icon */}
             <div className="d-flex align-items-center">
-                {/* Menu Button */}
                 <Navbar.Toggle aria-controls="navbarSupportedContent" className="me-2" />
 
-                {/* User Icon (Only in mobile view, next to menu button) */}
                 {isAuthenticated && (
                     <div className="dropdown d-xl-none ms-2" ref={dropdownRef}>
-                        <button className="dropbtn pe-md-5 border-0 bg-transparent" onClick={toggleDropdown}>
+                        <button className="dropbtn pe-2 border-0 bg-transparent" onClick={toggleDropdown}>
                             <IconComponent icon={faUser} className="primaryColor fontAwsomeIconSize" />
                         </button>
                         {dropdownOpen && (
-                            <div className="dropdown-content">
+                            <div className="dropdown-content mt-3">
                                 {(userData?.role === "admin" || userData?.role === "siteAdmin") && (
-                                    <a href='#' onClick={handleRedirectWithToken}>Site Admin</a>
+                                    <a href="#" onClick={handleRedirectWithToken}>Site Admin</a>
                                 )}
+                                <a href="#" onClick={() => navigate('/profile')}>Profile</a>
                                 <a href="#" onClick={handleLogout}>Logout</a>
                             </div>
                         )}
@@ -227,33 +208,35 @@ const HeaderComponents = () => {
                 </Nav>
             </Navbar.Collapse>
 
-            {/* User Icon (Visible in desktop view, inside Navbar) */}
-            {isAuthenticated && (
+            {isAuthenticated ? (
                 <div className="dropdown d-none d-xl-flex ms-3" ref={dropdownRef}>
                     <button className="dropbtn pe-5 me-5 border-0 bg-transparent" onClick={toggleDropdown}>
                         <IconComponent icon={faUser} className="primaryColor fontAwsomeIconSize" />
                     </button>
                     {dropdownOpen && (
-                        <div className="dropdown-content">
+                        <div className="dropdown-content" style={{
+                            position: "absolute",
+                            top: "30px",
+                            right: "80px",
+                            backgroundColor: "#fff",
+                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                            borderRadius: "5px",
+                            zIndex: 1000,
+                            width: "150px",
+                            padding: "5px 0",
+                        }}>
                             {(userData?.role === "admin" || userData?.role === "siteAdmin") && (
-                                <a href='#' onClick={handleRedirectWithToken}>Site Admin</a>
+                                <a href="#" onClick={handleRedirectWithToken}>Site Admin</a>
                             )}
+                            <a href="#" onClick={() => navigate('/profile')}>Profile</a>
                             <a href="#" onClick={handleLogout}>Logout</a>
-                            <a href="#" onClick={Profile}>Profile</a>
-
                         </div>
                     )}
                 </div>
-            )}
-
-            {!isAuthenticated && (
+            ) : (
                 <>
-                    <Button variant="primary" className="me-2 ms-3 w-auto login-register-btn" onClick={() => handleAuth("login")}>
-                        Log In
-                    </Button>
-                    <Button variant="primary" className="w-auto login-register-btn" onClick={() => handleAuth("signIn")}>
-                        Register
-                    </Button>
+                    <Button variant="primary" className="me-2 ms-3" onClick={() => handleAuth("login")}>Log In</Button>
+                    <Button variant="primary" onClick={() => handleAuth("signIn")}>Register</Button>
                 </>
             )}
         </Navbar>
