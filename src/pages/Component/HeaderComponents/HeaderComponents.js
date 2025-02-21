@@ -252,14 +252,7 @@ const HeaderComponents = () => {
                         {dropdownOpen && (
                             <div className="dropdown-content">
                                 {(userData?.role === "admin" || userData?.role === "siteAdmin") && isAuthenticated && (
-                                    //  <a
-                                    //      className={`nav-link`}
-                                    //      href={`http://localhost:3001/?token=${encodeToken(isAuthenticated)}`}
-                                    //      target=""
-                                    //      rel="noopener noreferrer"
-                                    //  >Site Admin</a>
-                                    <a href='#' onClick={handleRedirectWithToken}>Site Admin</a>
-
+                                    <a href='#' onClick={handleRedirectWithToken}>Site Admin</a> 
                                 )}
                                 <a href="#" onClick={Profile}>Profile</a>
                                 <a href="#" onClick={handleLogout}>Logout</a>
