@@ -167,7 +167,7 @@ const Visits = () => {
                                 className="pdf-row mb-3 pointer"
                                 onClick={() => updateContent(post.id)}
                               >
-                                <div className="pdf-title row">
+                                <div className="pdf-title row" style={{gap:0}}>
                                   {/* Post Thumbnail */}
                                   <div className="col-md-3">
                                     <Image

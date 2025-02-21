@@ -169,7 +169,7 @@ const News = () => {
                                   className="pdf-row mb-3"
                                   onClick={() => updateContent(post.id)} // Load content on thumbnail click
                                 >
-                                  <div className="pdf-title row">
+                                  <div className="pdf-title row" style={{gap:0}}>
                                     {/* Post Thumbnail */}
                                     <div className="col-md-3">
                                       <Image

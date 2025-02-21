@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.d987c3f8.css",
-    "main.js": "/static/js/main.99a84567.js",
+    "main.css": "/static/css/main.9e4c8c96.css",
+    "main.js": "/static/js/main.b47b7f60.js",
     "static/js/453.76daa290.chunk.js": "/static/js/453.76daa290.chunk.js",
     "static/media/rewood_location.png": "/static/media/rewood_location.1c562736e819b648c01e.png",
     "static/media/redwood_homepage_hong_kong.jpg": "/static/media/redwood_homepage_hong_kong.03e99471f618c29b3a99.jpg",
@@ -13,7 +13,7 @@
     "static/media/redrood_hgihlight_investment_expertise.png": "/static/media/redrood_hgihlight_investment_expertise.a609374cd62db76ae26b.png",
     "static/media/redwood_investment_management.jpg": "/static/media/redwood_investment_management.c2e85552dc415dde3470.jpg",
     "static/media/redwood_our_approach.jpg": "/static/media/redwood_our_approach.f4c5200aec9e1cc4b7d3.jpg",
-    "static/media/redwood_investor_resources.jpg": "/static/media/redwood_investor_resources.9b36b2cd980eaf4d9bc7.jpg",
+    "static/media/redwood_investor_resources.jpg": "/static/media/redwood_investor_resources.29e528d7db7b1a305711.jpg",
     "static/media/redwood_publication.jpg": "/static/media/redwood_publication.1a09b416155be3e4e873.jpg",
     "static/media/news2.png": "/static/media/news2.3ccce93d3d92e5584567.png",
     "static/media/news1.png": "/static/media/news1.32aa881c151f494aece1.png",
@@ -25,12 +25,12 @@
     "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
-    "main.d987c3f8.css.map": "/static/css/main.d987c3f8.css.map",
-    "main.99a84567.js.map": "/static/js/main.99a84567.js.map",
+    "main.9e4c8c96.css.map": "/static/css/main.9e4c8c96.css.map",
+    "main.b47b7f60.js.map": "/static/js/main.b47b7f60.js.map",
     "453.76daa290.chunk.js.map": "/static/js/453.76daa290.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d987c3f8.css",
-    "static/js/main.99a84567.js"
+    "static/css/main.9e4c8c96.css",
+    "static/js/main.b47b7f60.js"
   ]
 }
