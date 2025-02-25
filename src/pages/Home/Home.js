@@ -386,14 +386,14 @@ const HomePage = () => {
                                                             <p
                                                                 className='p-0 text-left d-flex pdf-row'
                                                                 key={index}
-                                                                
+
                                                                 style={{ textAlign: 'left' }}
                                                             >
                                                                 <span className="pdf-icon">
                                                                     <Image src={pdfIcon} alt="PDF icon" />
                                                                 </span>
                                                                 <span className="file-item-name pointer file-item" onClick={() => handleOverViewClick(item)}>
-                                                                   {item?.name ? item?.name : item?.file_name}
+                                                                    {item?.name ? item?.name : item?.file_name}
                                                                     {/* {(() => {
                                                                         const targetName = "redwood peak china outlook";
                                                                         const file_name = item.file_name || "";
@@ -433,16 +433,18 @@ const HomePage = () => {
                         </div>
 
                         {/* Heading */}
-                        <div className="text-center mt-5 ml-5 mr-5 mb-5 ">
-                            <h3 className="">Aligning Success, Delivering Value</h3>
-                            <div className="container text-left">
-                                <p className='pt-2 pb-0'>
-                                    At Redwood Peak, we are dedicated to achieving investment excellence through a results-driven partnership with our clients, employees, and stakeholders. Since our founding in 2007, we’ve focused on providing bespoke wealth and fund management solutions for high-net-worth individuals, family offices, and institutions. With over 45 years of combined investment experience, we leverage our deep local network and disciplined approach to identify mispriced opportunities, always prioritizing the interests of our clients. Committed to excellence, integrity, and transparency, we aim to deliver sustainable success for all involved.</p>
+                        <div className="container p-2">
+                            <div className="text-center mt-5 ml-5 mr-5 mb-5 ">
+                                <h3 className="">Aligning Success, Delivering Value</h3>
+                                <div className="container text-left">
+                                    <p className='pt-2 pb-0'>
+                                        At Redwood Peak, we are dedicated to achieving investment excellence through a results-driven partnership with our clients, employees, and stakeholders. Since our founding in 2007, we’ve focused on providing bespoke wealth and fund management solutions for high-net-worth individuals, family offices, and institutions. With over 45 years of combined investment experience, we leverage our deep local network and disciplined approach to identify mispriced opportunities, always prioritizing the interests of our clients. Committed to excellence, integrity, and transparency, we aim to deliver sustainable success for all involved.</p>
+                                </div>
                             </div>
                         </div>
                         {/* Services Section */}
                         <div className="container">
-                            <div className="row">
+                            <div className="row p-2">
                                 {/* Card 1 */}
                                 <div className="col-md-4">
                                     <div className="tilesCard tilesCard-shadow h-100">
@@ -467,7 +469,7 @@ const HomePage = () => {
                                                 disabled={true}
                                             />
                                         </div>*/}
-                                    </div> 
+                                    </div>
                                 </div>
 
                                 {/* Card 2 */}
@@ -528,8 +530,8 @@ const HomePage = () => {
 
                         {/* Latest News, Visits, and Contact Us Section */}
                         <div className="container mt-5 mb-5">
-                            <div className="row" style={{ marginBottom: 100 }}>
-                                <div className="col-md-4">
+                            <div className="row p-2" style={{ marginBottom: 100 }}>
+                                <div className="col-md-4 ">
                                     <h3 className="welcome-title-class">Latest News</h3>
                                     <div className="mt-3 pt-1">
                                         <ul className='ps-0'>
