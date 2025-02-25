@@ -61,13 +61,13 @@ const HeaderComponents = () => {
                 <Image src={Logo} alt="Logo" />
             </Navbar.Brand>
 
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center ">
                 <Navbar.Toggle aria-controls="navbarSupportedContent" className="me-2" />
 
-                {isAuthenticated && (
-                    <div className="dropdown d-xl-none ms-2" ref={dropdownRef}>
+                {isAuthenticated ? (
+                    <div className="dropdown d-xl-none ms-2 me-2" ref={dropdownRef}>
                         <button className="dropbtn pe-2 border-0 bg-transparent" onClick={toggleDropdown}>
-                            <IconComponent icon={faUser} className="primaryColor fontAwsomeIconSize" />
+                            <IconComponent icon={faUser} className="primaryColor userIcons-size" />
                         </button>
                         {dropdownOpen && (
                             <div className="dropdown-content mt-3">
@@ -79,10 +79,15 @@ const HeaderComponents = () => {
                             </div>
                         )}
                     </div>
+                ): (
+                    <div className='d-flex d-xl-none flex-column justify-content-center align-items-center me-1'>
+                    <Button variant="primary" className="me-2 ms-2 mb-2" onClick={() => handleAuth("login")}>Log In</Button>
+                    <Button variant="primary" onClick={() => handleAuth("signIn")}>Register</Button>
+                  </div>
                 )}
             </div>
 
-            <Navbar.Collapse id="navbarSupportedContent">
+            <Navbar.Collapse id="navbarSupportedContent" style={{ flexGrow: 0 }}>
                 <Nav className="d-flex justify-content-between ps-md-5">
                     <ul className="navbar-nav mr-auto">
                         {/* Home Link */}
@@ -234,10 +239,10 @@ const HeaderComponents = () => {
                     )}
                 </div>
             ) : (
-                <>
+                <div className='d-none d-xl-flex justify-content-end me-sm-3'>
                     <Button variant="primary" className="me-2 ms-3" onClick={() => handleAuth("login")}>Log In</Button>
                     <Button variant="primary" onClick={() => handleAuth("signIn")}>Register</Button>
-                </>
+                </div>
             )}
         </Navbar>
     );
