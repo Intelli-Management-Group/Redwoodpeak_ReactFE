@@ -710,6 +710,10 @@ footer {
         flex: 0 0 100%;
         margin-bottom: 20px;
     }
+    .contact-left-content{
+        margin-top: 5% !important; 
+        margin-left: 0% !important;
+    }
 }
 
 .mapImage {
@@ -978,7 +982,15 @@ footer {
       width: 100px;
       height: 100px;
     }
+    .contact-left-content{
+        margin-top: 10% !important; 
+        margin-left: 10% !important;
+    }
   }
 .userIcons-size{
     font-size: 1.5rem;
+}
+.contact-left-content{
+    margin-top: 15%;
+    margin-left: 15%;
 }
