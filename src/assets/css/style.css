@@ -972,3 +972,10 @@ footer {
         transform: translateY(-10px);
     }
 }
+
+@media (min-width: 767px) and (max-width: 840px) {
+    .custom-image-size {
+      width: 100px;
+      height: 100px;
+    }
+  }

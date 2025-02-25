@@ -132,8 +132,8 @@ const Visits = () => {
         </div>
 
         <div className="container mb-5">
-          <div className="container-custom mt-1 mb-5 p-4">
-            {/*<h1 className="header-post-title-class">Visits</h1>*/}
+        <div className="container-custom mt-1 mb-5 p-2 p-md-4">
+        {/*<h1 className="header-post-title-class">Visits</h1>*/}
             {loading ? (
               <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "150px" }}>
                 <div className="spinner-border text-primary-color" role="status">
@@ -143,7 +143,7 @@ const Visits = () => {
             ) : (
               <div className="row">
                 {/* Left Column for Year and Post Thumbnails */}
-                <div className="col-md-3">
+                <div className="col-md-3 col-4 p-sm-1 p-lg-2 p-xl-3">
                   {Object.keys(newsData)
                     .sort((a, b) => parseInt(b) - parseInt(a)) // Sort years in descending order
                     .map((year) => (
@@ -169,17 +169,17 @@ const Visits = () => {
                               >
                                 <div className="pdf-title row" style={{gap:0}}>
                                   {/* Post Thumbnail */}
-                                  <div className="col-md-3">
-                                    <Image
+                                  <div className="col-12 col-md-12 col-lg-3">
+                                  <Image
                                       src={post.thumbnail.path}
                                       alt={post.title}
                                       width={50}
                                       height={50}
-                                      className="img-thumbnail pointer"
-                                    />
+                                      className="img-thumbnail pointer custom-image-size"
+                                      />
                                   </div>
                                   {/* Post Title */}
-                                  <div className="col-md-9">{post.title}</div>
+                                  <div className="col-12 col-md-12 col-lg-9 pointer">{post.title}</div>
                                 </div>
                               </div>
                             ))}
@@ -190,7 +190,7 @@ const Visits = () => {
                 </div>
 
                 {/* Right Column for Content Display */}
-                <div className="col-md-9">
+                <div className="col-md-9 col-8 p-sm-1 p-lg-2 p-xl-3">
                   <div className="mt-2">
                     {loading ? (
                       <div>Loading content...</div> // Loading Spinner or Text
