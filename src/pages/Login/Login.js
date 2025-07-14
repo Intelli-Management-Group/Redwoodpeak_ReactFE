@@ -4,12 +4,14 @@ import Button from '../Component/ButtonComponents/ButtonComponents';
 import Footer from "../Component/Footer/Footer";
 import AuthenticationServices from '../../Services/AuthenticationServices';
 import { notifyError, notifySuccess, notifyWarning } from "../Component/ToastComponents/ToastComponents";
+import Modal from 'react-bootstrap/Modal';
 
 import { ToastContainer } from 'react-toastify';
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 
 const Login = () => {
+    const [showInvalidModal, setShowInvalidModal] = useState(false);
     const location = useLocation();
     const [loading, setLoading] = useState(false);
     // State to hold form data
@@ -89,7 +91,11 @@ const Login = () => {
                     notifyWarning(`${user?.email} has not been approved by the admin. Please contact the administrator or wait for approval.`);
                 }
             } else {
-                notifyError(response?.message || 'Login failed. Please try again.');
+                if (response?.message === "Invalid Credentials") {
+                    setShowInvalidModal(true);
+                } else {
+                    notifyError(response?.message || 'Login failed. Please try again.');
+                }
             }
 
         } catch (error) {
@@ -203,7 +209,34 @@ const Login = () => {
                 </div>
             </div>
             </div>
-            <ToastContainer />
+                <ToastContainer />
+                <Modal
+                    show={showInvalidModal}
+                    onHide={() => setShowInvalidModal(false)}
+                    centered
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Invalid Credentials</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="text-center">
+                        <p>Your password may be incorrect or forgotten.</p>
+                        <a
+                            href="/forgotPassword"
+                            style={{ color: '#007bff', textDecoration: 'underline', fontWeight: 500 }}
+                        >
+                            Forgot Password?
+                        </a>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            text="Close"
+                            onClick={() => setShowInvalidModal(false)}
+                            className="btn-primary"
+                        />
+                    </Modal.Footer>
+                </Modal>
 
             <Footer />
             </div>
