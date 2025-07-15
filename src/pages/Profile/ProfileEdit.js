@@ -9,6 +9,7 @@ import { notifyError, notifySuccess } from '../Component/ToastComponents/ToastCo
 import Button from '../Component/ButtonComponents/ButtonComponents';
 const ProfileEdit = ({ user, onSave, onCancel }) => {
     const [loading, setLoading] = useState(false)
+    const [isEdited, setIsEdited] = useState(false);
 
     const options = useMemo(() => countryList().getData(), []);
     const [formData, setFormData] = useState({
@@ -55,24 +56,66 @@ const ProfileEdit = ({ user, onSave, onCancel }) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        setIsEdited(true);
     };
 
     const handleCountryChange = (selectedOption) => {
         setFormData({ ...formData, country: selectedOption ? selectedOption.value : "" });
+        setIsEdited(true);
     };
 
     const validateForm = () => {
         const newErrors = {};
-        if (!formData.first_name) newErrors.first_name = "First Name is required";
-        if (!formData.last_name) newErrors.last_name = "Last Name is required";
-        if (!formData.username) newErrors.username = "Username is required";
-        if (!formData.email) newErrors.email = "Email is required";
-        if (!formData.contact) newErrors.contact = "Contact is required";
-        if (!formData.country) newErrors.country = "Country is required";
-        if (!formData.companyName) newErrors.companyName = "Company Name is required";
-        if (formData.password && formData.password !== formData.confirmPassword) {
-            newErrors.password = "Passwords do not match";
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const contactRegex = /^[0-9]$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+        const nameRegex = /^[a-zA-Z\s'-]+$/;
+
+        // First Name
+        if (!formData.first_name) {
+            newErrors.first_name = "First name is required.";
+        } else if (formData.first_name.length < 3) {
+            newErrors.first_name = "First name must be at least 3 characters long.";
+        } else if (!nameRegex.test(formData.first_name)) {
+            newErrors.first_name = "First name can only contain letters, spaces, hyphens, and apostrophes.";
         }
+        // Last Name
+        if (!formData.last_name) {
+            newErrors.last_name = "Last name is required.";
+        } else if (formData.last_name.length < 3) {
+            newErrors.last_name = "Last name must be at least 3 characters long.";
+        } else if (!nameRegex.test(formData.last_name)) {
+            newErrors.last_name = "Last name can only contain letters, spaces, hyphens, and apostrophes.";
+        }
+        // Username
+        if (!formData.username) newErrors.username = "Username is required";
+        // Email
+        if (!formData.email) {
+            newErrors.email = "Email is required.";
+        } else if (!emailRegex.test(formData.email)) {
+            newErrors.email = "Please enter a valid email address.";
+        }
+        // Password (only if provided)
+        if (formData.password) {
+            if (!passwordRegex.test(formData.password)) {
+                newErrors.password = "Password must contain at least one lowercase letter, one uppercase letter, and one number.";
+            }
+            if (formData.password !== formData.confirmPassword) {
+                newErrors.password = "Passwords do not match.";
+            }
+        }
+        // Contact
+        if (!formData.contact) {
+            newErrors.contact = "Contact number is required.";
+        } else if (!/^[0-9]+$/.test(formData.contact)) {
+            newErrors.contact = "Contact number must contain only numbers.";
+        } else if (formData.contact.length < 8 || formData.contact.length > 15) {
+            newErrors.contact = "Contact number must be between 8 and 15 digits.";
+        }
+
+        // if (!formData.country) newErrors.country = "Country is required";
+        // if (!formData.companyName) newErrors.companyName = "Company Name is required";
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0; // Return true if no errors
     };
@@ -84,10 +127,9 @@ const ProfileEdit = ({ user, onSave, onCancel }) => {
             onSave(formData);
             notifySuccess('Profile updated successfully!');
             setLoading(false)
-
+            setIsEdited(false);
         } else {
             setLoading(false)
-            // notifyError('Please fix the errors in the form.');
         }
     };
 
@@ -197,7 +239,7 @@ const ProfileEdit = ({ user, onSave, onCancel }) => {
                                         <Button
                                             text={loading ? "Updateting..." : "Update"}
                                             onClick={handleSubmit}
-                                            disabled={loading}
+                                            disabled={loading || !isEdited}
                                             className="btn btn-primary w-auto"
                                             type="submit"
                                         />
