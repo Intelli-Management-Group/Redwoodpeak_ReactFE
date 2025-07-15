@@ -32,7 +32,7 @@ const Registration = () => {
   });
 
   const [errors, setErrors] = useState({});
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -104,10 +104,22 @@ const Registration = () => {
   const validateFormData = (formData) => {
     const errors = {};
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const contactRegex = /^[0-9]{10}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-    if (!formData.firstName) errors.firstName = "First name is required.";
-    if (!formData.lastName) errors.lastName = "Last name is required.";
+    const nameRegex = /^[a-zA-Z\s'-]+$/;
+    if (!formData.firstName) {
+      errors.firstName = "First name is required.";
+    } else if (formData.firstName.length < 3) {
+      errors.firstName = "First name must be at least 3 characters long.";
+    } else if (!nameRegex.test(formData.firstName)) {
+      errors.firstName = "First name can only contain letters, spaces, hyphens, and apostrophes.";
+    }
+    if (!formData.lastName) {
+      errors.lastName = "Last name is required.";
+    } else if (formData.lastName.length < 3) {
+      errors.lastName = "Last name must be at least 3 characters long.";
+    } else if (!nameRegex.test(formData.lastName)) {
+      errors.lastName = "Last name can only contain letters, spaces, hyphens, and apostrophes.";
+    }
     if (!formData.email) {
       errors.email = "Email is required.";
     } else if (!emailRegex.test(formData.email)) {
@@ -123,8 +135,10 @@ const Registration = () => {
     }
     if (!formData.contact) {
       errors.contact = "Contact number is required.";
-    } else if (!contactRegex.test(formData.contact)) {
-      errors.contact = "Please enter a valid 10-digit contact number.";
+    } else if (!/^[0-9]+$/.test(formData.contact)) {
+      errors.contact = "Contact number must contain only numbers.";
+    } else if (formData.contact.length < 8 || formData.contact.length > 15) {
+      errors.contact = "Contact number must be between 8 and 15 digits.";
     }
 
     return errors;
