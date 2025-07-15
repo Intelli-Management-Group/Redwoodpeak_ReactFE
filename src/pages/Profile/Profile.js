@@ -344,17 +344,18 @@ const ProfilePage = () => {
                         <div
                           style={{
                             fontFamily: 'Arial, sans-serif',
-                            backgroundColor: '#fff',
+                            backgroundColor: '#0f0f0f99',
                             minHeight: '100%',
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            padding: '20px',
+                            padding: '15px',
+                            borderRadius: '7px',
                           }}
                         >
                           <div
                             style={{
-                              maxWidth: '400px',
+                              // maxWidth: '400px',
                               width: '100%',
                               padding: '20px',
                               backgroundColor: 'white',
