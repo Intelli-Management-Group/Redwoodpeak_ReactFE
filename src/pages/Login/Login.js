@@ -90,17 +90,26 @@ const Login = () => {
                 } else {
                     notifyWarning(`${user?.email} has not been approved by the admin. Please contact the administrator or wait for approval.`);
                 }
-            } else {
-                if (response?.message === "Invalid Credentials") {
-                    setShowInvalidModal(true);
-                } else {
-                    notifyError(response?.message || 'Login failed. Please try again.');
-                }
             }
+            //  else {
+            //     console.log("Else Call")
+            //     if (response?.message === "Invalid Credentials") {
+
+            //         setShowInvalidModal(true);
+            //     } else {
+            //         notifyError(response?.message || 'Login failed. Please try again.');
+            //     }
+            // }
 
         } catch (error) {
-            console.error("Login Error:", error);
-            notifyError(`An error occurred during login. Please try again.`);
+            if (error?.response?.data?.message === "Reset Password") {
+                setShowInvalidModal(true);
+            } else if (error?.response?.data?.message === "Invalid Credentials") {
+                notifyError(error?.response?.data?.message);
+            } else {
+                console.error("Login Error:", error);
+                notifyError(`An error occurred during login. Please try again.`);
+            }
         } finally {
             setLoading(false);
         }
@@ -116,99 +125,99 @@ const Login = () => {
     return (
         <React.Fragment>
             <div className="page-wrapper">
-            <HeaderComponents />
-            <MetaTitle pageTitle={"Login"} />
-            <div className="content-area">
+                <HeaderComponents />
+                <MetaTitle pageTitle={"Login"} />
+                <div className="content-area">
 
-            <div className="container">
-                <div className="container-custom mb-5 p-2 min-heights" style={{}}>
-                    <div className="mt-4">
-                        <div className="mt-5 m-3">
-                            <form onSubmit={handleSubmit}>
-                                {/* Email Input */}
-                                <div className="row mt-4">
-                                    <div className="col-md-12">
-                                        <label htmlFor="email">E-mail</label>
-                                        <input
-                                            id="email"
-                                            type="email"
-                                            className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                        {errors.email && (
-                                            <span className="invalid-feedback" role="alert">
-                                                <strong>{errors.email}</strong>
-                                            </span>
-                                        )}
-                                    </div>
+                    <div className="container">
+                        <div className="container-custom mb-5 p-2 min-heights" style={{}}>
+                            <div className="mt-4">
+                                <div className="mt-5 m-3">
+                                    <form onSubmit={handleSubmit}>
+                                        {/* Email Input */}
+                                        <div className="row mt-4">
+                                            <div className="col-md-12">
+                                                <label htmlFor="email">E-mail</label>
+                                                <input
+                                                    id="email"
+                                                    type="email"
+                                                    className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                                                    name="email"
+                                                    value={formData.email}
+                                                    onChange={handleChange}
+                                                    required
+                                                />
+                                                {errors.email && (
+                                                    <span className="invalid-feedback" role="alert">
+                                                        <strong>{errors.email}</strong>
+                                                    </span>
+                                                )}
+                                            </div>
 
-                                    {/* Password Input */}
-                                    <div className="col-md-12">
-                                        <label htmlFor="password">Password</label>
-                                        <input
-                                            id="password"
-                                            type="password"
-                                            className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                                            name="password"
-                                            value={formData.password}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                        {errors.password && (
-                                            <span className="invalid-feedback" role="alert">
-                                                <strong>{errors.password}</strong>
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
+                                            {/* Password Input */}
+                                            <div className="col-md-12">
+                                                <label htmlFor="password">Password</label>
+                                                <input
+                                                    id="password"
+                                                    type="password"
+                                                    className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                                                    name="password"
+                                                    value={formData.password}
+                                                    onChange={handleChange}
+                                                    required
+                                                />
+                                                {errors.password && (
+                                                    <span className="invalid-feedback" role="alert">
+                                                        <strong>{errors.password}</strong>
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
 
-                                <div className=" form-check mt-5 mb-1">
-                                    <input
-                                        type="checkbox"
-                                        className="form-check-input"
-                                        id="remember"
-                                        name="remember"
-                                        checked={formData.remember}
-                                        onChange={handleChange}
-                                    />
-                                    <label className="form-check-label" htmlFor="remember">
-                                        Keep me signed in
-                                    </label>
-                                </div>
-                                <div className='row mt-3'>
-                                    <label className="form-check-label pointer" onClick={forgotPassword}>
-                                        Forgot your password?
-                                    </label>
-                                </div>
+                                        <div className=" form-check mt-5 mb-1">
+                                            <input
+                                                type="checkbox"
+                                                className="form-check-input"
+                                                id="remember"
+                                                name="remember"
+                                                checked={formData.remember}
+                                                onChange={handleChange}
+                                            />
+                                            <label className="form-check-label" htmlFor="remember">
+                                                Keep me signed in
+                                            </label>
+                                        </div>
+                                        <div className='row mt-3'>
+                                            <label className="form-check-label pointer" onClick={forgotPassword}>
+                                                Forgot your password?
+                                            </label>
+                                        </div>
 
-                                {/* Submit Button */}
-                                <div className='row'>
-                                <div className="mb-0 mt-2">
-                                    <Button
-                                        text={loading ? "Loading..." : "Login"}
-                                        onClick={handleSubmit}
-                                        className="btn-primary"
-                                        disabled={loading}
-                                        type="submit"
-                                    />
+                                        {/* Submit Button */}
+                                        <div className='row'>
+                                            <div className="mb-0 mt-2">
+                                                <Button
+                                                    text={loading ? "Loading..." : "Login"}
+                                                    onClick={handleSubmit}
+                                                    className="btn-primary"
+                                                    disabled={loading}
+                                                    type="submit"
+                                                />
 
-                                    <Button
-                                        text="Register"
-                                        onClick={redirectToRegister}
-                                        className="btn-secondarys ms-3 "
-                                        type="submit"
-                                    />
+                                                <Button
+                                                    text="Register"
+                                                    onClick={redirectToRegister}
+                                                    className="btn-secondarys ms-3 "
+                                                    type="submit"
+                                                />
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            </div>
                 <ToastContainer />
                 <Modal
                     show={showInvalidModal}
@@ -221,12 +230,12 @@ const Login = () => {
                         <Modal.Title>Invalid Credentials</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
-                        <p>Your password may be incorrect or forgotten.</p>
+                        <p>Please reset your password to continue accessing your account.</p>
                         <a
                             href="/forgotPassword"
                             style={{ color: '#007bff', textDecoration: 'underline', fontWeight: 500 }}
                         >
-                            Forgot Password?
+                            Reset Password?
                         </a>
                     </Modal.Body>
                     <Modal.Footer>
@@ -238,7 +247,7 @@ const Login = () => {
                     </Modal.Footer>
                 </Modal>
 
-            <Footer />
+                <Footer />
             </div>
         </React.Fragment>
     );
