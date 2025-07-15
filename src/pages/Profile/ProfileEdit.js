@@ -24,9 +24,9 @@ const ProfileEdit = ({ user, onSave, onCancel }) => {
         confirmPassword: "",
         sendEmail: false,
         status: "",
-        contact: "",
+        contact_no: "",
         country: "",
-        companyName: ""
+        company_name: ""
     });
 
     const [errors, setErrors] = useState({});
@@ -41,9 +41,9 @@ const ProfileEdit = ({ user, onSave, onCancel }) => {
                 username: user?.username || "",
                 email: user?.email || "",
                 name: user?.name || "",
-                contact: user?.contact || "",
+                contact_no: user?.contact_no || "",
                 country: user?.country || "",
-                companyName: user?.companyName || "",
+                company_name: user?.company_name || "",
                 role: user?.role || "",
                 status: user?.status || "approve",
                 password: "",
@@ -67,34 +67,41 @@ const ProfileEdit = ({ user, onSave, onCancel }) => {
     const validateForm = () => {
         const newErrors = {};
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        const contactRegex = /^[0-9]$/;
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
         const nameRegex = /^[a-zA-Z\s'-]+$/;
 
-        // First Name
-        if (!formData.first_name) {
-            newErrors.first_name = "First name is required.";
-        } else if (formData.first_name.length < 3) {
-            newErrors.first_name = "First name must be at least 3 characters long.";
-        } else if (!nameRegex.test(formData.first_name)) {
-            newErrors.first_name = "First name can only contain letters, spaces, hyphens, and apostrophes.";
-        }
-        // Last Name
-        if (!formData.last_name) {
-            newErrors.last_name = "Last name is required.";
-        } else if (formData.last_name.length < 3) {
-            newErrors.last_name = "Last name must be at least 3 characters long.";
-        } else if (!nameRegex.test(formData.last_name)) {
-            newErrors.last_name = "Last name can only contain letters, spaces, hyphens, and apostrophes.";
-        }
+        // Helper for length check
+        const checkLength = (value, min, max) => value.length < min ? `must be at least ${min} characters long.` : value.length > max ? `cannot exceed ${max} characters.` : null;
+
+        // Name fields
+        [
+            { key: 'first_name', label: 'First name' },
+            { key: 'last_name', label: 'Last name' }
+        ].forEach(({ key, label }) => {
+            const val = formData[key];
+            if (!val) {
+                newErrors[key] = `${label} is required.`;
+            } else if (checkLength(val, 3, 30)) {
+                newErrors[key] = `${label} ${checkLength(val, 3, 30)}`;
+            } else if (!nameRegex.test(val)) {
+                newErrors[key] = `${label} can only contain letters, spaces, hyphens, and apostrophes.`;
+            }
+        });
+
         // Username
-        if (!formData.username) newErrors.username = "Username is required";
+        if (!formData.username) {
+            newErrors.username = "Username is required";
+        } else if (checkLength(formData.username, 3, 30)) {
+            newErrors.username = `Username ${checkLength(formData.username, 3, 30)}`;
+        }
+
         // Email
         if (!formData.email) {
             newErrors.email = "Email is required.";
         } else if (!emailRegex.test(formData.email)) {
             newErrors.email = "Please enter a valid email address.";
         }
+
         // Password (only if provided)
         if (formData.password) {
             if (!passwordRegex.test(formData.password)) {
@@ -104,20 +111,25 @@ const ProfileEdit = ({ user, onSave, onCancel }) => {
                 newErrors.password = "Passwords do not match.";
             }
         }
+
         // Contact
-        if (!formData.contact) {
-            newErrors.contact = "Contact number is required.";
-        } else if (!/^[0-9]+$/.test(formData.contact)) {
-            newErrors.contact = "Contact number must contain only numbers.";
-        } else if (formData.contact.length < 8 || formData.contact.length > 15) {
-            newErrors.contact = "Contact number must be between 8 and 15 digits.";
+        if (!formData.contact_no) {
+            newErrors.contact_no = "Contact number is required.";
+        } else if (!/^[0-9]+$/.test(formData.contact_no)) {
+            newErrors.contact_no = "Contact number must contain only numbers.";
+        } else if (formData.contact_no.length < 8 || formData.contact_no.length > 15) {
+            newErrors.contact_no = "Contact number must be between 8 and 15 digits.";
         }
 
-        // if (!formData.country) newErrors.country = "Country is required";
-        // if (!formData.companyName) newErrors.companyName = "Company Name is required";
+        // Company Name (optional)
+        if (formData.company_name) {
+            if (checkLength(formData.company_name, 3, 30)) {
+                newErrors.company_name = `Company name ${checkLength(formData.company_name, 3, 30)}`;
+            }
+        }
 
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0; // Return true if no errors
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = (e) => {
@@ -213,26 +225,26 @@ const ProfileEdit = ({ user, onSave, onCancel }) => {
                                             <Form.Label>Contact</Form.Label>
                                             <Form.Control
                                                 type="text"
-                                                name="contact"
-                                                value={formData.contact}
+                                                name="contact_no"
+                                                value={formData.contact_no}
                                                 onChange={handleChange}
-                                                isInvalid={errors.contact}
+                                                isInvalid={errors.contact_no}
                                                 required
                                             />
-                                            {errors.contact && <Form.Control.Feedback type="invalid">{errors.contact}</Form.Control.Feedback>}
+                                            {errors.contact_no && <Form.Control.Feedback type="invalid">{errors.contact_no}</Form.Control.Feedback>}
                                         </Form.Group>
 
-                                        <Form.Group controlId="companyName" className="mb-3">
+                                        <Form.Group controlId="company_name" className="mb-3">
                                             <Form.Label>Company Name</Form.Label>
                                             <Form.Control
                                                 type="text"
-                                                name="companyName"
-                                                value={formData.companyName}
+                                                name="company_name"
+                                                value={formData.company_name}
                                                 onChange={handleChange}
-                                                isInvalid={errors.companyName}
+                                                isInvalid={errors.company_name}
                                                 required
                                             />
-                                            {errors.companyName && <Form.Control.Feedback type="invalid">{errors.companyName}</Form.Control.Feedback>}
+                                            {errors.company_name && <Form.Control.Feedback type="invalid">{errors.company_name}</Form.Control.Feedback>}
                                         </Form.Group>
 
 
