@@ -373,6 +373,7 @@ const ProfilePage = () => {
                                   required
                                   placeholder="Enter your email"
                                   value={pwEmail}
+                                  disabled
                                   onChange={e => setPwEmail(e.target.value)}
                                   style={{ width: '100%', padding: '8px', fontSize: '14px', border: '1px solid #ccc', borderRadius: '4px' }}
                                 />
