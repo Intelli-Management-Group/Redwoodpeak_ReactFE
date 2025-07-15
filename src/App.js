@@ -19,9 +19,6 @@ import Login from './pages/Login/Login';
 import Registration from './pages/Registration/Registration';
 import AuthProtectedRoute from './pages/Component/AuthProtectorComponents/AuthProtectorComponents';
 import Profile from "./pages/Profile/Profile";
-import ChangePassword from "./pages/Component/ChangePassword/ChangePassword";
-import ProfileEdit from "./pages/Profile/ProfileEdit";
-import ProfileView from "./pages/Profile/ProfileView";
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import UpdatePassword from './pages/UpdatePassword/updatePassword';
 
@@ -45,9 +42,7 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Registration/>}/>
         <Route path='/Profile' element={<Profile/>}/>
-        <Route path='/ChangePassword' element={<ChangePassword/>}/>
-        <Route path='/ProfileEdit' element={<ProfileEdit/>}/>
-        <Route path='/ProfileView' element={<ProfileView/>}/>
+
         <Route path='/forgotPassword' element={<ForgotPassword/>}/>
         <Route path="/update-password" element={<UpdatePassword />} />
 
