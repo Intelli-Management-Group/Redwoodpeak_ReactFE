@@ -106,25 +106,35 @@ const Registration = () => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
     const nameRegex = /^[a-zA-Z\s'-]+$/;
-    if (!formData.firstName) {
-      errors.firstName = "First name is required.";
-    } else if (formData.firstName.length < 3) {
-      errors.firstName = "First name must be at least 3 characters long.";
-    } else if (!nameRegex.test(formData.firstName)) {
-      errors.firstName = "First name can only contain letters, spaces, hyphens, and apostrophes.";
-    }
-    if (!formData.lastName) {
-      errors.lastName = "Last name is required.";
-    } else if (formData.lastName.length < 3) {
-      errors.lastName = "Last name must be at least 3 characters long.";
-    } else if (!nameRegex.test(formData.lastName)) {
-      errors.lastName = "Last name can only contain letters, spaces, hyphens, and apostrophes.";
-    }
+    const checkLength = (value, min, max) => {
+      if (value.length < min) return `must be at least ${min} characters long.`;
+      if (value.length > max) return `cannot exceed ${max} characters.`;
+      return null;
+    };
+
+    // Name fields
+    [
+      { key: 'firstName', label: 'First name' },
+      { key: 'lastName', label: 'Last name' }
+    ].forEach(({ key, label }) => {
+      const val = formData[key];
+      if (!val) {
+        errors[key] = `${label} is required.`;
+      } else if (checkLength(val, 3, 30)) {
+        errors[key] = `${label} ${checkLength(val, 3, 30)}`;
+      } else if (!nameRegex.test(val)) {
+        errors[key] = `${label} can only contain letters, spaces, hyphens, and apostrophes.`;
+      }
+    });
+
+    // Email
     if (!formData.email) {
       errors.email = "Email is required.";
     } else if (!emailRegex.test(formData.email)) {
       errors.email = "Please enter a valid email address.";
     }
+
+    // Password
     if (!formData.password) {
       errors.password = "Password is required.";
     } else if (!passwordRegex.test(formData.password)) {
@@ -133,12 +143,26 @@ const Registration = () => {
     if (formData.password !== formData.confirmPassword) {
       errors.confirmPassword = "Passwords do not match.";
     }
+
+    // Contact
     if (!formData.contact) {
       errors.contact = "Contact number is required.";
     } else if (!/^[0-9]+$/.test(formData.contact)) {
       errors.contact = "Contact number must contain only numbers.";
     } else if (formData.contact.length < 8 || formData.contact.length > 15) {
       errors.contact = "Contact number must be between 8 and 15 digits.";
+    }
+
+    // Company Name (optional)
+    if (formData.companyName) {
+      const err = checkLength(formData.companyName, 3, 30);
+      if (err) errors.companyName = `Company name ${err}`;
+    }
+
+    // Position (optional)
+    if (formData.position) {
+      const err = checkLength(formData.position, 3, 30);
+      if (err) errors.position = `Position ${err}`;
     }
 
     return errors;
