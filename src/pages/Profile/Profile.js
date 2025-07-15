@@ -434,7 +434,6 @@ const ProfilePage = () => {
                             </div>
                           </div>
                         </div>
-                        <ToastContainer />
                       </Modal.Body>
                     </Modal>
 
