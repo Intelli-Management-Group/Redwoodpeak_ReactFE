@@ -36,6 +36,8 @@ const ProfilePage = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [focusedField, setFocusedField] = useState("");
+  const [submitted, setSubmitted] = useState(false);
   // Password modal state
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [pwEmail, setPwEmail] = useState("");
@@ -75,6 +77,20 @@ const ProfilePage = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setIsEdited(true);
+    // Validate only the changed field
+    const fieldError = validateField(name, value, { ...formData, [name]: value });
+    setErrors(prev => {
+      const newErrors = { ...prev, [name]: fieldError };
+      if (!fieldError) delete newErrors[name];
+      return newErrors;
+    });
+  };
+  const handleFocus = (e) => {
+    setFocusedField(e.target.name);
+  };
+
+  const handleBlur = (e) => {
+    setFocusedField("");
   };
 
   const handleCountryChange = (selectedOption) => {
@@ -82,77 +98,72 @@ const ProfilePage = () => {
     setIsEdited(true);
   };
 
-  const validateForm = () => {
-    const newErrors = {};
+  const validateField = (name, value, allData) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
     const nameRegex = /^[a-zA-Z\s'-]+$/;
+    const checkLength = (val, min, max) => {
+      if (val.length < min) return `must be at least ${min} characters long.`;
+      if (val.length > max) return `cannot exceed ${max} characters.`;
+      return null;
+    };
+    switch (name) {
+      case "first_name":
+        if (!value) return "First name is required.";
+        if (checkLength(value, 3, 30)) return `First name ${checkLength(value, 3, 30)}`;
+        if (!nameRegex.test(value)) return "First name can only contain letters, spaces, hyphens, and apostrophes.";
+        break;
+      case "last_name":
+        if (!value) return "Last name is required.";
+        if (checkLength(value, 3, 30)) return `Last name ${checkLength(value, 3, 30)}`;
+        if (!nameRegex.test(value)) return "Last name can only contain letters, spaces, hyphens, and apostrophes.";
+        break;
+      case "username":
+        if (!value) return "Username is required";
+        if (checkLength(value, 3, 30)) return `Username ${checkLength(value, 3, 30)}`;
+        break;
+      case "email":
+        if (!value) return "Email is required.";
+        if (!emailRegex.test(value)) return "Please enter a valid email address.";
+        break;
+      case "password":
+        if (value && !passwordRegex.test(value)) return "Password must contain at least one lowercase letter, one uppercase letter, and one number.";
+        if (value && value !== allData.confirmPassword) return "Passwords do not match.";
+        break;
+      case "confirmPassword":
+        if (allData.password && value !== allData.password) return "Passwords do not match.";
+        break;
+      case "contact_no":
+        if (!value) return "Contact number is required.";
+        if (!/^[0-9]+$/.test(value)) return "Contact number must contain only numbers.";
+        if (value.length < 8 || value.length > 15) return "Contact number must be between 8 and 15 digits.";
+        break;
+      case "company_name":
+        if (value) {
+          const err = checkLength(value, 3, 30);
+          if (err) return `Company name ${err}`;
+        }
+        break;
+      default:
+        return null;
+    }
+    return null;
+  };
 
-    // Helper for length check
-    const checkLength = (value, min, max) => value.length < min ? `must be at least ${min} characters long.` : value.length > max ? `cannot exceed ${max} characters.` : null;
-
-    // Name fields
-    [
-      { key: 'first_name', label: 'First name' },
-      { key: 'last_name', label: 'Last name' }
-    ].forEach(({ key, label }) => {
-      const val = formData[key];
-      if (!val) {
-        newErrors[key] = `${label} is required.`;
-      } else if (checkLength(val, 3, 30)) {
-        newErrors[key] = `${label} ${checkLength(val, 3, 30)}`;
-      } else if (!nameRegex.test(val)) {
-        newErrors[key] = `${label} can only contain letters, spaces, hyphens, and apostrophes.`;
-      }
+  const validateForm = () => {
+    const newErrors = {};
+    Object.keys(formData).forEach((key) => {
+      const err = validateField(key, formData[key], formData);
+      if (err) newErrors[key] = err;
     });
-
-    // Username
-    if (!formData.username) {
-      newErrors.username = "Username is required";
-    } else if (checkLength(formData.username, 3, 30)) {
-      newErrors.username = `Username ${checkLength(formData.username, 3, 30)}`;
-    }
-
-    // Email
-    if (!formData.email) {
-      newErrors.email = "Email is required.";
-    } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address.";
-    }
-
-    // Password (only if provided)
-    if (formData.password) {
-      if (!passwordRegex.test(formData.password)) {
-        newErrors.password = "Password must contain at least one lowercase letter, one uppercase letter, and one number.";
-      }
-      if (formData.password !== formData.confirmPassword) {
-        newErrors.password = "Passwords do not match.";
-      }
-    }
-
-    // Contact
-    if (!formData.contact_no) {
-      newErrors.contact_no = "Contact number is required.";
-    } else if (!/^[0-9]+$/.test(formData.contact_no)) {
-      newErrors.contact_no = "Contact number must contain only numbers.";
-    } else if (formData.contact_no.length < 8 || formData.contact_no.length > 15) {
-      newErrors.contact_no = "Contact number must be between 8 and 15 digits.";
-    }
-
-    // Company Name (optional)
-    if (formData.company_name) {
-      if (checkLength(formData.company_name, 3, 30)) {
-        newErrors.company_name = `Company name ${checkLength(formData.company_name, 3, 30)}`;
-      }
-    }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setSubmitted(true);
+    setLoading(true);
     if (validateForm()) {
       try {
         const formdata = new FormData();
@@ -277,10 +288,12 @@ const ProfilePage = () => {
                         name="first_name"
                         value={formData.first_name}
                         onChange={handleChange}
-                        isInvalid={errors.first_name}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        isInvalid={errors.first_name && (focusedField === "first_name" || submitted)}
                         required
                       />
-                      {errors.first_name && <Form.Control.Feedback type="invalid">{errors.first_name}</Form.Control.Feedback>}
+                      {errors.first_name && (focusedField === "first_name" || submitted) && <Form.Control.Feedback type="invalid">{errors.first_name}</Form.Control.Feedback>}
                     </Form.Group>
 
                     <Form.Group controlId="lastName" className="mb-3">
@@ -290,10 +303,12 @@ const ProfilePage = () => {
                         name="last_name"
                         value={formData.last_name}
                         onChange={handleChange}
-                        isInvalid={errors.last_name}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        isInvalid={errors.last_name && (focusedField === "last_name" || submitted)}
                         required
                       />
-                      {errors.last_name && <Form.Control.Feedback type="invalid">{errors.last_name}</Form.Control.Feedback>}
+                      {errors.last_name && (focusedField === "last_name" || submitted) && <Form.Control.Feedback type="invalid">{errors.last_name}</Form.Control.Feedback>}
                     </Form.Group>
 
                     <Form.Group controlId="username" className="mb-3">
@@ -303,10 +318,12 @@ const ProfilePage = () => {
                         name="username"
                         value={formData.username}
                         onChange={handleChange}
-                        isInvalid={errors.username}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        isInvalid={errors.username && (focusedField === "username" || submitted)}
                         required
                       />
-                      {errors.username && <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>}
+                      {errors.username && (focusedField === "username" || submitted) && <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>}
                     </Form.Group>
 
                     <Form.Group controlId="email" className="mb-3">
@@ -460,10 +477,12 @@ const ProfilePage = () => {
                         name="contact_no"
                         value={formData.contact_no}
                         onChange={handleChange}
-                        isInvalid={errors.contact_no}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        isInvalid={errors.contact_no && (focusedField === "contact_no" || submitted)}
                         required
                       />
-                      {errors.contact_no && <Form.Control.Feedback type="invalid">{errors.contact_no}</Form.Control.Feedback>}
+                      {errors.contact_no && (focusedField === "contact_no" || submitted) && <Form.Control.Feedback type="invalid">{errors.contact_no}</Form.Control.Feedback>}
                     </Form.Group>
 
                     <Form.Group controlId="company_name" className="mb-3">
@@ -473,10 +492,12 @@ const ProfilePage = () => {
                         name="company_name"
                         value={formData.company_name}
                         onChange={handleChange}
-                        isInvalid={errors.company_name}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        isInvalid={errors.company_name && (focusedField === "company_name" || submitted)}
                         required
                       />
-                      {errors.company_name && <Form.Control.Feedback type="invalid">{errors.company_name}</Form.Control.Feedback>}
+                      {errors.company_name && (focusedField === "company_name" || submitted) && <Form.Control.Feedback type="invalid">{errors.company_name}</Form.Control.Feedback>}
                     </Form.Group>
 
 

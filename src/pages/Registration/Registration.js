@@ -32,6 +32,8 @@ const Registration = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [focusedField, setFocusedField] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -40,10 +42,84 @@ const Registration = () => {
   // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
+    const updatedFormData = {
       ...formData,
       [name]: value,
+    };
+    setFormData(updatedFormData);
+    // Validate only the changed field
+    const fieldError = validateField(name, value, updatedFormData);
+    setErrors(prev => {
+      const newErrors = { ...prev, [name]: fieldError };
+      // If field is valid, remove error
+      if (!fieldError) delete newErrors[name];
+      return newErrors;
     });
+  };
+
+  const handleFocus = (e) => {
+    setFocusedField(e.target.name);
+  };
+
+  const handleBlur = (e) => {
+    setFocusedField("");
+    // Optionally validate all fields on blur
+    // setErrors(validateFormData(formData));
+  };
+
+  // Validate a single field
+  const validateField = (name, value, allData) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+    const nameRegex = /^[a-zA-Z\s'-]+$/;
+    const checkLength = (val, min, max) => {
+      if (val.length < min) return `must be at least ${min} characters long.`;
+      if (val.length > max) return `cannot exceed ${max} characters.`;
+      return null;
+    };
+    switch (name) {
+      case "firstName":
+        if (!value) return "First name is required.";
+        if (checkLength(value, 3, 30)) return `First name ${checkLength(value, 3, 30)}`;
+        if (!nameRegex.test(value)) return "First name can only contain letters, spaces, hyphens, and apostrophes.";
+        break;
+      case "lastName":
+        if (!value) return "Last name is required.";
+        if (checkLength(value, 3, 30)) return `Last name ${checkLength(value, 3, 30)}`;
+        if (!nameRegex.test(value)) return "Last name can only contain letters, spaces, hyphens, and apostrophes.";
+        break;
+      case "email":
+        if (!value) return "Email is required.";
+        if (!emailRegex.test(value)) return "Please enter a valid email address.";
+        break;
+      case "password":
+        if (!value) return "Password is required.";
+        if (!passwordRegex.test(value)) return "Password must contain at least one lowercase letter, one uppercase letter, and one number.";
+        break;
+      case "confirmPassword":
+        if (value !== allData.password) return "Passwords do not match.";
+        break;
+      case "contact":
+        if (!value) return "Contact number is required.";
+        if (!/^[0-9]+$/.test(value)) return "Contact number must contain only numbers.";
+        if (value.length < 8 || value.length > 15) return "Contact number must be between 8 and 15 digits.";
+        break;
+      case "companyName":
+        if (value) {
+          const err = checkLength(value, 3, 30);
+          if (err) return `Company name ${err}`;
+        }
+        break;
+      case "position":
+        if (value) {
+          const err = checkLength(value, 3, 30);
+          if (err) return `Position ${err}`;
+        }
+        break;
+      default:
+        return null;
+    }
+    return null;
   };
 
   const handleCountryChange = (selectedOption) => {
@@ -58,6 +134,7 @@ const Registration = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitted(true);
     setLoading(true);
 
     const validationErrors = validateFormData(formData);
@@ -236,13 +313,15 @@ const Registration = () => {
                       <input
                         id="firstName"
                         type="text"
-                        className={`form-control ${errors.firstName ? "is-invalid" : ""}`}
+                        className={`form-control ${(errors.firstName && (focusedField === "firstName" || submitted)) ? "is-invalid" : ""}`}
                         name="firstName"
                         value={formData.firstName}
                         onChange={handleChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         required
                       />
-                      {errors.firstName && (
+                      {errors.firstName && (focusedField === "firstName" || submitted) && (
                         <div className="invalid-feedback">{errors.firstName}</div>
                       )}
                     </div>
@@ -252,13 +331,15 @@ const Registration = () => {
                       <input
                         id="lastName"
                         type="text"
-                        className={`form-control ${errors.lastName ? "is-invalid" : ""}`}
+                        className={`form-control ${(errors.lastName && (focusedField === "lastName" || submitted)) ? "is-invalid" : ""}`}
                         name="lastName"
                         value={formData.lastName}
                         onChange={handleChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         required
                       />
-                      {errors.lastName && (
+                      {errors.lastName && (focusedField === "lastName" || submitted) && (
                         <div className="invalid-feedback">{errors.lastName}</div>
                       )}
                     </div>
@@ -285,13 +366,15 @@ const Registration = () => {
                       <input
                         id="email"
                         type="email"
-                        className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                        className={`form-control ${(errors.email && (focusedField === "email" || submitted)) ? "is-invalid" : ""}`}
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         required
                       />
-                      {errors.email && (
+                      {errors.email && (focusedField === "email" || submitted) && (
                         <div className="invalid-feedback">{errors.email}</div>
                       )}
                     </div>
@@ -306,13 +389,15 @@ const Registration = () => {
                       <input
                         id="password"
                         type="password"
-                        className={`form-control ${errors.password ? "is-invalid" : ""}`}
+                        className={`form-control ${(errors.password && (focusedField === "password" || submitted)) ? "is-invalid" : ""}`}
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         required
                       />
-                      {errors.password && (
+                      {errors.password && (focusedField === "password" || submitted) && (
                         <div className="invalid-feedback">{errors.password}</div>
                       )}
                     </div>
@@ -322,13 +407,15 @@ const Registration = () => {
                       <input
                         id="confirmPassword"
                         type="password"
-                        className={`form-control ${errors.confirmPassword ? "is-invalid" : ""}`}
+                        className={`form-control ${(errors.confirmPassword && (focusedField === "confirmPassword" || submitted)) ? "is-invalid" : ""}`}
                         name="confirmPassword"
                         value={formData.confirmPassword}
                         onChange={handleChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         required
                       />
-                      {errors.confirmPassword && (
+                      {errors.confirmPassword && (focusedField === "confirmPassword" || submitted) && (
                         <div className="invalid-feedback">{errors.confirmPassword}</div>
                       )}
                     </div>
@@ -337,17 +424,19 @@ const Registration = () => {
                   {/* contact & Country */}
                   <div className="row mt-4">
                     <div className="col-md-6">
-                      <label htmlFor="contact">Contact</label>
+                      <label htmlFor="contact">Contact <span style={{ color: "red" }}>*</span></label>
                       <input
                         id="contact"
                         type="text"
-                        className={`form-control ${errors.contact ? "is-invalid" : ""}`}
+                        className={`form-control ${(errors.contact && (focusedField === "contact" || submitted)) ? "is-invalid" : ""}`}
                         name="contact"
                         value={formData.contact}
                         onChange={handleChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         required
                       />
-                      {errors.contact && (
+                      {errors.contact && (focusedField === "contact" || submitted) && (
                         <div className="invalid-feedback">{errors.contact}</div>
                       )}
                     </div>
@@ -393,13 +482,15 @@ const Registration = () => {
                       <input
                         id="companyName"
                         type="text"
-                        className={`form-control ${errors.companyName ? "is-invalid" : ""}`}
+                        className={`form-control ${(errors.companyName && (focusedField === "companyName" || submitted)) ? "is-invalid" : ""}`}
                         name="companyName"
                         value={formData.companyName}
                         onChange={handleChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         required
                       />
-                      {errors.companyName && (
+                      {errors.companyName && (focusedField === "companyName" || submitted) && (
                         <div className="invalid-feedback">{errors.companyName}</div>
                       )}
                     </div>
@@ -408,13 +499,15 @@ const Registration = () => {
                       <input
                         id="position"
                         type="text"
-                        className={`form-control ${errors.position ? "is-invalid" : ""}`}
+                        className={`form-control ${(errors.position && (focusedField === "position" || submitted)) ? "is-invalid" : ""}`}
                         name="position"
                         value={formData.position}
                         onChange={handleChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         required
                       />
-                      {errors.position && (
+                      {errors.position && (focusedField === "position" || submitted) && (
                         <div className="invalid-feedback">{errors.position}</div>
                       )}
                     </div>
