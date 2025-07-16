@@ -407,7 +407,21 @@ const ProfilePage = () => {
                                   required
                                   placeholder="Enter your new password"
                                   value={pwPassword}
-                                  onChange={e => setPwPassword(e.target.value)}
+                                  onChange={e => {
+                                    setPwPassword(e.target.value);
+                                    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+                                    if (!e.target.value) {
+                                      setPwPasswordError("Password is required.");
+                                    } else if (!passwordRegex.test(e.target.value)) {
+                                      setPwPasswordError("Password must contain at least one lowercase letter, one uppercase letter, and one number.");
+                                    } else if (pwConfirmPassword && e.target.value !== pwConfirmPassword) {
+                                      setPwPasswordError("");
+                                      setPwConfirmPasswordError("Passwords do not match.");
+                                    } else {
+                                      setPwPasswordError("");
+                                      setPwConfirmPasswordError("");
+                                    }
+                                  }}
                                   style={{ width: '100%', padding: '8px', fontSize: '14px', border: '1px solid #ccc', borderRadius: '4px' }}
                                 />
                                 {pwPasswordError && <div style={{ color: 'red', fontSize: '12px' }}>{pwPasswordError}</div>}
@@ -422,7 +436,16 @@ const ProfilePage = () => {
                                   required
                                   placeholder="Confirm your new password"
                                   value={pwConfirmPassword}
-                                  onChange={e => setPwConfirmPassword(e.target.value)}
+                                  onChange={e => {
+                                    setPwConfirmPassword(e.target.value);
+                                    if (!e.target.value) {
+                                      setPwConfirmPasswordError("Confirm password is required.");
+                                    } else if (pwPassword && e.target.value !== pwPassword) {
+                                      setPwConfirmPasswordError("Passwords do not match.");
+                                    } else {
+                                      setPwConfirmPasswordError("");
+                                    }
+                                  }}
                                   style={{ width: '100%', padding: '8px', fontSize: '14px', border: '1px solid #ccc', borderRadius: '4px' }}
                                 />
                                 {pwConfirmPasswordError && <div style={{ color: 'red', fontSize: '12px' }}>{pwConfirmPasswordError}</div>}
