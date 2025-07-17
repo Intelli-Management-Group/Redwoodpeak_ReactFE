@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css'; 
+import './index.css';
 import OurMission from './pages/About/OurMission';
 import OverView from './pages/About/Overview';
 import SeniorTeam from './pages/About/SeniorTeam';
@@ -21,6 +21,7 @@ import AuthProtectedRoute from './pages/Component/AuthProtectorComponents/AuthPr
 import Profile from "./pages/Profile/Profile";
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import UpdatePassword from './pages/UpdatePassword/updatePassword';
+import NotFound from './pages/NotFound/NotFound';
 
 function App() {
   return (
@@ -39,14 +40,15 @@ function App() {
         <Route path="/hedge-fund-reports" element={<AuthProtectedRoute element={<HedgeFundReports />} />} />
         <Route path="/managed-account-reports" element={<AuthProtectedRoute element={<ManagedAccountReports />} />} />
         <Route path="/contact-us" element={<ContactUs />} />
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/register' element={<Registration/>}/>
-        <Route path='/Profile' element={<Profile/>}/>
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Registration />} />
+        <Route path='/Profile' element={<Profile />} />
 
-        <Route path='/forgotPassword' element={<ForgotPassword/>}/>
+        <Route path='/forgotPassword' element={<ForgotPassword />} />
         <Route path="/update-password" element={<UpdatePassword />} />
+        <Route path="*" element={<NotFound />} />
 
-        </Routes>
+      </Routes>
     </BrowserRouter>
   );
 }
