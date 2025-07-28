@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -23,6 +23,30 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import UpdatePassword from './pages/UpdatePassword/updatePassword';
 import NotFound from './pages/NotFound/NotFound';
 import Analytics from './Analytics';
+
+function KeywordRedirectNotFound() {
+  const location = useLocation();
+  const keywords = [
+    "Opportunities-Master-Fund-Monthly-Portfolio",
+    "China – Portfolio Summary",
+    "Redwood Peak Opportunities Master Fund",
+    "Redwood Peak – China Outlook Q",
+    "Redwood Peak China – Portfolio Summary ",
+    "Redwood Peak Opportunities Fund Shareholders Letter",
+    "Redwood Peak Opportunities Master Fund – Performance Analysis"
+  ];
+  let url = location.pathname + location.search;
+  try {
+    url = decodeURIComponent(url);
+  } catch (e) {
+    //Redirect to Orignal Url
+  }
+  const urlLower = url.toLowerCase();
+  if (keywords.some(keyword => urlLower.includes(keyword.toLowerCase()))) {
+    return <Navigate to="/" replace />;
+  }
+  return <NotFound />;
+}
 
 function App() {
 
@@ -49,7 +73,7 @@ function App() {
 
         <Route path='/forgotPassword' element={<ForgotPassword />} />
         <Route path="/update-password" element={<UpdatePassword />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<KeywordRedirectNotFound />} />
 
       </Routes>
     </BrowserRouter>
