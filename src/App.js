@@ -22,18 +22,13 @@ import Profile from "./pages/Profile/Profile";
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import UpdatePassword from './pages/UpdatePassword/updatePassword';
 import NotFound from './pages/NotFound/NotFound';
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import ReactGA from "react-ga4";
+import Analytics from './Analytics';
 
 function App() {
-  const location = useLocation();
-  useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: location.pathname + location.search });
-  }, [location]);
 
   return (
     <BrowserRouter>
+      <Analytics />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/our-mission" element={<OurMission />} />
