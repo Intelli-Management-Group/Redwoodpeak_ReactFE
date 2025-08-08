@@ -25,9 +25,9 @@ const ManagedAccount = () => {
                 {/* Main Content */}
                 <div className="container mb-5">
                     <div className="container-custom mt-1 mb-5 p-4">
-                        {/*<h1 className="header-post-title-class">Managed Account</h1>*/}
+                        {/*<h1 className="header-post-title-className">Managed Account</h1>*/}
 
-                        <div class="mt-3">
+                        <div className="mt-3">
                             <p>
                                 Leveraging on our research and investment capabilities, we provide managed account services. We partner with our clients and customize the investment strategy to achieve their unique investment goals. Our platform allows us to offer high quality and tailored investment and advisory services. Investors have engaged us to manage a combination of these portfolios:
                             </p>

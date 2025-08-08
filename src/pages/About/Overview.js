@@ -24,10 +24,10 @@ const OverView = () => {
                 {/* Main Content */}
                 <div className="container mb-5">
                     <div className="container-custom mt-1 mb-5 p-4">
-                        {/*<h1 className="header-post-title-class">Overview</h1>*/}
+                        {/*<h1 className="header-post-title-className">Overview</h1>*/}
 
-                        <div class="mt-3">
-                            <h3 class="fancytitle mb-5">
+                        <div className="mt-3">
+                            <h3 className="fancytitle mb-5">
                                 <em>“Our paramount objective is to serve our client’s investment goals.”</em>
                             </h3>
                             <p>

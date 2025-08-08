@@ -26,9 +26,9 @@ const HedgeFund = () => {
                 {/* Main Content */}
                 <div className="container mb-5">
                     <div className="container-custom mt-1 mb-5 p-4">
-                        {/*<h1 className="header-post-title-class">Hedge Fund</h1>*/}
+                        {/*<h1 className="header-post-title-className">Hedge Fund</h1>*/}
 
-                        <div class="mt-3">
+                        <div className="mt-3">
                             <p>
                                 Redwood Peak Opportunities Fund (the “Fund”)* is an Equity, Long-Short Fund launched in January 2007, formerly known as the Chilton China Opportunities Fund.  The Fund aims to produce superior investment returns throughout various market cycles by investing in companies located in or with exposure to the Asia Pacific (APAC) region.  Redwood Peak seeks capital appreciation during favorable market conditions while preserving capital in times of financial duress.  The Fund uses a value approach and has a net long bias, but utilizes shorts for both alpha generation and hedging purposes.
                             </p>
