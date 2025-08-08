@@ -282,6 +282,7 @@ const HomePage = () => {
         autoplay: true,
         autoplaySpeed: 3000,
     };
+
     return (
         <React.Fragment>
             {tokenLoading ? (
@@ -338,8 +339,8 @@ const HomePage = () => {
                                             newsData.slice(0, 1).map((news, index) => (
                                                 <React.Fragment key={index}>
                                                     <div>
-                                                        <h5 className="card-title cards-titles" style={{ fontSize: 16 }}>{formatDate(news?.created_at)}</h5>
-                                                        <h2 className="cards-headings text-white">{news?.title}</h2>
+                                                        {/* <h5 className="card-title cards-titles" style={{ fontSize: 16 }}>{formatDate(news?.created_at)}</h5> */}
+                                                        <h2 className="cards-headings text-white">{news?.title && news?.title.length > 90 ? news?.title.slice(0, 90) + '...' : news?.title}</h2>
                                                     </div>
                                                     <div className="p-0 pt-3">
                                                         <Button
