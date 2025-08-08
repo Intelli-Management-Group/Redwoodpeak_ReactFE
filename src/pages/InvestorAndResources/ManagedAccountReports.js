@@ -27,7 +27,7 @@ const ManagedAccountReports = () => {
         try {
             const resp = await pagesServices.getPageList({ documentType });
             if (resp?.status_code === 200) {
-                console.log(resp);
+                // console.log(resp);
                 if (resp?.list?.data) {
                     const publications = resp.list.data.reduce((acc, item) => {
                         if (!acc[item.year]) {

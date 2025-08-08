@@ -151,9 +151,9 @@ const HomePage = () => {
         }
     };
 
-    const handleClick = () => {
-        console.log("Learn more clicked!");
-    };
+    // const handleClick = () => {
+    //     console.log("Learn more clicked!");
+    // };
 
     const getFetchNews = async () => {
         setIsLoading(true);
@@ -192,7 +192,7 @@ const HomePage = () => {
                 body: formData,
             });
             if (resp?.status_code === 200) {
-                console.log("only NEws Data", resp);
+                // console.log("only NEws Data", resp);
                 if (resp?.list?.data) {
                     setVisitData(resp?.list?.data)
                 }
@@ -215,7 +215,7 @@ const HomePage = () => {
         try {
             const resp = await pagesServices.getPageList({ limit, page, documentType });
             if (resp?.status_code === 200) {
-                console.log(resp);
+                // console.log(resp);
                 if (resp?.list?.data) {
                     setOverViewData(resp?.list?.data || []);
                     setIsOverVirewLoading(false)
@@ -244,7 +244,7 @@ const HomePage = () => {
         if (isAuthenticated) {
             window.open(item.file_path, '_blank');
         } else {
-            console.log(showLoginAlert);
+            // console.log(showLoginAlert);
             setShowLoginAlert(true);
         }
     }

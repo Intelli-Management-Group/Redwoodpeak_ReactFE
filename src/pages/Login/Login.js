@@ -74,7 +74,7 @@ const Login = () => {
             delete formDataCopy.remember;
 
             const response = await AuthenticationServices.userLogin(formDataCopy);
-            console.log(response);
+            // console.log(response);
             if (response?.status_code === 200) {
                 const { token, user } = response;
                 if (user?.status === "approve") {

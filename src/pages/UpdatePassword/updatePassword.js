@@ -72,10 +72,10 @@ const UpdatePassword = () => {
       formdata.append("password", password);
 
       const response = await AuthenticationServices.Update_Password_Via_Mail(formdata);
-      console.log(response)
+      // console.log(response)
 
       if (response.status_code === 200) {
-        console.log("Password SuccessFully Update")
+        // console.log("Password SuccessFully Update")
         notifySuccess(`Password Updated Successfully!`);
         setTimeout(() => {
           navigate('/login');

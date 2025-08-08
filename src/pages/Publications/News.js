@@ -15,7 +15,7 @@ import { useLocation } from 'react-router-dom';
 const News = () => {
   // State to track which content is currently displayed
   const location = useLocation();
-  console.log(location.state?.id);
+  // console.log(location.state?.id);
   const [newsData, setNewsData] = useState([]);
   const [selectedContent, setSelectedContent] = useState("");
   const [selectedPost, setSelectedPost] = useState(null);

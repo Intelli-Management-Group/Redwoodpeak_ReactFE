@@ -7,7 +7,7 @@ const isAuthenticated = () => {
 
 const AuthProtectedRoute = ({ element }) => {
   const location = useLocation();
-  console.log(location,"location test")
+  // console.log(location,"location test")
 
   if (!isAuthenticated()) {
     return <Navigate to="/login" state={{ from: location }} replace />;

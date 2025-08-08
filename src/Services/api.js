@@ -20,7 +20,7 @@ instance.interceptors.request.use(function (config) {
   // console.log("isAuthenticated",isAuthenticated)
 
 
-  console.log("TOKEN ====>>", token);
+  // console.log("TOKEN ====>>", token);
 
   if (isAuthenticated && !config.headers['Authorization']) {
     config.headers['Authorization'] = `Bearer ${isAuthenticated}`;

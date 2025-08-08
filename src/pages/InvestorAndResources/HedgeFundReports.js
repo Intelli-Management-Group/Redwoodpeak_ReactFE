@@ -82,7 +82,7 @@ const HedgeFundReports = () => {
   };
 
   const splitDataInColumns = (type) => {
-    console.log(type)
+    // console.log(type)
     const leftColumn = [];
     const rightColumn = [];
 
