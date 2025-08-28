@@ -116,10 +116,10 @@ const Login = () => {
     };
 
     const redirectToRegister = () => {
-        window.location.href = '/register';
+        navigate('/register');
     };
     const forgotPassword = () => {
-        window.location.href = '/forgotPassword';
+        navigate('/forgotPassword');
     }
 
     return (
@@ -231,12 +231,12 @@ const Login = () => {
                     </Modal.Header>
                     <Modal.Body className="text-center">
                         <p>Please reset your password to continue accessing your account.</p>
-                        <a
-                            href="/forgotPassword"
-                            style={{ color: '#007bff', textDecoration: 'underline', fontWeight: 500 }}
-                        >
-                            Reset Password?
-                        </a>
+                        <Button
+                            text="Reset Password?"
+                            onClick={() => navigate('/forgotPassword')}
+                            className="btn-link"
+                            style={{ color: '#007bff', textDecoration: 'underline', fontWeight: 500, background: 'none', border: 'none', padding: 0 }}
+                        />
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
