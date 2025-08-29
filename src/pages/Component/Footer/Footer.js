@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className="footer my-footer-s">
       <div className="container">
         <p className="text-center mb-0 contactSectionFonts">
-          Copyright © {year} Redwoodpeak Limited. All Rights Reserved.
+          Copyright © {year} Redwood Peak Limited. All Rights Reserved.
         </p>
       </div>
     </footer>
