@@ -23,6 +23,7 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import UpdatePassword from './pages/UpdatePassword/updatePassword';
 import NotFound from './pages/NotFound/NotFound';
 import Analytics from './Analytics';
+import NewsVisit from './pages/Publications/NewsAndVist';
 
 function KeywordRedirectNotFound() {
   const location = useLocation();
@@ -70,7 +71,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Registration />} />
         <Route path='/Profile' element={<Profile />} />
-
+        <Route path="/news&visits" element={<AuthProtectedRoute element={<NewsVisit />} />} />
         <Route path='/forgotPassword' element={<ForgotPassword />} />
         <Route path="/update-password" element={<UpdatePassword />} />
         <Route path="*" element={<KeywordRedirectNotFound />} />
