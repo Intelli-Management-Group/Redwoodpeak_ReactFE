@@ -45,7 +45,6 @@ const HomePage = () => {
     const [newsData, setNewsData] = useState([])
     const [tokenLoading, setTokenLoading] = useState(false);
     // const prevLocation = useRef(location);  // Store the previous location
-   
 
     // useEffect(() => {
     //     const handleTokenMessage = (event) => {
@@ -248,13 +247,9 @@ const HomePage = () => {
             setShowLoginAlert(true);
         }
     }
-    function handlePostClick(item, data) {
+    function handlePostClick(data) {
         if (isAuthenticated) {
-            if (item === "news") {
-                navigate('/news', { state: { id: data.id } });
-            } else {
-                navigate('/visits', { state: { id: data.id } });
-            }
+            navigate('/news&visits', { state: { id: data.id } });
         } else {
             setShowLoginAlert(true)
         }
@@ -345,7 +340,7 @@ const HomePage = () => {
                                                     <div className="p-0 pt-3">
                                                         <Button
                                                             text="Learn More"
-                                                            onClick={() => handlePostClick("news", news)}
+                                                            onClick={() => handlePostClick(news)}
                                                             className="cs-btn-primary"
                                                         />
                                                     </div>
@@ -549,7 +544,7 @@ const HomePage = () => {
                                             ) : (
                                                 newsData?.map((news, index) => (
                                                     <li key={index} className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts'>
-                                                        <span className='file-item-name' onClick={() => handlePostClick("news", news)}>
+                                                        <span className='file-item-name' onClick={() => handlePostClick(news)}>
                                                             {news?.title}
                                                         </span>
                                                     </li>
@@ -577,7 +572,7 @@ const HomePage = () => {
                                             ) : (
                                                 visitData.map((visit, index) => (
                                                     <li key={index} className='p-0 ps-3 text-left pointer news-item-name contactSectionFonts'>
-                                                        <span className='file-item-name' onClick={() => handlePostClick("visit", visit)}>
+                                                        <span className='file-item-name' onClick={() => handlePostClick(visit)}>
                                                             {visit?.title}
                                                         </span>
                                                     </li>
