@@ -162,7 +162,7 @@ const HeaderComponents = () => {
                             onMouseLeave={() => handleDropdownToggle(null)}
                         >
                             <Link
-                                className={`nav-link ${openDropdown === "publication" || location?.pathname === "/publications" || location?.pathname === "/news" || location?.pathname === "/visits" ? "active-dropdown" : ""}`}
+                                className={`nav-link ${openDropdown === "publication" || location?.pathname === "/publications" || location?.pathname === "/news&visits" ? "active-dropdown" : ""}`}
                                 to="#"
                                 id="navbarDropdown"
                                 role="button"
