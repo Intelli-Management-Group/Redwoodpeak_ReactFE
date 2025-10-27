@@ -63,15 +63,16 @@ function App() {
         <Route path="/managed-account" element={<ManagedAccount />} />
         <Route path="/our-approach" element={<OurApproach />} />
         <Route path="/publications" element={<AuthProtectedRoute element={<Publications />} />} />
+        <Route path="/news&visits" element={<AuthProtectedRoute element={<NewsVisit />} />} />
+        {/*  //News And Visit combine
         <Route path="/news" element={<AuthProtectedRoute element={<News />} />} />
-        <Route path="/visits" element={<AuthProtectedRoute element={<Visits />} />} />
+        <Route path="/visits" element={<AuthProtectedRoute element={<Visits />} />} /> */}
         <Route path="/hedge-fund-reports" element={<AuthProtectedRoute element={<HedgeFundReports />} />} />
         <Route path="/managed-account-reports" element={<AuthProtectedRoute element={<ManagedAccountReports />} />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Registration />} />
         <Route path='/Profile' element={<Profile />} />
-        <Route path="/news&visits" element={<AuthProtectedRoute element={<NewsVisit />} />} />
         <Route path='/forgotPassword' element={<ForgotPassword />} />
         <Route path="/update-password" element={<UpdatePassword />} />
         <Route path="*" element={<KeywordRedirectNotFound />} />

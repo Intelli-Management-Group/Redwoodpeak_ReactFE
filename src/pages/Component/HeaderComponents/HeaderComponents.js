@@ -79,11 +79,11 @@ const HeaderComponents = () => {
                             </div>
                         )}
                     </div>
-                ): (
+                ) : (
                     <div className='d-flex d-xl-none flex-column justify-content-center align-items-center me-1'>
-                    <Button variant="primary" className="me-2 ms-2 mb-2" onClick={() => handleAuth("login")}>Log In</Button>
-                    <Button variant="primary" onClick={() => handleAuth("signIn")}>Register</Button>
-                  </div>
+                        <Button variant="primary" className="me-2 ms-2 mb-2" onClick={() => handleAuth("login")}>Log In</Button>
+                        <Button variant="primary" onClick={() => handleAuth("signIn")}>Register</Button>
+                    </div>
                 )}
             </div>
 
@@ -173,8 +173,9 @@ const HeaderComponents = () => {
                             </Link>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <Link className="dropdown-item" to="/publications">Publications</Link>
-                                <Link className="dropdown-item" to="/news">News</Link>
-                                <Link className="dropdown-item" to="/visits">Visits</Link>
+                                <Link className="dropdown-item" to="/news&visits">News&Visits</Link>     
+                                {/* <Link className="dropdown-item" to="/news">News</Link>
+                                <Link className="dropdown-item" to="/visits">Visits</Link> */}
                             </div>
                         </li>
 
