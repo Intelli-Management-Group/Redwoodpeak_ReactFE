@@ -173,7 +173,7 @@ const HeaderComponents = () => {
                             </Link>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <Link className="dropdown-item" to="/publications">Publications</Link>
-                                <Link className="dropdown-item" to="/news&visits">News&Visits</Link>     
+                                <Link className="dropdown-item" to="/news&visits">News & Visits</Link>     
                                 {/* <Link className="dropdown-item" to="/news">News</Link>
                                 <Link className="dropdown-item" to="/visits">Visits</Link> */}
                             </div>
