@@ -32,7 +32,7 @@ const HomePage = () => {
     // const prevLocationRef = useRef(); // This will store the previous location
 
 
-    const limit = 5;
+    const limit = 500;
     const page = 1;
     const isAuthenticated = localStorage.getItem('userToken');
 
@@ -43,6 +43,7 @@ const HomePage = () => {
     const [showLoginAlert, setShowLoginAlert] = useState(false)
     const [visitData, setVisitData] = useState([])
     const [newsData, setNewsData] = useState([])
+    const [combineData, setCombineData] = useState([])
     const [tokenLoading, setTokenLoading] = useState(false);
     // const prevLocation = useRef(location);  // Store the previous location
 
@@ -128,8 +129,7 @@ const HomePage = () => {
 
     useEffect(() => {
         getFetchOverView();
-        getFetchNews();
-        getFetchVisit();
+        getFetchData();
     }, []);
 
     const getTokenVerify = async (tokens) => {
@@ -154,19 +154,22 @@ const HomePage = () => {
     //     console.log("Learn more clicked!");
     // };
 
-    const getFetchNews = async () => {
+    const getFetchData = async () => {
         setIsLoading(true);
         try {
             const formData = new FormData();
-            formData.append("category", "news");
+            // formData.append("category", "news");
             const resp = await pagesServices.getPostList({
                 page: page,
                 limit: limit,
                 body: formData,
             });
             if (resp?.status_code === 200) {
-                if (resp?.list?.data) {
-                    setNewsData(resp?.list?.data)
+                const data = resp?.list?.data;
+                if (data) {
+                    setCombineData(data.slice(0, 1));
+                    setNewsData(data.filter(item => item.category === 'news').slice(0, 5));
+                    setVisitData(data.filter(item => item.category === 'visit').slice(0, 5));
                 }
             } else {
                 console.error("Failed to fetch data: ", resp?.message);
@@ -180,35 +183,7 @@ const HomePage = () => {
         }
 
     };
-    const getFetchVisit = async (category) => {
-        setIsLoading(true);
-        try {
-            const formData = new FormData();
-            formData.append("category", "visit");
-            const resp = await pagesServices.getPostList({
-                page: page,
-                limit: limit,
-                body: formData,
-            });
-            if (resp?.status_code === 200) {
-                // console.log("only NEws Data", resp);
-                if (resp?.list?.data) {
-                    setVisitData(resp?.list?.data)
-                }
-
-            } else {
-                console.error("Failed to fetch data: ", resp?.message);
-                notifyError("Please try again.");
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            notifyError("An error occurred during fetching data. Please try again.");
-        } finally {
-            setIsLoading(false);
-        }
-
-    };
-
+   
     const getFetchOverView = async () => {
         setIsOverVirewLoading(true);
         try {
@@ -324,14 +299,14 @@ const HomePage = () => {
                                             <p className="p-0 mt-5 text-left contactSectionFonts text-white">
                                                 Loading please wait...
                                             </p>
-                                        ) : newsData?.length === 0 ? (
+                                        ) : combineData?.length === 0 ? (
                                             <p className="p-0 mt-5 text-left contactSectionFonts text-white">
                                                 <span>
                                                     Oops! No data available at the moment. <br /> Please try again later.
                                                 </span>
                                             </p>
                                         ) : (
-                                            newsData.slice(0, 1).map((news, index) => (
+                                            combineData.map((news, index) => (
                                                 <React.Fragment key={index}>
                                                     <div>
                                                         {/* <h5 className="card-title cards-titles" style={{ fontSize: 16 }}>{formatDate(news?.created_at)}</h5> */}
