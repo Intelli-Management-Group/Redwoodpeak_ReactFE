@@ -1,5 +1,6 @@
 {
   "name": "redwood-peak",
+  "homepage": "https://www.redwoodpeak.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
