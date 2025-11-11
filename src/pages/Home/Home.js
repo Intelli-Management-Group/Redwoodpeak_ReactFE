@@ -111,21 +111,7 @@ const HomePage = () => {
         };
     }, []);
 
-    // useEffect(() => {
-    //     const params = new URLSearchParams(location.search);
-    //     const token = params.get('token');
-    //     if (token) {
-    //         try {
-    //             const decodedToken = atob(token);
-    //             if (decodedToken) {
-    //                 getTokenVerify(decodedToken)
-    //             }
-    //         } catch (error) {
-    //             console.error("Invalid token:", error);
-    //             notifyError("Invalid token in URL.");
-    //         }
-    //     }
-    // }, [location]);
+ 
 
     useEffect(() => {
         getFetchOverView();
