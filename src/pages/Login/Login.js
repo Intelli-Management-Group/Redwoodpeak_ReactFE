@@ -188,7 +188,9 @@ const Login = () => {
                                             </label>
                                         </div>
                                         <div className='row mt-3'>
-                                            <label className="form-check-label pointer" onClick={forgotPassword}>
+                                            {/* Temperory Forgot password disable */}
+                                            {/* <label className="form-check-label pointer" onClick={forgotPassword}> */} 
+                                            <label className="form-check-label text-muted" aria-disabled="true">
                                                 Forgot your password?
                                             </label>
                                         </div>
