@@ -41,9 +41,11 @@ const ProfilePage = () => {
   // Password modal state
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [pwEmail, setPwEmail] = useState("");
+  const [pwOldPassword, setPwOldPassword] = useState("");
   const [pwPassword, setPwPassword] = useState("");
   const [pwConfirmPassword, setPwConfirmPassword] = useState("");
   const [pwEmailError, setPwEmailError] = useState("");
+  const [pwOldPasswordError, setPwOldPasswordError] = useState("");
   const [pwPasswordError, setPwPasswordError] = useState("");
   const [pwConfirmPasswordError, setPwConfirmPasswordError] = useState("");
   const [pwIsLoading, setPwIsLoading] = useState(false);
@@ -211,9 +213,11 @@ const ProfilePage = () => {
   const handlePasswordModalClose = () => {
     setShowPasswordModal(false);
     setPwEmailError("");
+    setPwOldPasswordError("");
     setPwPasswordError("");
     setPwConfirmPasswordError("");
     setPwEmail("");
+    setPwOldPassword("");
     setPwPassword("");
     setPwConfirmPassword("");
     setPwIsLoading(false);
@@ -222,17 +226,14 @@ const ProfilePage = () => {
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
     setPwEmailError("");
+    setPwOldPasswordError("");
     setPwPasswordError("");
     setPwConfirmPasswordError("");
     let valid = true;
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 
-    if (!pwEmail) {
-      setPwEmailError("Email is required.");
-      valid = false;
-    } else if (!emailRegex.test(pwEmail)) {
-      setPwEmailError("Please enter a valid email address.");
+    if (!pwOldPassword) {
+      setPwOldPasswordError("Old password is required.");
       valid = false;
     }
     if (!pwPassword) {
@@ -253,11 +254,12 @@ const ProfilePage = () => {
     setPwIsLoading(true);
     try {
       const formdata = new FormData();
-      formdata.append("token", token);
-      formdata.append("email", pwEmail);
-      formdata.append("password", pwPassword);
+      formdata.append("old_password", pwOldPassword);
+      formdata.append("new_password", pwPassword);
+      formdata.append("confirm_password", pwConfirmPassword);
 
-      const response = await AuthenticationServices.Update_Password_Via_Mail(formdata);
+      // const response = await AuthenticationServices.Update_Password_Via_Mail(formdata);
+      const response = await AuthenticationServices.Update_Password(formdata);
       if (response.status_code === 200) {
         notifySuccess(`Password Updated Successfully!`);
         handlePasswordModalClose();
@@ -396,6 +398,24 @@ const ProfilePage = () => {
                                   style={{ width: '100%', padding: '8px', fontSize: '14px', border: '1px solid #ccc', borderRadius: '4px' }}
                                 />
                                 {pwEmailError && <div style={{ color: 'red', fontSize: '12px' }}>{pwEmailError}</div>}
+                              </div>
+
+                              <div style={{ marginBottom: '15px' }}>
+                                <label htmlFor="pwOldPassword" style={{ display: 'block', fontSize: '14px', marginBottom: '5px' }}>Old Password</label>
+                                <input
+                                  type="password"
+                                  id="pwOldPassword"
+                                  name="pwOldPassword"
+                                  required
+                                  placeholder="Enter your old password"
+                                  value={pwOldPassword}
+                                  onChange={e => {
+                                    setPwOldPassword(e.target.value);
+                                    setPwOldPasswordError(e.target.value ? "" : "Old password is required.");
+                                  }}
+                                  style={{ width: '100%', padding: '8px', fontSize: '14px', border: '1px solid #ccc', borderRadius: '4px' }}
+                                />
+                                {pwOldPasswordError && <div style={{ color: 'red', fontSize: '12px' }}>{pwOldPasswordError}</div>}
                               </div>
 
                               <div style={{ marginBottom: '15px' }}>
