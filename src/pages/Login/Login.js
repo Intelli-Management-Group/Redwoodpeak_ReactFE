@@ -90,6 +90,8 @@ const Login = () => {
                 } else {
                     notifyWarning(`${user?.email} has not been approved by the admin. Please contact the administrator or wait for approval.`);
                 }
+            } else if (response?.status_code === 403) {
+                notifyWarning(response?.message || "This account is not active");
             }
             //  else {
             //     console.log("Else Call")
@@ -102,10 +104,13 @@ const Login = () => {
             // }
 
         } catch (error) {
-            if (error?.response?.data?.message === "Reset Password") {
+            const responseData = error?.response?.data;
+            if (error?.response?.status === 403 || responseData?.status_code === 403) {
+                notifyWarning(responseData?.message || "This account is not active");
+            } else if (responseData?.message === "Reset Password") {
                 setShowInvalidModal(true);
-            } else if (error?.response?.data?.message === "Invalid Credentials") {
-                notifyError(error?.response?.data?.message);
+            } else if (responseData?.message === "Invalid Credentials") {
+                notifyError(responseData.message);
             } else {
                 console.error("Login Error:", error);
                 notifyError(`An error occurred during login. Please try again.`);
