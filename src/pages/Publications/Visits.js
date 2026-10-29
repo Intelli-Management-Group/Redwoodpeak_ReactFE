@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import DOMPurify from 'dompurify';
 import NewsBanner from "../../assets/banner_images/redwood_publication.jpg"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
@@ -206,7 +207,7 @@ const Visits = () => {
                         {/* Post Content */}
                         <div
                           id="contentDisplay"
-                          dangerouslySetInnerHTML={{ __html: selectedContent }}
+                          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(selectedContent) }}
                         />
 
                         {/* Media with Captions */}

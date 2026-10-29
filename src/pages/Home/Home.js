@@ -90,7 +90,14 @@ const HomePage = () => {
         // const previousLocation = prevLocationRef.current;
         // console.log("current Location",currentLocation)
         // console.log("previousLocation Location",previousLocation)
+        const allowedOrigins = (process.env.REACT_APP_ALLOWED_ORIGINS || "")
+            .split(",")
+            .map((origin) => origin.trim())
+            .filter(Boolean);
         const handleTokenMessage = (event) => {
+            if (!allowedOrigins.includes(event.origin)) {
+                return;
+            }
             const token = event?.data?.token;
             if (token) {
                 setTokenLoading(true)

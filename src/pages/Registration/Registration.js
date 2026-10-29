@@ -70,7 +70,7 @@ const Registration = () => {
   // Validate a single field
   const validateField = (name, value, allData) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     const nameRegex = /^[a-zA-Z\s'-]+$/;
     const checkLength = (val, min, max) => {
       if (val.length < min) return `must be at least ${min} characters long.`;
@@ -94,7 +94,7 @@ const Registration = () => {
         break;
       case "password":
         if (!value) return "Password is required.";
-        if (!passwordRegex.test(value)) return "Password must contain at least one lowercase letter, one uppercase letter, and one number.";
+        if (!passwordRegex.test(value)) return "Password must be at least 8 characters and contain at least one lowercase letter, one uppercase letter, and one number.";
         break;
       case "confirmPassword":
         if (value !== allData.password) return "Passwords do not match.";
@@ -181,7 +181,7 @@ const Registration = () => {
   const validateFormData = (formData) => {
     const errors = {};
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     const nameRegex = /^[a-zA-Z\s'-]+$/;
     const checkLength = (value, min, max) => {
       if (value.length < min) return `must be at least ${min} characters long.`;
@@ -215,7 +215,7 @@ const Registration = () => {
     if (!formData.password) {
       errors.password = "Password is required.";
     } else if (!passwordRegex.test(formData.password)) {
-      errors.password = "Password must contain at least one lowercase letter, one uppercase letter, and one number.";
+      errors.password = "Password must be at least 8 characters and contain at least one lowercase letter, one uppercase letter, and one number.";
     }
     if (formData.password !== formData.confirmPassword) {
       errors.confirmPassword = "Passwords do not match.";
@@ -301,7 +301,7 @@ const Registration = () => {
                 </div>
                 <div className="pt-3 text-center">
                   <span style={{ color: "#823535" }}>
-                    Your password must contain at least one small letter, one capital letter and one number
+                    Your password must be at least 8 characters and contain at least one small letter, one capital letter and one number
                   </span>
                 </div>
 

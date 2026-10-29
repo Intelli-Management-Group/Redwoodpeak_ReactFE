@@ -1,8 +1,7 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 const instance = axios.create({
-  baseURL: `https://dev.jackychee.com/api`,
+  baseURL: process.env.REACT_APP_API_URL || `http://127.0.0.1:8000/api`,
   timeout: 50000,
   headers: {
     Accept: 'application/json',
@@ -12,15 +11,8 @@ const instance = axios.create({
 
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
-  let token;
-  if (Cookies.get('userToken')) {
-    token = JSON.parse(Cookies.get('userToken')).token;  // Ensure you're accessing the correct field
-  }
-  const isAuthenticated = localStorage.getItem('token');
+  const isAuthenticated = localStorage.getItem('token') || localStorage.getItem('userToken');
   // console.log("isAuthenticated",isAuthenticated)
-
-
-  // console.log("TOKEN ====>>", token);
 
   if (isAuthenticated && !config.headers['Authorization']) {
     config.headers['Authorization'] = `Bearer ${isAuthenticated}`;
@@ -28,6 +20,21 @@ instance.interceptors.request.use(function (config) {
 
   return config;
 });
+
+// Add a response interceptor
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const isLoginRequest = error?.config?.url?.includes('/customer/login');
+    if (error?.response?.status === 401 && !isLoginRequest) {
+      localStorage.removeItem('userToken');
+      localStorage.removeItem('token');
+      localStorage.removeItem('userData');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
 
 const responseBody = (response) => response.data;
 
