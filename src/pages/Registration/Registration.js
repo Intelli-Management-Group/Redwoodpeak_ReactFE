@@ -4,7 +4,7 @@ import Footer from "../Component/Footer/Footer";
 import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
 import Button from "../Component/ButtonComponents/ButtonComponents";
 import AuthenticationServices from "../../Services/AuthenticationServices";
-import { notifyError, notifySuccess, notifyWarning } from "../Component/ToastComponents/ToastComponents";
+import { notifyError, notifySuccess } from "../Component/ToastComponents/ToastComponents";
 import { ToastContainer } from 'react-toastify';
 import Select from "react-select";
 import countryList from 'react-select-country-list'

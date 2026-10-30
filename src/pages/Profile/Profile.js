@@ -1,7 +1,7 @@
 // src/components/ProfilePage.js
 
 import AuthenticationServices from '../../Services/AuthenticationServices';
-import { notifyError, notifySuccess, notifyWarning } from "../Component/ToastComponents/ToastComponents";
+import { notifyError, notifySuccess } from "../Component/ToastComponents/ToastComponents";
 import { ToastContainer } from 'react-toastify';
 import React, { useEffect, useState, useMemo } from 'react';
 import Modal from 'react-bootstrap/Modal';
@@ -14,8 +14,7 @@ import Button from '../Component/ButtonComponents/ButtonComponents';
 
 const ProfilePage = () => {
   const [loading, setLoading] = useState(false)
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [, setIsLoading] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
   const options = useMemo(() => countryList().getData(), []);
   const [formData, setFormData] = useState({
@@ -49,9 +48,8 @@ const ProfilePage = () => {
   const [pwPasswordError, setPwPasswordError] = useState("");
   const [pwConfirmPasswordError, setPwConfirmPasswordError] = useState("");
   const [pwIsLoading, setPwIsLoading] = useState(false);
-  const token = localStorage.getItem('userToken');
   const userData = localStorage.getItem('userData');
-  const [user, setUser] = useState(JSON.parse(userData));
+  const [user] = useState(JSON.parse(userData));
 
 
   useEffect(() => {

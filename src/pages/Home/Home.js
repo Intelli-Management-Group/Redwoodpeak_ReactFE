@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../assets/css/style.css'
 import Image from '../Component/ImagesComponets/ImagesComponets';
 import Slide1 from "../../assets/banner_images/redwood_homepage_hong_kong.jpg"
@@ -18,11 +18,10 @@ import DisclaimerModal from '../Component/DisclimerModal/DisclimerModal';
 import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
 import "../Home/Home.css"
-import { useLocation, useNavigate, useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { faPhone, faEnvelope, faFax, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import IconComponent from '../Component/IconComponents/IconComponents';
 import AuthenticationServices from '../../Services/AuthenticationServices';
-import moment from 'moment';
 import Logo from "../../assets/images/logo.png"
 
 
@@ -233,9 +232,6 @@ const HomePage = () => {
 
     const handleClose = () => setShowLoginAlert(false);
 
-    const formatDate = (date) => {
-        return moment(date).format('DD MMMM YYYY, hh:mm A');
-    };
     const settings = {
         dots: true,
         infinite: true,
@@ -302,7 +298,6 @@ const HomePage = () => {
                                             combineData.map((news, index) => (
                                                 <React.Fragment key={index}>
                                                     <div>
-                                                        {/* <h5 className="card-title cards-titles" style={{ fontSize: 16 }}>{formatDate(news?.created_at)}</h5> */}
                                                         <h2 className="cards-headings text-white">{news?.title && news?.title.length > 90 ? news?.title.slice(0, 90) + '...' : news?.title}</h2>
                                                     </div>
                                                     <div className="p-0 pt-3">

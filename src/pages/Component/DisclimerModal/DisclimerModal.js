@@ -47,7 +47,7 @@ const DisclaimerModal = () => {
     };
 
     const handleReject = () => {
-        const newWindow = window.open('https://www.google.com', '_self');
+        window.open('https://www.google.com', '_self');
         window.close();
     };
     return (

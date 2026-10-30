@@ -1,4 +1,3 @@
-import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 import requests from "./api";
 
 const AuthenticationServices = {

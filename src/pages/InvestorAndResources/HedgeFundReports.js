@@ -84,7 +84,6 @@ const HedgeFundReports = () => {
   const splitDataInColumns = (type) => {
     // console.log(type)
     const leftColumn = [];
-    const rightColumn = [];
 
     Object.keys(data[type] || {})
       .sort((a, b) => parseInt(b) - parseInt(a))

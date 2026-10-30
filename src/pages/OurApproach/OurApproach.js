@@ -4,9 +4,6 @@ import HeaderComponents from "../Component/HeaderComponents/HeaderComponents";
 import OurMissionBanner from "../../assets/banner_images/redwood_our_approach.jpg"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import MetaTitle from "../Component/MetaTitleComponents/MetaTitleComponents";
-import RiskManagement from "../../assets/banner_images/redwood_risk_management.png"
-import { faArrowDown, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import IconComponent from "../Component/IconComponents/IconComponents";
 import horizontalArrow from "../../assets/images/arrow.png"
 import verticalArrow from "../../assets/images/verticalArrow.png"
 

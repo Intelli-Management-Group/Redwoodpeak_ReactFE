@@ -11,8 +11,6 @@ import ManagedAccount from './pages/InvestmentManagement/ManagedAccount';
 import OurApproach from './pages/OurApproach/OurApproach';
 import ContactUs from './pages/ContactUS/ContactUS';
 import Publications from './pages/Publications/Publications';
-import News from './pages/Publications/News';
-import Visits from './pages/Publications/Visits';
 import HedgeFundReports from './pages/InvestorAndResources/HedgeFundReports';
 import ManagedAccountReports from './pages/InvestorAndResources/ManagedAccountReports';
 import Login from './pages/Login/Login';
@@ -64,9 +62,6 @@ function App() {
         <Route path="/our-approach" element={<OurApproach />} />
         <Route path="/publications" element={<AuthProtectedRoute element={<Publications />} />} />
         <Route path="/news&visits" element={<AuthProtectedRoute element={<NewsVisit />} />} />
-        {/*  //News And Visit combine
-        <Route path="/news" element={<AuthProtectedRoute element={<News />} />} />
-        <Route path="/visits" element={<AuthProtectedRoute element={<Visits />} />} /> */}
         <Route path="/hedge-fund-reports" element={<AuthProtectedRoute element={<HedgeFundReports />} />} />
         <Route path="/managed-account-reports" element={<AuthProtectedRoute element={<ManagedAccountReports />} />} />
         <Route path="/contact-us" element={<ContactUs />} />
