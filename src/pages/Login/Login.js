@@ -123,9 +123,10 @@ const Login = () => {
     const redirectToRegister = () => {
         navigate('/register');
     };
-    const forgotPassword = () => {
-        navigate('/forgotPassword');
-    }
+    //  Temperory Forgot password disable or line 198 commented
+    // const forgotPassword = () => {
+    //     navigate('/forgotPassword');
+    // }
 
     return (
         <React.Fragment>
