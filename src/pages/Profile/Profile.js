@@ -223,6 +223,13 @@ const ProfilePage = () => {
     setPwIsLoading(false);
   };
 
+  const redirectToLogin = () => {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('token');
+    localStorage.removeItem('userData');
+    window.location.href = '/login';
+  };
+
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
     setPwEmailError("");
@@ -263,11 +270,14 @@ const ProfilePage = () => {
       if (response.status_code === 200) {
         notifySuccess(`Password Updated Successfully!`);
         handlePasswordModalClose();
-      } else {
-        setError(response.message || 'Failed to update password');
+      }else if (response.status_code === 500) {
+        notifyError(response?.message);
+        setPwIsLoading(false)
+      }  else {
+        redirectToLogin();
       }
     } catch (err) {
-      notifyError('Error updating password');
+      redirectToLogin();
     } finally {
       setIsLoading(false);
     }
