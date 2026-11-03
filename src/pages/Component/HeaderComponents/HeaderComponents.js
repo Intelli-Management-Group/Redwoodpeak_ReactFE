@@ -50,7 +50,9 @@ const HeaderComponents = () => {
 
     const handleRedirectWithToken = () => {
         const token = encodeToken(isAuthenticated);
-        const targetDomain = "https://admin.jackychee.com/";
+        // const targetDomain = "https://admin.jackychee.com/";
+        const targetDomain = "https://admin.redwoodpeak.com/";
+        
         const newWindow = window.open(targetDomain, "_blank");
         setTimeout(() => newWindow.postMessage({ token }, targetDomain), 2000);
     };
