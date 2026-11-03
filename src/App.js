@@ -62,6 +62,9 @@ function App() {
         <Route path="/our-approach" element={<OurApproach />} />
         <Route path="/publications" element={<AuthProtectedRoute element={<Publications />} />} />
         <Route path="/news&visits" element={<AuthProtectedRoute element={<NewsVisit />} />} />
+        {/*  //News And Visit combine
+        <Route path="/news" element={<AuthProtectedRoute element={<News />} />} />
+        <Route path="/visits" element={<AuthProtectedRoute element={<Visits />} />} /> */}
         <Route path="/hedge-fund-reports" element={<AuthProtectedRoute element={<HedgeFundReports />} />} />
         <Route path="/managed-account-reports" element={<AuthProtectedRoute element={<ManagedAccountReports />} />} />
         <Route path="/contact-us" element={<ContactUs />} />
@@ -78,3 +81,13 @@ function App() {
 }
 
 export default App;
+
+// import './App.css';
+// import './index.css';
+// import MaintenancePage from './pages/Maintenance/MaintenancePage';
+
+// function App() {
+//   return <MaintenancePage />;
+// }
+
+// export default App;
