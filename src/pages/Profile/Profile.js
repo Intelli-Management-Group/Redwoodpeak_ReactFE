@@ -1,7 +1,7 @@
 // src/components/ProfilePage.js
 
 import AuthenticationServices from '../../Services/AuthenticationServices';
-import { notifyError, notifySuccess, notifyWarning } from "../Component/ToastComponents/ToastComponents";
+import { notifyError, notifySuccess } from "../Component/ToastComponents/ToastComponents";
 import { ToastContainer } from 'react-toastify';
 import React, { useEffect, useState, useMemo } from 'react';
 import Modal from 'react-bootstrap/Modal';
@@ -14,8 +14,7 @@ import Button from '../Component/ButtonComponents/ButtonComponents';
 
 const ProfilePage = () => {
   const [loading, setLoading] = useState(false)
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [, setIsLoading] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
   const options = useMemo(() => countryList().getData(), []);
   const [formData, setFormData] = useState({
@@ -41,15 +40,16 @@ const ProfilePage = () => {
   // Password modal state
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [pwEmail, setPwEmail] = useState("");
+  const [pwOldPassword, setPwOldPassword] = useState("");
   const [pwPassword, setPwPassword] = useState("");
   const [pwConfirmPassword, setPwConfirmPassword] = useState("");
   const [pwEmailError, setPwEmailError] = useState("");
+  const [pwOldPasswordError, setPwOldPasswordError] = useState("");
   const [pwPasswordError, setPwPasswordError] = useState("");
   const [pwConfirmPasswordError, setPwConfirmPasswordError] = useState("");
   const [pwIsLoading, setPwIsLoading] = useState(false);
-  const token = localStorage.getItem('userToken');
   const userData = localStorage.getItem('userData');
-  const [user, setUser] = useState(JSON.parse(userData));
+  const [user] = useState(JSON.parse(userData));
 
 
   useEffect(() => {
@@ -211,28 +211,34 @@ const ProfilePage = () => {
   const handlePasswordModalClose = () => {
     setShowPasswordModal(false);
     setPwEmailError("");
+    setPwOldPasswordError("");
     setPwPasswordError("");
     setPwConfirmPasswordError("");
     setPwEmail("");
+    setPwOldPassword("");
     setPwPassword("");
     setPwConfirmPassword("");
     setPwIsLoading(false);
   };
 
+  const redirectToLogin = () => {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('token');
+    localStorage.removeItem('userData');
+    window.location.href = '/login';
+  };
+
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
     setPwEmailError("");
+    setPwOldPasswordError("");
     setPwPasswordError("");
     setPwConfirmPasswordError("");
     let valid = true;
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 
-    if (!pwEmail) {
-      setPwEmailError("Email is required.");
-      valid = false;
-    } else if (!emailRegex.test(pwEmail)) {
-      setPwEmailError("Please enter a valid email address.");
+    if (!pwOldPassword) {
+      setPwOldPasswordError("Old password is required.");
       valid = false;
     }
     if (!pwPassword) {
@@ -253,19 +259,23 @@ const ProfilePage = () => {
     setPwIsLoading(true);
     try {
       const formdata = new FormData();
-      formdata.append("token", token);
-      formdata.append("email", pwEmail);
-      formdata.append("password", pwPassword);
+      formdata.append("old_password", pwOldPassword);
+      formdata.append("new_password", pwPassword);
+      formdata.append("confirm_password", pwConfirmPassword);
 
-      const response = await AuthenticationServices.Update_Password_Via_Mail(formdata);
+      // const response = await AuthenticationServices.Update_Password_Via_Mail(formdata);
+      const response = await AuthenticationServices.Update_Password(formdata);
       if (response.status_code === 200) {
         notifySuccess(`Password Updated Successfully!`);
         handlePasswordModalClose();
-      } else {
-        setError(response.message || 'Failed to update password');
+      }else if (response.status_code === 500) {
+        notifyError(response?.message);
+        setPwIsLoading(false)
+      }  else {
+        redirectToLogin();
       }
     } catch (err) {
-      notifyError('Error updating password');
+      redirectToLogin();
     } finally {
       setIsLoading(false);
     }
@@ -396,6 +406,24 @@ const ProfilePage = () => {
                                   style={{ width: '100%', padding: '8px', fontSize: '14px', border: '1px solid #ccc', borderRadius: '4px' }}
                                 />
                                 {pwEmailError && <div style={{ color: 'red', fontSize: '12px' }}>{pwEmailError}</div>}
+                              </div>
+
+                              <div style={{ marginBottom: '15px' }}>
+                                <label htmlFor="pwOldPassword" style={{ display: 'block', fontSize: '14px', marginBottom: '5px' }}>Old Password</label>
+                                <input
+                                  type="password"
+                                  id="pwOldPassword"
+                                  name="pwOldPassword"
+                                  required
+                                  placeholder="Enter your old password"
+                                  value={pwOldPassword}
+                                  onChange={e => {
+                                    setPwOldPassword(e.target.value);
+                                    setPwOldPasswordError(e.target.value ? "" : "Old password is required.");
+                                  }}
+                                  style={{ width: '100%', padding: '8px', fontSize: '14px', border: '1px solid #ccc', borderRadius: '4px' }}
+                                />
+                                {pwOldPasswordError && <div style={{ color: 'red', fontSize: '12px' }}>{pwOldPasswordError}</div>}
                               </div>
 
                               <div style={{ marginBottom: '15px' }}>

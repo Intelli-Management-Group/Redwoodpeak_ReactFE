@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import DOMPurify from 'dompurify';
 import NewsBanner from "../../assets/banner_images/redwood_publication.jpg"
 import Image from "../Component/ImagesComponets/ImagesComponets";
 import HeaderComponents from '../Component/HeaderComponents/HeaderComponents';
 import Footer from '../Component/Footer/Footer';
-import News1 from "../../assets/images/news1.png";
-import News2 from "../../assets/images/news2.png";
-import News3 from "../../assets/images/news3.jpeg";
 import MetaTitle from '../Component/MetaTitleComponents/MetaTitleComponents';
 import pagesServices from '../../Services/PagesServicesServices';
 import { notifyError } from '../Component/ToastComponents/ToastComponents';
@@ -205,7 +203,7 @@ const News = () => {
                         </div>
                         <div
                           id="contentDisplay"
-                          dangerouslySetInnerHTML={{ __html: selectedContent }}
+                          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(selectedContent) }}
                         />
                         {/* Displaying media with captions */}
                         {selectedPost?.media?.map((mediaItem) => (

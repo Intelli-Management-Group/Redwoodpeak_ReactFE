@@ -1,4 +1,3 @@
-import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 import requests from "./api";
 
 const AuthenticationServices = {
@@ -16,6 +15,9 @@ const AuthenticationServices = {
   },
   Update_Password_Via_Mail: async (body) => {
     return requests.post("/update-password-via-mail", body);
+  },
+  Update_Password: async (body) => {
+    return requests.post("/user/update-password", body);
   },
   getUserDetails: async (id) => {
     return requests.get(`/user/${id}/get-by-id`);

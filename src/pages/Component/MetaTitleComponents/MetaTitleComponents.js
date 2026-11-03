@@ -1,15 +1,11 @@
-import React from 'react';
-import { Helmet } from 'react-helmet';
+import { useEffect } from 'react';
 
-const MetaTitle = ({pageTitle}) => {
+const MetaTitle = ({ pageTitle }) => {
+  useEffect(() => {
+    document.title = pageTitle;
+  }, [pageTitle]);
 
-  return (
-    <div>
-      <Helmet>
-        <title>{pageTitle}</title>
-      </Helmet>
-    </div>
-  );
+  return null;
 };
 
 export default MetaTitle;

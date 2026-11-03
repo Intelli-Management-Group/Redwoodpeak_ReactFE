@@ -13,7 +13,7 @@ const Publications = () => {
   const documentType = "publications";
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
-  const [maxHeight, setMaxHeight] = useState(0);
+  const [, setMaxHeight] = useState(0);
 
   const leftColRef = useRef(null);
   const rightColRef = useRef(null);
